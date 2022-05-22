@@ -11,19 +11,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Controller implements Initializable{
+	
+	double x,y=0;
 	@FXML
 	private VBox vBox; 
+	@FXML
 	private Parent parent;
-	private Button closeButton1, closeButton2;
+	@FXML
+	private Button backBtn1, backBtn2;
+	@FXML
+	private Stage stage;
+	@FXML
+	private AnchorPane scene;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -77,13 +84,22 @@ public class Controller implements Initializable{
 	}
 	
 	@FXML
-	public void close(ActionEvent event) {
-		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		Alert message = new Alert(AlertType.CONFIRMATION);
-		message.setTitle("Exit");
-		message.setContentText("Do you want to exit?");
-		if(message.showAndWait().get() == ButtonType.OK) {
-			stage.close();
-		}
+	public void back(ActionEvent event) {
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.close();
 	}
+	
+	public void makeDraggable() {
+		scene.setOnMousePressed(event -> {
+			x = event.getSceneX();
+			y = event.getSceneY();
+		});
+		
+		scene.setOnMouseDragged(event -> {
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.setX(event.getScreenX() - x);
+			stage.setY(event.getScreenY() - y);
+		});
+	}
+	
 }

@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="980.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDetected="#makeDraggable" prefHeight="680.0" prefWidth="980.0" style="-fx-background-color: rgba(0,0,0,0);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
       <Pane layoutX="33.0" layoutY="182.0" prefHeight="400.0" prefWidth="900.0" style="-fx-background-color: #333333;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="140.0">
          <children>
-            <Button fx:id="closeBtn1" layoutX="735.0" layoutY="256.0" mnemonicParsing="false" onAction="#close" prefHeight="33.0" prefWidth="115.0" style="-fx-background-color: RED; -fx-background-radius: 5px; -fx-border-color: WHITE; -fx-border-radius: 5px; -fx-border-width: 1px;" text="CLOSE" textFill="WHITE">
+            <Button fx:id="backBtn1" layoutX="735.0" layoutY="256.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="115.0" style="-fx-background-color: RED; -fx-background-radius: 5px; -fx-border-color: WHITE; -fx-border-radius: 5px; -fx-border-width: 1px;" text="BACK" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton2" layoutX="162.0" layoutY="251.0" mnemonicParsing="false" onAction="#close" prefHeight="33.0" prefWidth="115.0" style="-fx-background-color: RED; -fx-background-radius: 5px; -fx-border-color: WHITE; -fx-border-radius: 5px; -fx-border-width: 1px;" text="CLOSE" textFill="WHITE">
+            <Button fx:id="backBtn2" layoutX="162.0" layoutY="251.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="115.0" style="-fx-background-color: RED; -fx-background-radius: 5px; -fx-border-color: WHITE; -fx-border-radius: 5px; -fx-border-width: 1px;" text="BACK" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
