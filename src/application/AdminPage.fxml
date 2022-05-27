@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDetected="#makeDraggable" prefHeight="700.0" prefWidth="1250.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminController">
+   <left>
+      <VBox prefHeight="684.0" prefWidth="235.0" style="-fx-background-color: #121212;" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="235.0" style="-fx-background-color: transparent;" text="CINEMATRIX" textFill="WHITE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="FILM" />
+               </graphic>
+            </Button>
+            <VBox prefHeight="226.0" prefWidth="235.0">
+               <children>
+                  <Button fx:id="moviesBtn" alignment="CENTER" mnemonicParsing="false" onAction="#openMovies" prefHeight="45.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 0 5; -fx-border-color: #1ED760;" text="Movies" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIcon fx:id="homeIcon" fill="WHITE" glyphName="FILM" size="2em" />
+                     </graphic>
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="40.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="usersBtn" mnemonicParsing="false" onAction="#openUsers" prefHeight="45.0" prefWidth="240.0" style="-fx-background-color: transparent;" text="Users" textFill="#a1a1a1">
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets right="50.0" />
+                     </padding>
+                     <graphic>
+                        <FontAwesomeIcon fx:id="userIcon" fill="#a1a1a1" glyphName="USERS" selectionStart="0" size="2em" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="suggestedBtn" mnemonicParsing="false" onAction="#openSuggested" prefHeight="45.0" prefWidth="240.0" style="-fx-background-color: transparent;" text="Suggestions" textFill="#a1a1a1">
+                     <graphic>
+                        <FontAwesomeIcon fx:id="movieIcon" fill="#a1a1a1" glyphName="FILM" size="2em" />
+                     </graphic>
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="860.0" prefWidth="1015.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="80.0" prefWidth="1015.0">
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="1015.0" style="-fx-background-color: TRANSPARENT;" text="ADMIN PAGE" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic Bold" size="24.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="USER" size="1.2em" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <VBox fx:id="allBox" prefHeight="0.0" prefWidth="0.0" />
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="1250.0" style="-fx-background-color: #121212;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="minimizeButton" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: TRANSPARENT;">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="MINUS" />
+               </graphic>
+            </Button>
+            <Button fx:id="maximizeButton" mnemonicParsing="false" onAction="#maximize" style="-fx-background-color: TRANSPARENT;">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="SQUARE" wrappingWidth="8.761822243531554" />
+               </graphic>
+            </Button>
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" style="-fx-background-color: TRANSPARENT;">
+               <graphic>
+                  <FontAwesomeIcon fill="RED" glyphName="CLOSE" size="1.2em" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

@@ -7,10 +7,11 @@ public class Movie {
 	private String cover;
 	private String trailer;
 	private String description;
-	private int releaseYear;
+	private String releaseYear;
+	private String genre;
 	
 	public Movie(int filmID, String title, String duration, String cover, String trailer, String description,
-			int releaseYear) {
+			String releaseYear, String genre) {
 		this.filmID = filmID;
 		this.title = title;
 		this.duration = duration;
@@ -18,9 +19,13 @@ public class Movie {
 		this.trailer = trailer;
 		this.description = description;
 		this.releaseYear = releaseYear;
+		this.genre = genre;
 	}
-	public Movie(String cover) {
+	public Movie(String title, String cover, String releaseYear,String genre) {
+		setTitle(title);
 		setCover(cover);
+		setReleaseYear(releaseYear);
+		setGenre(genre);
 	}
 	public String getTitle() {
 		return title;
@@ -40,11 +45,11 @@ public class Movie {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getReleaseYear() {
+	public String getReleaseYear() {
 		return releaseYear;
 	}
-	public void setReleaseYear(int releaseYear) {
-		this.releaseYear = releaseYear;
+	public void setReleaseYear(String releaseYear2) {
+		this.releaseYear = releaseYear2;
 	}
 	public String getDuration() {
 		return duration;
@@ -63,5 +68,11 @@ public class Movie {
 	}
 	public void setTrailer(String trailer) {
 		this.trailer = trailer;
+	}
+	public String getGenre() {
+		return genre;
+	}
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 }

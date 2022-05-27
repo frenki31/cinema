@@ -1,6 +1,7 @@
 package application;
 
 import javafx.event.ActionEvent;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -101,5 +101,4 @@ public class Controller implements Initializable{
 			stage.setY(event.getScreenY() - y);
 		});
 	}
-	
 }
