@@ -17,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class SignInUpController {
+public class SignInUpController extends DashboardController{
 	
 	private String password;
 	private String rePassword;
@@ -25,28 +25,30 @@ public class SignInUpController {
 	DBQueries queries = new DBQueries();
 	@FXML
     private CheckBox checkBox;
-    @FXML
+    @FXML 
     private TextField emailTextField;
     @FXML
     private TextField nameTextField;
     @FXML
-    private PasswordField passwordTextField;
-    @FXML
     private TextField phoneTextField;
+    @FXML
+    private TextField emailTextField1;
+    @FXML
+    private PasswordField passwordTextField;
     @FXML
     private PasswordField repasswordTextField;
     @FXML
+    private PasswordField passwordTextField1;
+    @FXML
     private Label messageLabel;
+    @FXML
+    private Label messageLabel1;
     @FXML
     private Button signUpButton;
     @FXML
     private Button seeButton;
     @FXML
-    private TextField emailTextField1;
-    @FXML
-    private PasswordField passwordTextField1;
-    @FXML
-    private Label messageLabel1;
+    private Button seeButton1;
     @FXML
     private HBox nameBox;
     @FXML
@@ -58,7 +60,7 @@ public class SignInUpController {
     @FXML
     private HBox repasswordBox;
     @FXML
-    private Button seeButton1;
+    private Button loginButton;
     
 	@FXML
 	public void register(ActionEvent event) {
@@ -66,14 +68,11 @@ public class SignInUpController {
 				|| phoneTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()
 				|| repasswordTextField.getText().isEmpty() || !checkBox.isSelected()) {
 			messageLabel.setText("Please fill all the blanks");
-			if(!passwordTextField.getText().equals(repasswordTextField.getText())){
-				messageLabel.setText("Passwords do not match! Please check...");
-				passwordBox.setStyle("-fx-border-color: RED; -fx-border-width: 1 1 1 1;");
-				repasswordBox.setStyle("-fx-border-color: RED; -fx-border-width: 1 1 1 1;");
-			}
+		}else if(!passwordTextField.getText().equals(repasswordTextField.getText())){
+			messageLabel.setText("Passwords do not match! Please check...");
+		}else if (queries.checkEmails(emailTextField.getText())) {
+			messageLabel.setText("This email has been assigned to another account. Choose another one");
 		}else {
-			passwordBox.setStyle("-fx-border-color: #DEDEE4; -fx-border-width: 0 0 1 0");
-			repasswordBox.setStyle("-fx-border-color: #DEDEE4; -fx-border-width: 0 0 1 0");
 			int result = queries.addUser(nameTextField.getText(), emailTextField.getText(), 
 					phoneTextField.getText(), passwordTextField.getText());
 			if(result == 1) {
@@ -205,6 +204,9 @@ public class SignInUpController {
 	
 	@FXML
 	public void login(ActionEvent event) {
+		
+		DashboardController dc = new DashboardController();
+		dc.displayUser("email");
 		if(emailTextField1.getText().isEmpty() && passwordTextField1.getText().isEmpty()) {
 			messageLabel1.setText("Invalid email and password!");
 		}
@@ -214,11 +216,11 @@ public class SignInUpController {
 		else if(passwordTextField1.getText().isEmpty()) {
 			messageLabel1.setText("Incorrect password");
 		}
-		else {
-			if (queries.loginUser(emailTextField1.getText(), passwordTextField1.getText())) {
-				Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-				stage.close();
-			}
+		else if (queries.loginUser(emailTextField1.getText(), passwordTextField1.getText())) {
+
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.close();
 		}
+		
 	}
 }

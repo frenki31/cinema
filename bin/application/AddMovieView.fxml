@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1035.0" spacing="20.0" style="-fx-background-color: #181818; -fx-background-image: url(&quot;C:/Users/user/eclipse-workspace/Application/images/cinema-screening.jpg&quot;);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddMovieController">
    <children>
       <Button fx:id="backBtn" mnemonicParsing="false" onAction="#goBack" prefHeight="51.0" prefWidth="309.0" style="-fx-background-color: transparent; -fx-background-radius: 5px; -fx-border-color: WHITE; -fx-border-radius: 50;" text="BACK" textFill="WHITE">
@@ -83,7 +82,12 @@
             </Label>
             <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                <children>
-                  <TextField fx:id="coverTextField" prefHeight="33.0" prefWidth="199.0" style="-fx-background-color: transparent;" />
+                  <TextField fx:id="coverTextField" prefHeight="33.0" prefWidth="183.0" style="-fx-background-color: transparent;" />
+                  <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadPath" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="UPLOAD" />
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
             <Label alignment="CENTER" prefHeight="40.0" prefWidth="136.0" text="TRAILER:" textFill="WHITE">

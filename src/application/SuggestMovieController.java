@@ -11,16 +11,12 @@ public class SuggestMovieController {
 	DBQueries queries = new DBQueries();
 	@FXML
     private TextField directorTextField;
-
     @FXML
     private TextField genreTextField;
-
     @FXML
     private Button suggestMovieBtn;
-
     @FXML
     private TextField titleTextField;
-
     @FXML
     private TextField yearTextField;
     

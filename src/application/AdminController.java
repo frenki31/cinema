@@ -16,8 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class AdminController implements Initializable{
 	
@@ -28,13 +28,13 @@ public class AdminController implements Initializable{
     @FXML
     private Button closeButton;
     @FXML
-    private FontAwesomeIcon homeIcon;
+    private FontAwesomeIcon movieIcon;
     @FXML
     private Button maximizeButton;
     @FXML
     private Button minimizeButton;
     @FXML
-    private FontAwesomeIcon movieIcon;
+    private FontAwesomeIcon suggestedIcon;
     @FXML
     private Button moviesBtn;
     @FXML
@@ -114,6 +114,14 @@ public class AdminController implements Initializable{
     @FXML
     void openMovies(ActionEvent event) {
     	try {
+    		moviesBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+    		suggestedBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		usersBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		userIcon.setFill(Color.web("#A1A1A1"));
+    		movieIcon.setFill(Color.WHITE);
+    		suggestedIcon.setFill(Color.web("#A1A1A1"));
+    		
 			parent = FXMLLoader.load(getClass().getResource("AdminMovies.fxml"));
 			allBox.getChildren().removeAll();
 			allBox.getChildren().setAll(parent);
@@ -126,6 +134,14 @@ public class AdminController implements Initializable{
     @FXML
     void openSuggested(ActionEvent event) {
     	try {
+    		moviesBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		movieIcon.setFill(Color.web("#A1A1A1"));
+    		suggestedBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+    		usersBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		suggestedIcon.setFill(Color.WHITE);
+    		userIcon.setFill(Color.web("#A1A1A1"));
+    		
 			parent = FXMLLoader.load(getClass().getResource("AdminSuggested.fxml"));
 			allBox.getChildren().removeAll();
 			allBox.getChildren().setAll(parent);
@@ -138,6 +154,14 @@ public class AdminController implements Initializable{
     @FXML
     void openUsers(ActionEvent event) {
     	try {
+    		moviesBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		movieIcon.setFill(Color.web("#A1A1A1"));
+    		usersBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+    		suggestedBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		userIcon.setFill(Color.WHITE);
+    		suggestedIcon.setFill(Color.web("#A1A1A1"));
+    		
 			parent = FXMLLoader.load(getClass().getResource("AdminUsers.fxml"));
 			allBox.getChildren().removeAll();
 			allBox.getChildren().setAll(parent);

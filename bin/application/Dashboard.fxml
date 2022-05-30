@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -72,11 +73,11 @@
       </VBox>
    </left>
    <center>
-      <VBox alignment="CENTER" prefHeight="860.0" prefWidth="1015.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="displayBox" alignment="CENTER" prefHeight="860.0" prefWidth="1015.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="80.0" prefWidth="1015.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="ALL" textFill="WHITE">
+                  <Button fx:id="allButton" mnemonicParsing="false" onAction="#openMain" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="ALL" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic Bold" size="15.0" />
                      </font>
@@ -84,26 +85,33 @@
                         <FontAwesomeIcon fill="WHITE" glyphName="LIST_UL" />
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: TRANSPARENT;" text="TRENDING" textFill="WHITE">
-                     <font>
-                        <Font name="Century Gothic Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIcon fill="WHITE" glyphName="FORWARD" />
-                     </graphic></Button>
+                  <ComboBox fx:id="genreComboBox" onAction="#displayGenres" prefHeight="35.0" prefWidth="150.0" promptText="GENRE" style="-fx-background-color: transparent;" />
                   <Button alignment="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: TRANSPARENT;" text="COMING SOON..." textFill="WHITE">
                      <font>
                         <Font name="Century Gothic Bold" size="14.0" />
                      </font></Button>
                   <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                      <children>
-                        <FontAwesomeIcon fx:id="searchByTitleBtn" glyphName="SEARCH" onMouseClicked="#searchByTitle" size="1.5em" />
-                        <TextField fx:id="searchTextField" prefHeight="33.0" prefWidth="191.0" style="-fx-background-color: transparent;" />
+                        <Button fx:id="searchByTitleBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
+                           <graphic>
+                              <FontAwesomeIcon glyphName="SEARCH" size="1.5em" />
+                           </graphic>
+                        </Button>
+                        <TextField fx:id="searchTextField" onKeyTyped="#searchByTitle" prefHeight="33.0" prefWidth="201.0" style="-fx-background-color: transparent;" />
                      </children>
                      <HBox.margin>
-                        <Insets left="230.0" />
+                        <Insets left="200.0" />
                      </HBox.margin></HBox>
-                  <ComboBox fx:id="comboBox" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: TRANSPARENT; -fx-text-fill: WHITE; -jfx-focus-color: WHITE; -jfx-unfocus-color: WHITE;" />
+                  <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="35.0" prefWidth="20.0" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="USER" size="1.5em" />
+                     </graphic>
+                  </Button>
+                  <Label fx:id="usersLabel" prefHeight="35.0" prefWidth="107.0" text="USER" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic Bold" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="200.0" prefWidth="1015.0">
@@ -137,7 +145,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </HBox>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="370.0" prefWidth="1015.0" style="-fx-background: transparent; -fx-background-color: #181818;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToWidth="true" prefHeight="370.0" prefWidth="1015.0" style="-fx-background: transparent; -fx-background-color: #181818;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

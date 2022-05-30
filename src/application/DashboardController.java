@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,13 +18,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,13 +32,22 @@ import javafx.stage.StageStyle;
 public class DashboardController implements Initializable{
 	
 	double x,y = 0;
-	SignInUpController loginController = new SignInUpController();
-	allMoviesController allMoviesController = new allMoviesController();
-	ObservableList<String> users = FXCollections.observableArrayList("USER","ADMIN");
-	SignInUpController signController = new SignInUpController();
 	DBQueries queries = new DBQueries();
+	
 	@FXML
-	private HBox horizontalBox;
+	private ComboBox<String> genreComboBox = new ComboBox<>();
+	@FXML
+	private Button allButton;
+	@FXML
+	private Button homeBtn;
+	@FXML
+	private Button loginBtn;
+	@FXML
+	private Button suggestMovieBtn;
+	@FXML
+	private HBox horizontalBox = new HBox();
+	@FXML
+	private HBox allMovies;
 	@FXML 
 	private Parent parent;
 	@FXML
@@ -47,53 +55,40 @@ public class DashboardController implements Initializable{
 	@FXML
 	private Stage stage;
 	@FXML
-	private Button minimizeButton, maximizeButton, closeButton;
+	private Button minimizeButton;
 	@FXML
-	private ImageView coverPhoto;
+	private Button maximizeButton;
 	@FXML
-	private HBox allMovies;
-	@FXML
-	private Button homeBtn;
-    @FXML
-    private Button loginBtn;
-    @FXML
-    private Button suggestMovieBtn;
+	private Button closeButton;
     @FXML
     private FontAwesomeIcon homeIcon;
     @FXML
     private FontAwesomeIcon movieIcon;
     @FXML
     private FontAwesomeIcon userIcon;
-    @FXML
-    private FontAwesomeIcon searchByTitleBtn;
-    @FXML
+    @FXML 
     private TextField searchTextField;
     @FXML
-    private ComboBox<String> comboBox;
+    private VBox displayBox;
+    @FXML
+    private Label usersLabel;
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		usersLabel = new Label();
+		genreComboBox.setItems(queries.getGenres());
 		try {
-			editComboBox();
 			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
-			horizontalBox.getChildren().removeAll();
 			horizontalBox.getChildren().setAll(parent);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
     @FXML
 	public void minimize(ActionEvent event) {
-		try {
-			parent = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			stage.setIconified(true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.setIconified(true);
 	}
 	
 	@FXML
@@ -134,7 +129,6 @@ public class DashboardController implements Initializable{
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -151,10 +145,8 @@ public class DashboardController implements Initializable{
     		userIcon.setFill(Color.web("#A1A1A1"));
     		
 			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
-			horizontalBox.getChildren().removeAll();
 			horizontalBox.getChildren().setAll(parent);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -171,10 +163,8 @@ public class DashboardController implements Initializable{
     		userIcon.setFill(Color.web("#A1A1A1"));
 			
     		parent = FXMLLoader.load(getClass().getResource("SuggestMovie.fxml"));
-			horizontalBox.getChildren().removeAll();
 			horizontalBox.getChildren().setAll(parent);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -193,36 +183,53 @@ public class DashboardController implements Initializable{
 	}
     
     @FXML
-    public void searchByTitle(MouseEvent event) {
-//		FilteredList<Movie> filteredList = new FilteredList<>(allMoviesController.searchByTitle(), b-> true);
-//		searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-//			filteredList.setPredicate(null)
-//		});
+    public void searchByTitle(KeyEvent event) {
+    	searchTextField.setOnKeyTyped(e -> {
+        	HBox hBox = new HBox();
+        	hBox.setSpacing(30);
+    		ObservableList<Movie> movies = FXCollections.observableArrayList(queries.searchMovies(searchTextField.getText()));
+    		for (Movie movie: movies) {
+    			try {
+            		FXMLLoader loader = new FXMLLoader();
+            		loader.setLocation(getClass().getResource("Movie.fxml"));
+            	    VBox vbox = loader.load();
+            		movieController mc = loader.getController();
+            		mc.setMovie(movie);
+            		hBox.getChildren().add(vbox);
+            		horizontalBox.getChildren().setAll(hBox);
+            		if(searchTextField.getText().isEmpty()) {
+            			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
+                		horizontalBox.getChildren().setAll(parent);  
+            		}
+        		}catch(IOException ex) {
+        			ex.printStackTrace();
+        		}  		
+        	}
+    	});
     }
     
-    public void editComboBox() {
-    	comboBox.setItems(users);
-		comboBox.setValue("USER");
-		comboBox.setOnAction(e -> {
-			String user = comboBox.getSelectionModel().getSelectedItem().toLowerCase().toString();
-			if (user.equals("admin")) {
-				try {
-					Stage stage = new Stage();
-					stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-					stage.close();
-					parent = FXMLLoader.load(getClass().getResource("AdminPage.fxml"));
-					Scene scene = new Scene(parent);
-					stage.setScene(scene);
-					stage.show();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			} else {
-				Stage stage = new Stage();
-				stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-				stage.show();
-			}
-		});
+    @FXML
+    public void displayGenres(ActionEvent event) {
+    	HBox hBox = new HBox();
+    	hBox.setSpacing(30);
+    	String selectedItem = genreComboBox.getSelectionModel().getSelectedItem().toString();
+    	ObservableList<Movie> movies = FXCollections.observableArrayList(queries.clasifyGenres(selectedItem));
+		for (Movie movie: movies) {
+			try {
+        		FXMLLoader loader = new FXMLLoader();
+        		loader.setLocation(getClass().getResource("Movie.fxml"));
+        	    VBox vbox = loader.load();
+        		movieController mc = loader.getController();
+        		mc.setMovie(movie);
+        		hBox.getChildren().addAll(vbox);
+        		horizontalBox.getChildren().setAll(hBox);
+    		}catch(IOException ex) {
+    			ex.printStackTrace();
+    	    }
+    	}
+    }
+    
+    public void displayUser(String email) {
+    	usersLabel.setText(email);
     }
 }

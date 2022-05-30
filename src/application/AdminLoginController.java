@@ -68,7 +68,6 @@ public class AdminLoginController {
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
@@ -110,7 +109,6 @@ public class AdminLoginController {
 				stage.setScene(scene);
 				stage.show();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

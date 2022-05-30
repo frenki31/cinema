@@ -51,7 +51,7 @@ public class Controller implements Initializable{
 	
 	@FXML
 	public void display_signin(ActionEvent event) {
-		TranslateTransition tt= new TranslateTransition(Duration.seconds(1),vBox);
+		TranslateTransition tt= new TranslateTransition(Duration.seconds(0.8),vBox);
 		tt.setToX(vBox.getLayoutX()*14.5);
 		tt.play();
 		tt.setOnFinished((e) -> {
@@ -68,7 +68,7 @@ public class Controller implements Initializable{
 	
 	@FXML
 	public void display_signup(ActionEvent event) {
-		TranslateTransition tt= new TranslateTransition(Duration.seconds(1),vBox);
+		TranslateTransition tt= new TranslateTransition(Duration.seconds(0.8),vBox);
 		tt.setToX(11);
 		tt.play();
 		tt.setOnFinished((e) -> {

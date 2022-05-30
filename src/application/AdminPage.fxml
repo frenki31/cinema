@@ -27,7 +27,7 @@
                <children>
                   <Button fx:id="moviesBtn" alignment="CENTER" mnemonicParsing="false" onAction="#openMovies" prefHeight="45.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 0 5; -fx-border-color: #1ED760;" text="Movies" textFill="WHITE">
                      <graphic>
-                        <FontAwesomeIcon fx:id="homeIcon" fill="WHITE" glyphName="FILM" size="2em" />
+                        <FontAwesomeIcon fx:id="movieIcon" fill="WHITE" glyphName="FILM" size="2em" />
                      </graphic>
                      <font>
                         <Font name="Century Gothic Bold" size="15.0" />
@@ -52,7 +52,7 @@
                   </Button>
                   <Button fx:id="suggestedBtn" mnemonicParsing="false" onAction="#openSuggested" prefHeight="45.0" prefWidth="240.0" style="-fx-background-color: transparent;" text="Suggestions" textFill="#a1a1a1">
                      <graphic>
-                        <FontAwesomeIcon fx:id="movieIcon" fill="#a1a1a1" glyphName="FILM" size="2em" />
+                        <FontAwesomeIcon fx:id="suggestedIcon" fill="#a1a1a1" glyphName="FILM" size="2em" />
                      </graphic>
                      <font>
                         <Font name="Century Gothic Bold" size="15.0" />
@@ -77,8 +77,15 @@
                      </graphic>
                   </Button>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <VBox fx:id="allBox" prefHeight="0.0" prefWidth="0.0" />
+            <VBox fx:id="allBox" prefHeight="0.0" prefWidth="1015.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </VBox>
          </children>
       </VBox>
    </center>

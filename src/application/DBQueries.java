@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 
 public class DBQueries {
 	
@@ -47,13 +48,11 @@ public class DBQueries {
 	}
 	
 	public ObservableList<Movie> getAllMovies() {
-		ObservableList<Movie> allMovies = null;
+		ObservableList<Movie> allMovies = FXCollections.observableArrayList();
 		resultSet = null;
 		try {
 			preparedStatement = setConnection().prepareStatement("SELECT * FROM film");
 			resultSet = preparedStatement.executeQuery();
-			allMovies = FXCollections.observableArrayList();
-			
 			while(resultSet.next()){
 				allMovies.add(new Movie(
 						resultSet.getInt("filmID"),
@@ -68,13 +67,7 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				resultSet.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 		return allMovies;
 	}
@@ -96,19 +89,7 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				resultSet.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				try {
-					setConnection().close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+			close();
 		}
 		return titleCoverYear;
 	}
@@ -131,19 +112,7 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				resultSet.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				try {
-					setConnection().close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+			close();
 		}
 		return searchList;
 	}
@@ -161,12 +130,7 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				setConnection().close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			close();
 		}
 		return result;		
 	}
@@ -205,45 +169,34 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				setConnection().close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		    close();
 		}
 		return result;
 	}
 	
-	public Movie openMovieByTitle(String title) {
-		Movie movie = null;
+	public ObservableList<Movie> openMovieByTitle(String title) {
+		ObservableList<Movie> movies = FXCollections.observableArrayList();
 		resultSet = null;
 		try {
 			preparedStatement = setConnection().prepareStatement("SELECT * FROM film WHERE filmTitle = ?");
 			preparedStatement.setString(1, title);
 			resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()){
-				movie = new Movie(resultSet.getInt("filmID"), 
+				movies.add(new Movie(resultSet.getInt("filmID"), 
 						          resultSet.getString("filmTitle"), 
 						          resultSet.getString("runningTime"), 
 						          resultSet.getString("cover"), 
 						          resultSet.getString("link"),
 						          resultSet.getString("script"),
 						          resultSet.getString("releaseYear"),
-						          resultSet.getString("genre"));
+						          resultSet.getString("genre")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				setConnection().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
-		return movie;
+		return movies;
 	}
 	
 	public int addMovie(String filmTitle, String runningTime, String cover, String link, String script, String releaseYear, String genre) {
@@ -262,12 +215,7 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				setConnection().close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			close();
 		}
 		return result;		
 	}
@@ -285,23 +233,17 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			try {
-				setConnection().close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			close();
 		}
 		return result;		
 	}
 	
 	public ObservableList<User> getAllUsers() {
-		ObservableList<User> users = null;
+		ObservableList<User> users = FXCollections.observableArrayList();
 		resultSet = null;
 		try {
 			preparedStatement = setConnection().prepareStatement("SELECT * FROM user");
 			resultSet = preparedStatement.executeQuery();
-			users = FXCollections.observableArrayList();
 			while(resultSet.next()) {
 				users.add(new User(resultSet.getInt("userID"), 
 						           resultSet.getString("name"), 
@@ -312,24 +254,17 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				setConnection().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 		return users;
 	}
 	
 	public ObservableList<SuggestMovie> getAllSuggested() {
-		ObservableList<SuggestMovie> suggestedList = null;
+		ObservableList<SuggestMovie> suggestedList = FXCollections.observableArrayList();
 		resultSet = null;
 		try {
 			preparedStatement = setConnection().prepareStatement("SELECT * FROM suggestedFilm");
 			resultSet = preparedStatement.executeQuery();
-			suggestedList = FXCollections.observableArrayList();
 			while(resultSet.next()) {
 				suggestedList.add(new SuggestMovie(resultSet.getInt("id"), 
 						                           resultSet.getString("title"), 
@@ -340,14 +275,119 @@ public class DBQueries {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				setConnection().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 		return suggestedList;
+	}
+	
+	public ObservableList<Movie> clasifyGenres(String genre) {
+		ObservableList<Movie> searchList = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT * FROM film WHERE genre = ?");
+			preparedStatement.setString(1, genre);
+			resultSet = preparedStatement.executeQuery();
+			searchList = FXCollections.observableArrayList();
+			
+			while(resultSet.next()){
+				searchList.add(new Movie(resultSet.getString("filmTitle"),
+						                     resultSet.getString("cover"),
+						                     resultSet.getString("releaseYear"),
+						                     resultSet.getString("genre")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return searchList;
+	}
+	
+	public ObservableList<Movie> movieDetails(String title) {
+		ResultSet resultSet = null;
+		ObservableList<Movie> movies = FXCollections.observableArrayList();
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT * FROM film WHERE filmTitle = ?");
+			preparedStatement.setString(1, title);
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()){
+				movies.add(new Movie(resultSet.getInt("filmID"), 
+						             resultSet.getString("filmTitle"), 
+						             resultSet.getString("runningTime"), 
+						             resultSet.getString("cover"), 
+						             resultSet.getString("link"),
+						             resultSet.getString("script"),
+						             resultSet.getString("releaseYear"),
+						             resultSet.getString("genre")));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return movies;
+	}
+	
+	public ObservableList<String> getGenres(){
+		resultSet = null;
+		ObservableList<String> genres = FXCollections.observableArrayList();
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT DISTINCT genre FROM film");
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				genres.add(new String(resultSet.getString("genre")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return genres;
+	}
+	
+	public boolean checkEmails(String email) {
+		boolean checked = false;
+		resultSet = null;
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT * FROM user WHERE email = ?");
+			preparedStatement.setString(1, email);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				checked = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return checked;
+	}
+	
+	public String getEmail(String mail) {
+		resultSet = null;
+		String email = new String();
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT email FROM user WHERE email = ?");
+			preparedStatement.setString(1, mail);
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next())
+				email = resultSet.getString("email");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return email;
+		
+	}
+	
+	public void close() {
+		try {
+			setConnection().close();
+			resultSet.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

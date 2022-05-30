@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -11,42 +12,50 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 
 public class AddMovieController {
 	DBQueries queries = new DBQueries();
 	@FXML
+	private Stage stage;
+	@FXML
 	private VBox moviesBox;
 	@FXML
 	private Button backBtn;
-	
 	@FXML
     private Button addBtn;
-
     @FXML
     private TextField coverTextField;
-
     @FXML
     private TextField descrtiptionTextField;
-
     @FXML
     private TextField durationTextField;
-
     @FXML
     private TextField genreTextField;
-
     @FXML
     private TextField titleTextField;
-
     @FXML
     private TextField trailerTextField;
-
     @FXML
     private TextField yearTextField;
-    
     @FXML
     private Label message;
-
+    @FXML
+    private Button uploadButton;
+    
+    @FXML
+    public void uploadPath(ActionEvent event) {
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Open Files");
+    	fileChooser.setInitialDirectory(new File("C:/Users/user/eclipse-workspace/Application/images"));
+    	File selected = fileChooser.showOpenDialog(stage);
+    	if(selected != null) {
+    		coverTextField.setText(selected.getPath());
+    	}
+    }
+   
     @FXML
     void addMovie(ActionEvent event) {
     	if (titleTextField.getText().isEmpty() || durationTextField.getText().isEmpty() 
@@ -59,7 +68,7 @@ public class AddMovieController {
 					yearTextField.getText(), genreTextField.getText());
 			if(result == 1) {
 				Alert message = new Alert(AlertType.INFORMATION);
-				message.setTitle("ADDED");
+				message.setTitle("Added");
 				message.setContentText("The movie has been added successfully");
 				titleTextField.setText("");;
 				durationTextField.setText("");;
