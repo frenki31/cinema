@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,8 @@ import javafx.stage.StageStyle;
 public class MovieDisplayController implements Initializable{
 	double x,y = 0;
 	private WebEngine engine;
+	DBQueries queries = new DBQueries();
+	
 	@FXML
 	private Parent parent;
 	@FXML
@@ -39,7 +43,17 @@ public class MovieDisplayController implements Initializable{
     @FXML
     private Label title;
     @FXML
-    private Button closeButton, minimizeButton, maximizeButton, pauseButton, playButton, openMovieButton;
+    private Button closeButton;
+    @FXML
+    private Button minimizeButton;
+    @FXML
+    private Button maximizeButton;
+    @FXML
+    private Button pauseButton;
+    @FXML
+    private Button playButton;
+    @FXML
+    private Button openMovieButton;
     @FXML
     private WebView trailerMedia = new WebView();
     @FXML
@@ -105,6 +119,27 @@ public class MovieDisplayController implements Initializable{
 	
 	@FXML
 	public void openMovie(ActionEvent event) {
-		
+		HBox hbox = new HBox();
+		ObservableList<Movie> movieLinks = FXCollections.observableArrayList(queries.getMovieLink(title.getText()));
+		for(Movie movie: movieLinks) {
+			try {
+				FXMLLoader loader = new FXMLLoader();
+			    loader.setLocation(getClass().getResource("WatchMovie.fxml"));
+				VBox vbox = loader.load();
+				WatchMovieController wmc = loader.getController();
+				wmc.setLink(movie);
+				hbox.getChildren().add(vbox);
+				Stage stage = new Stage();
+				stage.initStyle(StageStyle.TRANSPARENT);
+				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				stage.close();
+				Scene openScene = new Scene(hbox);
+				stage.setScene(openScene);
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

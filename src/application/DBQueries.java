@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ComboBox;
 
 public class DBQueries {
 	
@@ -62,7 +61,8 @@ public class DBQueries {
 						resultSet.getString("link"),
 						resultSet.getString("script"),
 						resultSet.getString("releaseYear"),
-						resultSet.getString("genre")));
+						resultSet.getString("genre"),
+						resultSet.getString("movieLink")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -189,7 +189,8 @@ public class DBQueries {
 						          resultSet.getString("link"),
 						          resultSet.getString("script"),
 						          resultSet.getString("releaseYear"),
-						          resultSet.getString("genre")));
+						          resultSet.getString("genre"),
+						          resultSet.getString("movieLink")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -199,7 +200,7 @@ public class DBQueries {
 		return movies;
 	}
 	
-	public int addMovie(String filmTitle, String runningTime, String cover, String link, String script, String releaseYear, String genre) {
+	public int addMovie(String filmTitle, String runningTime, String cover, String link, String script, String releaseYear, String genre, String movieLink) {
 		int result = 0;
 		String sql = "INSERT INTO film(filmTitle,runningTime,cover,link,script,releaseYear,genre) VALUES (?,?,?,?,?,?,?)";
 		try {
@@ -211,6 +212,7 @@ public class DBQueries {
 		    preparedStatement.setString(5, script); 
 		    preparedStatement.setString(6, releaseYear);
 		    preparedStatement.setString(7, genre);
+		    preparedStatement.setString(8, movieLink);
 		    result = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -318,7 +320,8 @@ public class DBQueries {
 						             resultSet.getString("link"),
 						             resultSet.getString("script"),
 						             resultSet.getString("releaseYear"),
-						             resultSet.getString("genre")));
+						             resultSet.getString("genre"),
+						             resultSet.getString("movieLink")));
 				
 			}
 		} catch (SQLException e) {
@@ -364,21 +367,92 @@ public class DBQueries {
 		return checked;
 	}
 	
-	public String getEmail(String mail) {
-		resultSet = null;
-		String email = new String();
+	public int deleteMovie(int id) {
+		int result = 0;
 		try {
-			preparedStatement = setConnection().prepareStatement("SELECT email FROM user WHERE email = ?");
-			preparedStatement.setString(1, mail);
-			resultSet = preparedStatement.executeQuery();
-			while(resultSet.next())
-				email = resultSet.getString("email");
+			preparedStatement = setConnection().prepareStatement("DELETE FROM film where filmID = ?");
+			preparedStatement.setInt(1, id);
+			result= preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			close();
 		}
-		return email;
-		
+		return result;
+	}
+	
+	public int deleteUser(int id) {
+		int result = 0;
+		try {
+			preparedStatement = setConnection().prepareStatement("DELETE FROM user where userID = ?");
+			preparedStatement.setInt(1, id);
+			result= preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return result;
+	}
+	
+	public int updateMovie(int id,String title,String duration,String cover,String trailer,String description,String year,String genre,String movieLink) {
+		int result = 0;
+		try {
+			preparedStatement = setConnection().prepareStatement("UPDATE film SET filmTitle = ?, runningTime = ?, cover = ?,"
+					+ "link = ?, script = ?, releaseYear = ?, genre = ?, movieLink = ? WHERE filmID = ?");
+			preparedStatement.setString(1, title);
+			preparedStatement.setString(2, duration);
+			preparedStatement.setString(3, cover);
+			preparedStatement.setString(4, trailer);
+			preparedStatement.setString(5, description);
+			preparedStatement.setString(6, year);
+			preparedStatement.setString(7, genre);
+			preparedStatement.setString(8, movieLink);
+			preparedStatement.setInt(9, id);
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return result;
+	}
+	
+	public int updateUser(int id,String name,String email,String phone,String password) {
+		int result = 0;
+		try {
+			preparedStatement = setConnection().prepareStatement("UPDATE user SET name = ?, email = ?, phone = ?,"
+					+ "password = ? WHERE userID = ?");
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, email);
+			preparedStatement.setString(3, phone);
+			preparedStatement.setString(4, password);
+			preparedStatement.setInt(5, id);
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return result;
+	}
+	
+	public ObservableList<Movie> getMovieLink(String title) {
+		ResultSet resultSet = null;
+		ObservableList<Movie> movies = FXCollections.observableArrayList();
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT movieLink FROM film WHERE filmTitle = ?");
+			preparedStatement.setString(1, title);
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()){
+				movies.add(new Movie(resultSet.getString("movieLink")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return movies;
 	}
 	
 	public void close() {

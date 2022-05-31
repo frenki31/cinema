@@ -17,12 +17,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class SignInUpController extends DashboardController{
+public class SignInUpController {
 	
 	private String password;
 	private String rePassword;
 	private String password1;
 	DBQueries queries = new DBQueries();
+	DashboardController dc = new DashboardController();
 	@FXML
     private CheckBox checkBox;
     @FXML 
@@ -72,6 +73,11 @@ public class SignInUpController extends DashboardController{
 			messageLabel.setText("Passwords do not match! Please check...");
 		}else if (queries.checkEmails(emailTextField.getText())) {
 			messageLabel.setText("This email has been assigned to another account. Choose another one");
+		}else if (!messageLabel.getText().isEmpty()) {
+			Alert message = new Alert(AlertType.ERROR);
+			message.setTitle("ERROR");
+			message.setContentText("You do not fulfill all criteria to register");
+			message.show();
 		}else {
 			int result = queries.addUser(nameTextField.getText(), emailTextField.getText(), 
 					phoneTextField.getText(), passwordTextField.getText());
@@ -204,9 +210,6 @@ public class SignInUpController extends DashboardController{
 	
 	@FXML
 	public void login(ActionEvent event) {
-		
-		DashboardController dc = new DashboardController();
-		dc.displayUser("email");
 		if(emailTextField1.getText().isEmpty() && passwordTextField1.getText().isEmpty()) {
 			messageLabel1.setText("Invalid email and password!");
 		}
@@ -217,9 +220,10 @@ public class SignInUpController extends DashboardController{
 			messageLabel1.setText("Incorrect password");
 		}
 		else if (queries.loginUser(emailTextField1.getText(), passwordTextField1.getText())) {
-
+			dc.displayEmail(emailTextField1.getText());
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.close();
+			
 		}
 		
 	}

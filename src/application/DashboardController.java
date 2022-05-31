@@ -18,7 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
@@ -35,7 +34,7 @@ public class DashboardController implements Initializable{
 	DBQueries queries = new DBQueries();
 	
 	@FXML
-	private ComboBox<String> genreComboBox = new ComboBox<>();
+	private ComboBox<String> genreComboBox;
 	@FXML
 	private Button allButton;
 	@FXML
@@ -45,7 +44,7 @@ public class DashboardController implements Initializable{
 	@FXML
 	private Button suggestMovieBtn;
 	@FXML
-	private HBox horizontalBox = new HBox();
+	private HBox horizontalBox;
 	@FXML
 	private HBox allMovies;
 	@FXML 
@@ -71,11 +70,14 @@ public class DashboardController implements Initializable{
     @FXML
     private VBox displayBox;
     @FXML
-    private Label usersLabel;
+    private Button usersLabel;
+    @FXML
+    private Button adminBtn;
+    @FXML
+    private FontAwesomeIcon adminIcon;
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		usersLabel = new Label();
 		genreComboBox.setItems(queries.getGenres());
 		try {
 			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
@@ -118,6 +120,8 @@ public class DashboardController implements Initializable{
     		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
     				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
     		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminIcon.setFill(Color.web("#A1A1A1"));
     		movieIcon.setFill(Color.web("#A1A1A1"));
     		userIcon.setFill(Color.WHITE);
     		
@@ -140,6 +144,8 @@ public class DashboardController implements Initializable{
     				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
     		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
     		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminIcon.setFill(Color.web("#A1A1A1"));
     		homeIcon.setFill(Color.WHITE);
     		movieIcon.setFill(Color.web("#A1A1A1"));
     		userIcon.setFill(Color.web("#A1A1A1"));
@@ -159,11 +165,40 @@ public class DashboardController implements Initializable{
     		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
     				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
     		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminIcon.setFill(Color.web("#A1A1A1"));
     		movieIcon.setFill(Color.WHITE);
     		userIcon.setFill(Color.web("#A1A1A1"));
 			
     		parent = FXMLLoader.load(getClass().getResource("SuggestMovie.fxml"));
 			horizontalBox.getChildren().setAll(parent);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    public void openAdmin(ActionEvent event) {
+   
+    		homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		homeIcon.setFill(Color.web("#A1A1A1"));
+    		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+    		adminIcon.setFill(Color.WHITE);
+    		movieIcon.setFill(Color.web("#A1A1A1"));
+    		userIcon.setFill(Color.web("#A1A1A1"));
+			
+    		Stage stage = new Stage();
+    		stage.initStyle(StageStyle.TRANSPARENT);
+    		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    		stage.close();
+    	try {
+    		parent = FXMLLoader.load(getClass().getResource("AdminLogin.fxml"));
+			Scene scene = new Scene(parent);
+			stage.setScene(scene);
+			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -229,7 +264,8 @@ public class DashboardController implements Initializable{
     	}
     }
     
-    public void displayUser(String email) {
+    public void displayEmail(String email) {
+    	usersLabel = new Button();
     	usersLabel.setText(email);
     }
 }
