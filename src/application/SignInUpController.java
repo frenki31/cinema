@@ -1,11 +1,14 @@
 package application;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -15,7 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class SignInUpController {
 	
@@ -23,7 +28,9 @@ public class SignInUpController {
 	private String rePassword;
 	private String password1;
 	DBQueries queries = new DBQueries();
-	DashboardController dc = new DashboardController();
+
+	@FXML
+	private Parent parent;
 	@FXML
     private CheckBox checkBox;
     @FXML 
@@ -40,6 +47,18 @@ public class SignInUpController {
     private PasswordField repasswordTextField;
     @FXML
     private PasswordField passwordTextField1;
+    @FXML
+    private TextField emailTextField2;
+    @FXML
+    private TextField nameTextField2;
+    @FXML
+    private TextField phoneTextField2;
+    @FXML
+    private TextField passwordTextField2;
+    @FXML
+    private Button passwordButton;
+    @FXML
+    private Label messageLabel2;
     @FXML
     private Label messageLabel;
     @FXML
@@ -62,17 +81,25 @@ public class SignInUpController {
     private HBox repasswordBox;
     @FXML
     private Button loginButton;
-    
+    @FXML
+    private VBox Pane;
+    @FXML
+    private Button forgotButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private VBox panel;
+
 	@FXML
 	public void register(ActionEvent event) {
 		if (nameTextField.getText().isEmpty() || emailTextField.getText().isEmpty() 
 				|| phoneTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()
-				|| repasswordTextField.getText().isEmpty() || !checkBox.isSelected()) {
+				|| repasswordTextField.getText().isEmpty()) {
 			messageLabel.setText("Please fill all the blanks");
 		}else if(!passwordTextField.getText().equals(repasswordTextField.getText())){
 			messageLabel.setText("Passwords do not match! Please check...");
 		}else if (queries.checkEmails(emailTextField.getText())) {
-			messageLabel.setText("This email has been assigned to another account. Choose another one");
+			messageLabel.setText("This email has been assigned to another account");
 		}else if (!messageLabel.getText().isEmpty()) {
 			Alert message = new Alert(AlertType.ERROR);
 			message.setTitle("ERROR");
@@ -85,19 +112,22 @@ public class SignInUpController {
 				Alert message = new Alert(AlertType.INFORMATION);
 				message.setTitle("Registered");
 				message.setContentText("New user registered successfully! Welcome "+nameTextField.getText());
+				message.show();
 				nameTextField.clear();
 				emailTextField.clear();
 				phoneTextField.clear();
 				passwordTextField.clear();
 				repasswordTextField.clear();
 				checkBox.setSelected(false);
-				Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				Stage stage = new Stage(StageStyle.TRANSPARENT);
+				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 				stage.close();
 			}
 			else {
 				Alert message = new Alert(AlertType.ERROR);
 				message.setTitle("Error");
 				message.setContentText("ERROR!!! The user cannot be registered");
+				message.show();
 			}
 				
 		}
@@ -163,7 +193,7 @@ public class SignInUpController {
 	@FXML
 	public void emailRegex(javafx.scene.input.KeyEvent event) {
 		emailTextField.setOnKeyTyped(e -> {
-			String regex = "^(?=.*[a-zA-Z0-9])(?=.*[._-]).{5,10}[@](?=.*[a-z]).{4,10}[.]{1}(?=.*[a-zA-Z]).{2,5}$";
+			String regex = "^(?=.*[a-zA-Z0-9])(?=.*[._-]).{5,30}[@](?=.*[a-z]).{4,10}[.]{1}(?=.*[a-zA-Z]).{2,5}$";
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(emailTextField.getText());
 			if(!matcher.matches()) {
@@ -220,11 +250,36 @@ public class SignInUpController {
 			messageLabel1.setText("Incorrect password");
 		}
 		else if (queries.loginUser(emailTextField1.getText(), passwordTextField1.getText())) {
-			dc.displayEmail(emailTextField1.getText());
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			Stage stage = new Stage(StageStyle.TRANSPARENT);
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.close();
-			
 		}
-		
+	}
+	
+	@FXML
+	public void openForgot(ActionEvent event) {
+		try {
+			parent = FXMLLoader.load(getClass().getResource("ForgotPassword.fxml"));
+			Pane.getChildren().setAll(parent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void getPassword(ActionEvent event) {
+		passwordTextField2.setText(queries.getPassword(nameTextField2.getText(), emailTextField2.getText(), phoneTextField2.getText()));
+	}
+	
+	@FXML
+	public void goBack(ActionEvent event) {
+		try {
+			parent = FXMLLoader.load(getClass().getResource("Login.fxml"));
+			panel.getChildren().setAll(parent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

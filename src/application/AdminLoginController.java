@@ -14,12 +14,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class AdminLoginController {
-
+	double x,y = 0;
 	private String password;
+	@FXML
+	private Stage stage;
 	@FXML
 	private Parent parent;
 	@FXML
@@ -38,6 +41,8 @@ public class AdminLoginController {
     private Button seeButton;
 	@FXML
 	private Label messageLabel;
+	@FXML
+	private VBox box;
 
 	@FXML
 	void Visible(MouseEvent event) {
@@ -113,4 +118,17 @@ public class AdminLoginController {
 			}
 		}
     }
+	
+	public void makeDraggable() {
+		box.setOnMousePressed(e ->{
+			x = e.getSceneX();
+			y = e.getSceneY();
+		});
+		
+		box.setOnMouseDragged(e -> {
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			stage.setX(e.getScreenX() - x);
+			stage.setY(e.getScreenY() - y);
+		});
+	}
 }

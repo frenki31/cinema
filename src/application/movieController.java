@@ -23,7 +23,6 @@ import javafx.stage.StageStyle;
 public class movieController{
 	
 	DBQueries queries = new DBQueries();
-	allMoviesController amc = new allMoviesController();
 	@FXML
 	private Parent parent;
 	@FXML 

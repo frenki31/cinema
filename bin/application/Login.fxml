@@ -55,7 +55,7 @@
             <Insets left="15.0" right="15.0" top="20.0" />
          </VBox.margin>
          <children>
-            <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Forgot Password?" textFill="#bebebe" HBox.hgrow="ALWAYS">
+            <Button fx:id="forgotButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openForgot" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Forgot Password?" textFill="#bebebe" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>

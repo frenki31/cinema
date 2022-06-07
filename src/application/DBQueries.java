@@ -21,7 +21,7 @@ public class DBQueries {
 	private final String USERNAME = "root";
 	private final String PASSWORD = "1234";
 	private Connection connect;
-	private Statement statement;
+	private Statement statement;	
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	
@@ -156,6 +156,8 @@ public class DBQueries {
 				message.setTitle("Login");
 				message.setContentText("Welcome back "+resultSet.getString("name"));
 				message.show();
+				DashboardController dc = new DashboardController();
+				dc.displayEmail(resultSet.getString("email"));
 				result = true;
 			}
 			else {
@@ -453,6 +455,50 @@ public class DBQueries {
 			close();
 		}
 		return movies;
+	}
+	
+	public String getPassword(String name, String email, String phone) {
+		resultSet = null;
+		String password = "";
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT password FROM user WHERE name = ? AND email = ? AND phone = ?");
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, email);
+			preparedStatement.setString(3, phone);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				password = resultSet.getString("password");
+			}else {
+				Alert message = new Alert(AlertType.ERROR);
+				message.setTitle("Error");
+				message.setContentText("Information provided is not correct");
+				message.show();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return password;
+	}
+	
+	public ObservableList<Movie> getAllComingSoon() {
+		ObservableList<Movie> comingSoonMovies = FXCollections.observableArrayList();
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = setConnection().prepareStatement("SELECT * FROM comingsoonmovies");
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()){
+				comingSoonMovies.add(new Movie(resultSet.getString("title"),
+						                     resultSet.getString("cover"),
+						                     resultSet.getString("year"),
+						                     resultSet.getString("genre")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			close();
+		}
+		return comingSoonMovies;
 	}
 	
 	public void close() {

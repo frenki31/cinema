@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
@@ -32,6 +33,7 @@ public class DashboardController implements Initializable{
 	
 	double x,y = 0;
 	DBQueries queries = new DBQueries();
+	SignInUpController sc = new SignInUpController();
 	
 	@FXML
 	private ComboBox<String> genreComboBox;
@@ -70,22 +72,39 @@ public class DashboardController implements Initializable{
     @FXML
     private VBox displayBox;
     @FXML
-    private Button usersLabel;
+    private Label EmailLabel ;
     @FXML
     private Button adminBtn;
     @FXML
     private FontAwesomeIcon adminIcon;
+    @FXML
+    private Button comingSoonBtn;
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		genreComboBox.setItems(queries.getGenres());
+		HBox hbox = new HBox();
+		hbox.setSpacing(30);
+		ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllCovers());
 		try {
-			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
-			horizontalBox.getChildren().setAll(parent);
+			for(Movie movie: movies) {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(getClass().getResource("Movie.fxml"));
+				VBox vbox = loader.load();
+				movieController movieController = loader.getController();
+				movieController.setMovie(movie);
+				hbox.getChildren().addAll(vbox);
+				horizontalBox.getChildren().setAll(hbox);
+			}
 		} catch (IOException e) {
+	        // TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+//	public void displayEmail(String email) {
+//		EmailLabel.setText(email);
+//	}
 	
     @FXML
 	public void minimize(ActionEvent event) {
@@ -114,21 +133,21 @@ public class DashboardController implements Initializable{
 	
     @FXML
     public void openLogin(ActionEvent event) {
-    	try {
-    		homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		homeIcon.setFill(Color.web("#A1A1A1"));
-    		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
-    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
-    		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminIcon.setFill(Color.web("#A1A1A1"));
-    		movieIcon.setFill(Color.web("#A1A1A1"));
-    		userIcon.setFill(Color.WHITE);
-    		
-			parent = FXMLLoader.load(getClass().getResource("Main.fxml"));
+    	homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+   		homeIcon.setFill(Color.web("#A1A1A1"));
+   		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+   				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+   		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+   		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+    	adminIcon.setFill(Color.web("#A1A1A1"));
+   		movieIcon.setFill(Color.web("#A1A1A1"));
+   		userIcon.setFill(Color.WHITE);
+ 
+   		try {
+       		parent = FXMLLoader.load(getClass().getResource("Main.fxml"));
+      		Stage stage = new Stage();
+      		stage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(parent);
-			Stage stage = new Stage();
-			stage.initStyle(StageStyle.TRANSPARENT);
 			scene.setFill(Color.TRANSPARENT);
 			stage.setScene(scene);
 			stage.show();
@@ -139,22 +158,33 @@ public class DashboardController implements Initializable{
     
     @FXML
     void openMain(ActionEvent event) {
-    	try {
-    		homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
-    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
-    		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminIcon.setFill(Color.web("#A1A1A1"));
-    		homeIcon.setFill(Color.WHITE);
-    		movieIcon.setFill(Color.web("#A1A1A1"));
-    		userIcon.setFill(Color.web("#A1A1A1"));
+    	homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+   				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+   		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+   		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+   		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+   		adminIcon.setFill(Color.web("#A1A1A1"));
+    	homeIcon.setFill(Color.WHITE);
+   		movieIcon.setFill(Color.web("#A1A1A1"));
+   		userIcon.setFill(Color.web("#A1A1A1"));
     		
-			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
-			horizontalBox.getChildren().setAll(parent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+   		HBox hbox = new HBox();
+   		hbox.setSpacing(30);
+   		ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllCovers());
+    	try {
+   			for(Movie movie: movies) {
+   				FXMLLoader loader = new FXMLLoader();
+   				loader.setLocation(getClass().getResource("Movie.fxml"));
+   				VBox vbox = loader.load();
+   				movieController movieController = loader.getController();
+    			movieController.setMovie(movie);
+    			hbox.getChildren().addAll(vbox);
+    			horizontalBox.getChildren().setAll(hbox);
+   			}
+   		} catch (IOException e) {
+   	        // TODO Auto-generated catch block
+   			e.printStackTrace();
+   		}
     }
 
     @FXML
@@ -202,6 +232,27 @@ public class DashboardController implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @FXML
+    public void openComingSoon(ActionEvent event) {
+    	HBox hbox = new HBox();
+    	hbox.setSpacing(30);
+    	ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllComingSoon());
+    	for (Movie movie: movies) {
+    		try {
+    			FXMLLoader loader = new FXMLLoader();
+    		    loader.setLocation(getClass().getResource("Movie.fxml"));
+				VBox vBox = loader.load();
+				movieController mc = loader.getController();
+				mc.setMovie(movie);
+				hbox.getChildren().add(vBox);
+				horizontalBox.getChildren().setAll(hbox);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
     
     public void makeDraggable() {
@@ -262,10 +313,5 @@ public class DashboardController implements Initializable{
     			ex.printStackTrace();
     	    }
     	}
-    }
-    
-    public void displayEmail(String email) {
-    	usersLabel = new Button();
-    	usersLabel.setText(email);
     }
 }
