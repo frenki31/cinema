@@ -19,3 +19,7 @@ The application has a lot of movies to choose from and main functionalities are 
 - Functionalitis were developed in Java 
 - Design was developed in XML
 - Communication between classes was achieved using controllers
+## Contributing
+For changes and updates in the code, you can open an issue. 
+
+You are very welcome.
