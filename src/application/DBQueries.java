@@ -156,8 +156,6 @@ public class DBQueries {
 				message.setTitle("Login");
 				message.setContentText("Welcome back "+resultSet.getString("name"));
 				message.show();
-				DashboardController dc = new DashboardController();
-				dc.displayEmail(resultSet.getString("email"));
 				result = true;
 			}
 			else {

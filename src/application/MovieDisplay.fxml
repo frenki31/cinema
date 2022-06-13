@@ -153,35 +153,7 @@
             </VBox>
             <VBox prefHeight="301.0" prefWidth="359.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="145.0" prefWidth="330.0">
-                     <children>
-                        <Label prefHeight="145.0" prefWidth="87.0" text="TRAILER:" textFill="WHITE">
-                           <font>
-                              <Font name="Century Gothic Bold" size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="50.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Button fx:id="playButton" mnemonicParsing="false" onAction="#play" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: WHITE; -fx-border-radius: 15;">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="PLAY" size="2em" />
-                           </graphic>
-                        </Button>
-                        <Button fx:id="pauseButton" layoutX="117.0" layoutY="58.0" mnemonicParsing="false" onAction="#pause" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: WHITE; -fx-border-radius: 15;">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" glyphName="PAUSE" size="2em" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="145.0" prefWidth="330.0">
+                  <HBox alignment="CENTER" prefHeight="303.0" prefWidth="312.0">
                      <children>
                         <Button fx:id="openMovieButton" mnemonicParsing="false" onAction="#openMovie" prefHeight="50.0" prefWidth="221.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: WHITE; -fx-border-radius: 15;" text="WATCH THE MOVIE" textFill="WHITE">
                            <graphic>

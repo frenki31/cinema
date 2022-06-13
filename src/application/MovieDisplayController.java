@@ -1,7 +1,10 @@
 package application;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -118,24 +121,26 @@ public class MovieDisplayController implements Initializable{
 	}
 	
 	@FXML
-	public void openMovie(ActionEvent event) {
+	public void openMovie(ActionEvent event) throws URISyntaxException {
 		HBox hbox = new HBox();
 		ObservableList<Movie> movieLinks = FXCollections.observableArrayList(queries.getMovieLink(title.getText()));
 		for(Movie movie: movieLinks) {
 			try {
-				FXMLLoader loader = new FXMLLoader();
-			    loader.setLocation(getClass().getResource("WatchMovie.fxml"));
-				VBox vbox = loader.load();
-				WatchMovieController wmc = loader.getController();
-				wmc.setLink(movie);
-				hbox.getChildren().add(vbox);
-				Stage stage = new Stage();
-				stage.initStyle(StageStyle.TRANSPARENT);
-				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-				stage.close();
-				Scene openScene = new Scene(hbox);
-				stage.setScene(openScene);
-				stage.show();
+//				FXMLLoader loader = new FXMLLoader();
+//			    loader.setLocation(getClass().getResource("WatchMovie.fxml"));
+//				VBox vbox = loader.load();
+//				WatchMovieController wmc = loader.getController();
+				WatchMovieController wmc = new WatchMovieController();
+//				wmc.setLink(movie);
+				Desktop.getDesktop().browse(new URL(wmc.setLink(movie)).toURI());
+//				hbox.getChildren().add(vbox);
+//				Stage stage = new Stage();
+//				stage.initStyle(StageStyle.TRANSPARENT);
+//				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//				stage.close();
+//				Scene openScene = new Scene(hbox);
+//				stage.setScene(openScene);
+//				stage.show();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

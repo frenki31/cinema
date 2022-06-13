@@ -35,8 +35,9 @@ public class WatchMovieController implements Initializable{
 		engine = watchMovieView.getEngine();
 	}
     
-	public void setLink(Movie movie) {
-		engine.load(movie.getMovieLink());
+	public String setLink(Movie movie) {
+//		engine.load(movie.getMovieLink());
+		return movie.getMovieLink();
 	}
 	
 	@FXML
@@ -44,7 +45,7 @@ public class WatchMovieController implements Initializable{
 		Stage stage = (Stage) ((Node) ev.getSource()).getScene().getWindow();
 		stage.close();
 		try {
-			parent = FXMLLoader.load(getClass().getResource("MovieDisplay.fxml"));
+			parent = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
 			Scene scene = new Scene(parent);
 			stage.setScene(scene);
 			stage.show();
