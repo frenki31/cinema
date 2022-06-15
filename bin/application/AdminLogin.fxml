@@ -10,16 +10,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="box" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #101010;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminLoginController">
+<VBox fx:id="box" alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #101010;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminLoginController">
    <children>
       <HBox alignment="CENTER" prefHeight="181.0" prefWidth="500.0">
          <children>
-            <FontAwesomeIcon fill="WHITE" glyphName="USER" size="7em" />
+            <FontAwesomeIcon fill="WHITE" glyphName="USER" size="7em" HBox.hgrow="NEVER" />
          </children>
       </HBox>
-      <HBox fx:id="nameBox" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #DEDEE4; -fx-border-width: 0px 0px 1px 0px;">
+      <HBox fx:id="nameBox" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="400.0" style="-fx-background-color: transparent; -fx-border-color: #DEDEE4; -fx-border-width: 0px 0px 1px 0px;" VBox.vgrow="NEVER">
          <children>
-            <TextField fx:id="nameTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: WHITE;" HBox.hgrow="ALWAYS">
+            <TextField fx:id="nameTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="383.0" promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: WHITE;" HBox.hgrow="NEVER">
                <font>
                   <Font name="Century Gothic" size="14.0" />
                </font>
@@ -33,9 +33,9 @@
             <Insets bottom="20.0" left="50.0" right="50.0" />
          </VBox.margin>
       </HBox>
-      <HBox fx:id="passwordBox" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #DEDEE4; -fx-border-width: 0px 0px 1px 0px;">
+      <HBox fx:id="passwordBox" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="400.0" style="-fx-background-color: transparent; -fx-border-color: #DEDEE4; -fx-border-width: 0px 0px 1px 0px;" VBox.vgrow="NEVER">
          <children>
-            <PasswordField fx:id="passwordTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="416.0" promptText="Password" style="-fx-background-color: transparent; -fx-text-fill: WHITE;">
+            <PasswordField fx:id="passwordTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="416.0" promptText="Password" style="-fx-background-color: transparent; -fx-text-fill: WHITE;" HBox.hgrow="NEVER">
                <font>
                   <Font name="Century Gothic" size="14.0" />
                </font>
@@ -59,9 +59,9 @@
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" VBox.vgrow="NEVER">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 20;" text="BACK" textFill="#ebe8e8">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 20;" text="BACK" textFill="#ebe8e8" HBox.hgrow="NEVER">
                <font>
                   <Font size="15.0" />
                </font>
@@ -72,7 +72,7 @@
                   <FontAwesomeIcon fill="WHITE" glyphName="ARROW_LEFT" />
                </graphic>
             </Button>
-            <Button fx:id="loginButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#goForward" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 20;" text="LOGIN" textFill="#ebe8e8">
+            <Button fx:id="loginButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#goForward" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 20;" text="LOGIN" textFill="#ebe8e8" HBox.hgrow="NEVER">
                <font>
                   <Font size="15.0" />
                </font>

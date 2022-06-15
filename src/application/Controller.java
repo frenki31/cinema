@@ -48,7 +48,10 @@ public class Controller implements Initializable{
 			}
 		});
 	}
-	
+	/**
+	 * Methods to make the transition between login and signup page
+	 * @param event
+	 */
 	@FXML
 	public void display_signin(ActionEvent event) {
 		TranslateTransition tt= new TranslateTransition(Duration.seconds(0.8),vBox);

@@ -72,7 +72,9 @@ public class AdminUserController implements Initializable{
     	userList = FXCollections.observableArrayList(queries.getAllUsers());
     	usersTable.setItems(userList);
     }
-    
+    /**
+     * Method to load the data in the table
+     */
     public void loadTable() {
     	queries.setConnection();
     	refreshTable();
@@ -83,7 +85,10 @@ public class AdminUserController implements Initializable{
     	phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNo"));
     	passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
     }
-    
+    /**
+     * Method to delete a user
+     * @param event
+     */
     @FXML
     public void deleteUser(ActionEvent event) {
     	if (queries.deleteUser(usersTable.getSelectionModel().getSelectedItem().getId()) == 1) {
@@ -99,7 +104,10 @@ public class AdminUserController implements Initializable{
 			message.show();
 		}
     }
-    
+    /**
+     * Method to get a user
+     * @param event
+     */
     @FXML
     public void retrieveUser(MouseEvent event) {
     	nameTextField.setText(usersTable.getSelectionModel().getSelectedItem().getName());
@@ -107,7 +115,10 @@ public class AdminUserController implements Initializable{
     	phoneTextField.setText(usersTable.getSelectionModel().getSelectedItem().getPhoneNo());
     	passwordTextField.setText(usersTable.getSelectionModel().getSelectedItem().getPassword());
     }
-    
+    /**
+     * Method to edit a user's information
+     * @param event
+     */
     @FXML
     public void updateUser(ActionEvent event) {
     	if (nameTextField.getText().isEmpty() || emailTextField.getText().isEmpty() ||

@@ -19,7 +19,10 @@ public class SuggestMovieController {
     private TextField titleTextField;
     @FXML
     private TextField yearTextField;
-    
+    /**
+     * Method that allows a user to suggest a movie
+     * @param event
+     */
 	@FXML
 	void suggestMovie(ActionEvent event) {
 		if (titleTextField.getText().isEmpty() || directorTextField.getText().isEmpty() 

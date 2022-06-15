@@ -14,6 +14,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Database class where all the database manipulation are prepared
+ * @author user
+ *
+ */
 public class DBQueries {
 	
 	private final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -28,7 +33,10 @@ public class DBQueries {
 	public DBQueries() {
 		setConnection();
 	}
-	
+	/**
+	 * This method establishes the connection to the database
+	 * @return
+	 */
 	public Connection setConnection() {
 		try {
 			Class.forName(JDBC_DRIVER);
@@ -45,7 +53,10 @@ public class DBQueries {
 		}
 		return connect;
 	}
-	
+	/**
+	 * Method to get all movies
+	 * @return
+	 */
 	public ObservableList<Movie> getAllMovies() {
 		ObservableList<Movie> allMovies = FXCollections.observableArrayList();
 		resultSet = null;
@@ -71,7 +82,10 @@ public class DBQueries {
 		}
 		return allMovies;
 	}
-
+	/**
+	 * Method to get all the covers
+	 * @return
+	 */
 	public List<Movie> getAllCovers() {
 		List<Movie> titleCoverYear = null;
 		ResultSet resultSet = null;
@@ -93,7 +107,11 @@ public class DBQueries {
 		}
 		return titleCoverYear;
 	}
-	
+	/**
+	 * Method that makes possible to search movies by their title
+	 * @param title
+	 * @return
+	 */
 	public ObservableList<Movie> searchMovies(String title) {
 		ObservableList<Movie> searchList = null;
 		ResultSet resultSet = null;
@@ -116,7 +134,14 @@ public class DBQueries {
 		}
 		return searchList;
 	}
-	
+	/**
+	 * Method to add a new user in the database
+	 * @param name
+	 * @param email
+	 * @param phoneNo
+	 * @param password
+	 * @return
+	 */
 	public int addUser(String name, String email, String phoneNo, String password) {
 		int result = 0;
 		String sql = "INSERT INTO user(name, email,phone,password) VALUES (?, ?, ?, ?)";
@@ -134,7 +159,12 @@ public class DBQueries {
 		}
 		return result;		
 	}
-	
+	/**
+	 * Method to check the email and password and login the user 
+	 * @param email
+	 * @param password
+	 * @return
+	 */
 	public boolean loginUser(String email, String password){
 		boolean result = false;
 		resultSet = null;
@@ -173,7 +203,11 @@ public class DBQueries {
 		}
 		return result;
 	}
-	
+	/**
+	 * Method to retrieve all movie information using the title
+	 * @param title
+	 * @return
+	 */
 	public ObservableList<Movie> openMovieByTitle(String title) {
 		ObservableList<Movie> movies = FXCollections.observableArrayList();
 		resultSet = null;
@@ -199,10 +233,21 @@ public class DBQueries {
 		}
 		return movies;
 	}
-	
+	/**
+	 * Method to add a new movie
+	 * @param filmTitle
+	 * @param runningTime
+	 * @param cover
+	 * @param link
+	 * @param script
+	 * @param releaseYear
+	 * @param genre
+	 * @param movieLink
+	 * @return
+	 */
 	public int addMovie(String filmTitle, String runningTime, String cover, String link, String script, String releaseYear, String genre, String movieLink) {
 		int result = 0;
-		String sql = "INSERT INTO film(filmTitle,runningTime,cover,link,script,releaseYear,genre) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO film(filmTitle,runningTime,cover,link,script,releaseYear,genre,movieLink) VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			preparedStatement = setConnection().prepareStatement(sql);
 		    preparedStatement.setString(1, filmTitle);
@@ -221,7 +266,14 @@ public class DBQueries {
 		}
 		return result;		
 	}
-	
+	/**
+	 * Method to add a new suggestion
+	 * @param title
+	 * @param director
+	 * @param year
+	 * @param genre
+	 * @return
+	 */
 	public int addSuggested(String title, String director, String year, String genre) {
 		int result = 0;
 		String sql = "INSERT INTO suggestedFilm(title,director,year,genre) VALUES (?, ?, ?, ?)";
@@ -239,7 +291,10 @@ public class DBQueries {
 		}
 		return result;		
 	}
-	
+	/**
+	 * Method to get all the users
+	 * @return
+	 */
 	public ObservableList<User> getAllUsers() {
 		ObservableList<User> users = FXCollections.observableArrayList();
 		resultSet = null;
@@ -260,7 +315,10 @@ public class DBQueries {
 		}
 		return users;
 	}
-	
+	/**
+	 * Method to get all the suggested movies
+	 * @return
+	 */
 	public ObservableList<SuggestMovie> getAllSuggested() {
 		ObservableList<SuggestMovie> suggestedList = FXCollections.observableArrayList();
 		resultSet = null;
@@ -281,7 +339,11 @@ public class DBQueries {
 		}
 		return suggestedList;
 	}
-	
+	/**
+	 * Method to classify the movies by their genre
+	 * @param genre
+	 * @return
+	 */
 	public ObservableList<Movie> clasifyGenres(String genre) {
 		ObservableList<Movie> searchList = null;
 		ResultSet resultSet = null;
@@ -304,7 +366,11 @@ public class DBQueries {
 		}
 		return searchList;
 	}
-	
+	/**
+	 * Method to get the movie details using the title
+	 * @param title
+	 * @return
+	 */
 	public ObservableList<Movie> movieDetails(String title) {
 		ResultSet resultSet = null;
 		ObservableList<Movie> movies = FXCollections.observableArrayList();
@@ -331,7 +397,10 @@ public class DBQueries {
 		}
 		return movies;
 	}
-	
+	/**
+	 * Method to get all movie genres
+	 * @return
+	 */
 	public ObservableList<String> getGenres(){
 		resultSet = null;
 		ObservableList<String> genres = FXCollections.observableArrayList();
@@ -348,7 +417,11 @@ public class DBQueries {
 		}
 		return genres;
 	}
-	
+	/**
+	 * Method to check if the email is previously used in the database
+	 * @param email
+	 * @return
+	 */
 	public boolean checkEmails(String email) {
 		boolean checked = false;
 		resultSet = null;
@@ -366,7 +439,11 @@ public class DBQueries {
 		}
 		return checked;
 	}
-	
+	/**
+	 * Method which deletes a movie
+	 * @param id
+	 * @return
+	 */
 	public int deleteMovie(int id) {
 		int result = 0;
 		try {
@@ -380,7 +457,11 @@ public class DBQueries {
 		}
 		return result;
 	}
-	
+	/**
+	 * Method to delete a movie
+	 * @param id
+	 * @return
+	 */
 	public int deleteUser(int id) {
 		int result = 0;
 		try {
@@ -394,7 +475,19 @@ public class DBQueries {
 		}
 		return result;
 	}
-	
+	/**
+	 * Method to update movie details
+	 * @param id
+	 * @param title
+	 * @param duration
+	 * @param cover
+	 * @param trailer
+	 * @param description
+	 * @param year
+	 * @param genre
+	 * @param movieLink
+	 * @return
+	 */
 	public int updateMovie(int id,String title,String duration,String cover,String trailer,String description,String year,String genre,String movieLink) {
 		int result = 0;
 		try {
@@ -417,7 +510,15 @@ public class DBQueries {
 		}
 		return result;
 	}
-	
+	/**
+	 * Method to update user's information
+	 * @param id
+	 * @param name
+	 * @param email
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
 	public int updateUser(int id,String name,String email,String phone,String password) {
 		int result = 0;
 		try {
@@ -436,7 +537,11 @@ public class DBQueries {
 		}
 		return result;
 	}
-	
+	/**
+	 * Method to get the link where a movie can be watched
+	 * @param title
+	 * @return
+	 */
 	public ObservableList<Movie> getMovieLink(String title) {
 		ResultSet resultSet = null;
 		ObservableList<Movie> movies = FXCollections.observableArrayList();
@@ -454,7 +559,13 @@ public class DBQueries {
 		}
 		return movies;
 	}
-	
+	/**
+	 * Method to get the password when a user forgets it
+	 * @param name
+	 * @param email
+	 * @param phone
+	 * @return
+	 */
 	public String getPassword(String name, String email, String phone) {
 		resultSet = null;
 		String password = "";
@@ -478,7 +589,10 @@ public class DBQueries {
 		}
 		return password;
 	}
-	
+	/**
+	 * Method to retrieve all coming soon movies
+	 * @return
+	 */
 	public ObservableList<Movie> getAllComingSoon() {
 		ObservableList<Movie> comingSoonMovies = FXCollections.observableArrayList();
 		ResultSet resultSet = null;

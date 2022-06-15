@@ -25,7 +25,7 @@ import javafx.stage.StageStyle;
 public class SignInUpController {
 	
 	private String password;
-	private String rePassword;
+	private String rePassword; 
 	private String password1;
 	DBQueries queries = new DBQueries();
 
@@ -90,6 +90,10 @@ public class SignInUpController {
     @FXML
     private VBox panel;
 
+    /**
+     * Method for registering to the application
+     * @param event
+     */
 	@FXML
 	public void register(ActionEvent event) {
 		if (nameTextField.getText().isEmpty() || emailTextField.getText().isEmpty() 
@@ -132,7 +136,10 @@ public class SignInUpController {
 				
 		}
 	}
-	
+	/**
+	 * Method to make the password visible
+	 * @param event
+	 */
 	@FXML
 	public void Visible(MouseEvent event) {
 		seeButton.setOnMousePressed(e -> {
@@ -172,7 +179,10 @@ public class SignInUpController {
 			passwordTextField1.setPromptText("Password");
 		});
 	}
-	
+	/**
+	 * Regular expression for name
+	 * @param event
+	 */
 	@FXML
 	public void nameRegex(javafx.scene.input.KeyEvent event) {
 		nameTextField.setOnKeyTyped(e -> {
@@ -189,7 +199,10 @@ public class SignInUpController {
 				
 		});
 	}
-	
+	/**
+	 * Regular expression for email
+	 * @param event
+	 */
 	@FXML
 	public void emailRegex(javafx.scene.input.KeyEvent event) {
 		emailTextField.setOnKeyTyped(e -> {
@@ -205,7 +218,10 @@ public class SignInUpController {
 			}
 		});
 	}
-	
+	/**
+	 * Regular expression for phone number
+	 * @param event
+	 */
 	@FXML
 	public void phoneRegex(javafx.scene.input.KeyEvent event) {
 		phoneTextField.setOnKeyTyped(e -> {
@@ -221,7 +237,10 @@ public class SignInUpController {
 			}
 		});
 	}
-	
+	/**
+	 * Regular expression for password
+	 * @param event
+	 */
 	@FXML
 	public void passwordRegex(javafx.scene.input.KeyEvent event) {
 		passwordTextField.setOnKeyTyped(e -> {
@@ -237,7 +256,10 @@ public class SignInUpController {
 			}
 		});
 	}
-	
+	/**
+	 * Method to verify the login
+	 * @param event
+	 */
 	@FXML
 	public void login(ActionEvent event) {
 		if(emailTextField1.getText().isEmpty() && passwordTextField1.getText().isEmpty()) {
@@ -255,7 +277,10 @@ public class SignInUpController {
 			stage.close();
 		}
 	}
-	
+	/**
+	 * Opens the forget password page
+	 * @param event
+	 */
 	@FXML
 	public void openForgot(ActionEvent event) {
 		try {
@@ -266,7 +291,10 @@ public class SignInUpController {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Method to get the forgotten password
+	 * @param event
+	 */
 	@FXML
 	public void getPassword(ActionEvent event) {
 		passwordTextField2.setText(queries.getPassword(nameTextField2.getText(), emailTextField2.getText(), phoneTextField2.getText()));

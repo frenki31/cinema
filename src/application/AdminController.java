@@ -18,7 +18,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+/**
+ * Class for administrator interface
+ * @author user
+ *
+ */
 public class AdminController implements Initializable{
 	
     double x,y = 0;
@@ -110,7 +114,10 @@ public class AdminController implements Initializable{
 			e.printStackTrace();
 		}
     }
-
+    /**
+     * Method to open the movies page
+     * @param event
+     */
     @FXML
     void openMovies(ActionEvent event) {
     	try {
@@ -130,7 +137,10 @@ public class AdminController implements Initializable{
 			e.printStackTrace();
 		}
     }
-
+    /**
+     * Method to open the suggested movies page
+     * @param event
+     */
     @FXML
     void openSuggested(ActionEvent event) {
     	try {
@@ -150,7 +160,10 @@ public class AdminController implements Initializable{
 			e.printStackTrace();
 		}
     }
-
+    /**
+     * Method to open the users page
+     * @param event
+     */
     @FXML
     void openUsers(ActionEvent event) {
     	try {

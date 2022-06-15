@@ -88,7 +88,9 @@ public class AdminMoviesController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		loadData();
 	}
-    
+    /**
+     * Method to load all movies data into a table
+     */
     public void loadData() {
     	queries.setConnection();
     	refreshTable();
@@ -110,7 +112,10 @@ public class AdminMoviesController implements Initializable {
 		movieList = FXCollections.observableArrayList(queries.getAllMovies());
 		moviesTable.setItems(movieList);
 	}
-	
+	/**
+	 * Method to add a movie
+	 * @param event
+	 */
 	 @FXML
 	 public void addMovie(ActionEvent event) {
 	    if (titleTextField.getText().isEmpty() || durationTextField.getText().isEmpty() 
@@ -146,7 +151,10 @@ public class AdminMoviesController implements Initializable {
 			}
 		}
 	}
-	
+	/**
+	 * Method to delete a movie
+	 * @param event
+	 */
 	@FXML
 	public void deleteData(ActionEvent event) {
 		if (queries.deleteMovie(moviesTable.getSelectionModel().getSelectedItem().getFilmID()) == 1) {
@@ -185,7 +193,10 @@ public class AdminMoviesController implements Initializable {
 		 movieLinkTextField.setText(null);
 		 yearTextField.setText(null);
 	 }
-	 
+	 /**
+	  * Method to update movie information
+	  * @param event
+	  */
 	 @FXML
 	 public void updateMovie(ActionEvent event) {
 		 if(titleTextField.getText().isEmpty() || durationTextField.getText().isEmpty() || coverTextField.getText().isEmpty()

@@ -66,7 +66,10 @@ public class MovieDisplayController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		engine = trailerMedia.getEngine();
 	}
-    
+    /**
+     * Method to set all the data for movie display
+     * @param movie
+     */
     public void setData(Movie movie) {
     	Image image = new Image(String.valueOf(new File(movie.getCover())));
 		cover.setImage(image);
@@ -109,20 +112,14 @@ public class MovieDisplayController implements Initializable{
 		else
 			stage.setMaximized(true);
 	}
-	
-	@FXML
-	public void play(ActionEvent event) {
-		
-	}
-	
-	@FXML
-	public void pause(ActionEvent event) {
-		
-	}
-	
+	/**
+	 * Method to open the movie
+	 * @param event
+	 * @throws URISyntaxException
+	 */
 	@FXML
 	public void openMovie(ActionEvent event) throws URISyntaxException {
-		HBox hbox = new HBox();
+//		HBox hbox = new HBox();
 		ObservableList<Movie> movieLinks = FXCollections.observableArrayList(queries.getMovieLink(title.getText()));
 		for(Movie movie: movieLinks) {
 			try {

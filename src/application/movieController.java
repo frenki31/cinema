@@ -46,7 +46,10 @@ public class movieController{
 		yearLabel.setText(movie.getReleaseYear());
 		genreLabel.setText(movie.getGenre());
 	}
-	
+	/**
+	 * Method to open the movie details page
+	 * @param event
+	 */
 	@FXML
     public void clickToOpenMovie(ActionEvent event) {
 		HBox hBox = new HBox();

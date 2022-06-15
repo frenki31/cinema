@@ -23,7 +23,13 @@ public class Movie {
 		this.genre = genre;
 		this.movieLink = movieLink;
 	}
-	
+	/**
+	 * Constructor for movie class
+	 * @param title
+	 * @param cover
+	 * @param releaseYear
+	 * @param genre
+	 */
 	public Movie(String title, String cover, String releaseYear,String genre) {
 		setTitle(title);
 		setCover(cover);
@@ -34,7 +40,10 @@ public class Movie {
 	public Movie(String movieLink) {
 		setMovieLink(movieLink);
 	}
-	
+	/**
+	 * Getters and setters
+	 * @return
+	 */
 	public String getTitle() {
 		return title;
 	}

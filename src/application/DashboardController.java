@@ -28,7 +28,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * Class Dashboard which is the main display of the application
+ * @author user
+ *
+ */
 public class DashboardController implements Initializable{
 	
 	double x,y = 0;
@@ -38,13 +42,13 @@ public class DashboardController implements Initializable{
 	@FXML
 	private ComboBox<String> genreComboBox;
 	@FXML
-	private Button allButton;
+	private Button allButton; //shows all movies
 	@FXML
-	private Button homeBtn;
+	private Button homeBtn; //opens the main view
 	@FXML
-	private Button loginBtn;
+	private Button loginBtn; //opens login/signup page
 	@FXML
-	private Button suggestMovieBtn;
+	private Button suggestMovieBtn; 
 	@FXML
 	private HBox horizontalBox;
 	@FXML
@@ -105,13 +109,19 @@ public class DashboardController implements Initializable{
 //	public void displayEmail(String email) {
 //		EmailLabel.setText(email);
 //	}
-	
+	/**
+	 * Method to minimize the page
+	 * @param event
+	 */
     @FXML
 	public void minimize(ActionEvent event) {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setIconified(true);
 	}
-	
+    /**
+	 * Method to maximize the page
+	 * @param event
+	 */
 	@FXML
 	public void maximize(ActionEvent event) {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -120,7 +130,10 @@ public class DashboardController implements Initializable{
 		else
 			stage.setMaximized(true);
 	}
-	
+	/**
+	 * Method to close the page
+	 * @param event
+	 */
 	@FXML
 	public void close(ActionEvent event) {
 		Alert message = new Alert(AlertType.CONFIRMATION);
@@ -167,7 +180,7 @@ public class DashboardController implements Initializable{
     	homeIcon.setFill(Color.WHITE);
    		movieIcon.setFill(Color.web("#A1A1A1"));
    		userIcon.setFill(Color.web("#A1A1A1"));
-    		
+    	
    		HBox hbox = new HBox();
    		hbox.setSpacing(30);
    		ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllCovers());
@@ -189,17 +202,17 @@ public class DashboardController implements Initializable{
 
     @FXML
     void openSuggest(ActionEvent event) {
+    	homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+		homeIcon.setFill(Color.web("#A1A1A1"));
+		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+		adminIcon.setFill(Color.web("#A1A1A1"));
+		movieIcon.setFill(Color.WHITE);
+		userIcon.setFill(Color.web("#A1A1A1"));
+    		
     	try {
-    		homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		homeIcon.setFill(Color.web("#A1A1A1"));
-    		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
-    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
-    		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminIcon.setFill(Color.web("#A1A1A1"));
-    		movieIcon.setFill(Color.WHITE);
-    		userIcon.setFill(Color.web("#A1A1A1"));
-			
     		parent = FXMLLoader.load(getClass().getResource("SuggestMovie.fxml"));
 			horizontalBox.getChildren().setAll(parent);
 		} catch (IOException e) {
@@ -209,21 +222,20 @@ public class DashboardController implements Initializable{
     
     @FXML
     public void openAdmin(ActionEvent event) {
-   
-    		homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		homeIcon.setFill(Color.web("#A1A1A1"));
-    		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
-    		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
-    				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
-    		adminIcon.setFill(Color.WHITE);
-    		movieIcon.setFill(Color.web("#A1A1A1"));
-    		userIcon.setFill(Color.web("#A1A1A1"));
-			
-    		Stage stage = new Stage();
-    		stage.initStyle(StageStyle.TRANSPARENT);
-    		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    		stage.close();
+    	homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+		homeIcon.setFill(Color.web("#A1A1A1"));
+		suggestMovieBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+		loginBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: #A1A1A1;");
+		adminBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
+				+ " -fx-border-color: #1ED760; -fx-text-fill: WHITE;");
+		adminIcon.setFill(Color.WHITE);
+		movieIcon.setFill(Color.web("#A1A1A1"));
+		userIcon.setFill(Color.web("#A1A1A1"));
+		
+		Stage stage = new Stage();
+		stage.initStyle(StageStyle.TRANSPARENT);
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.close();
     	try {
     		parent = FXMLLoader.load(getClass().getResource("AdminLogin.fxml"));
 			Scene scene = new Scene(parent);
@@ -284,8 +296,15 @@ public class DashboardController implements Initializable{
             		hBox.getChildren().add(vbox);
             		horizontalBox.getChildren().setAll(hBox);
             		if(searchTextField.getText().isEmpty()) {
-            			parent = FXMLLoader.load(getClass().getResource("allMovies.fxml"));
-                		horizontalBox.getChildren().setAll(parent);  
+            			HBox hbox = new HBox();
+            	   		hbox.setSpacing(30);
+            	   		ObservableList<Movie> allMovies = FXCollections.observableArrayList(queries.getAllCovers());
+            	    	for(Movie movie1: allMovies) {
+            	   			VBox vbox1 = loader.load();	   				
+							mc.setMovie(movie1);
+							hbox.getChildren().addAll(vbox1);
+							horizontalBox.getChildren().setAll(hbox);
+						}
             		}
         		}catch(IOException ex) {
         			ex.printStackTrace();

@@ -6,7 +6,14 @@ public class User {
 	private String email;
 	private String phoneNo;
 	private String password;
-	
+	/**
+	 * Constructor for user class
+	 * @param id
+	 * @param name
+	 * @param email
+	 * @param phoneNo
+	 * @param password
+	 */
 	public User(int id,String name, String email, String phoneNo, String password) {
 		this.id = id;
 		this.name = name;
@@ -14,7 +21,10 @@ public class User {
 		this.phoneNo = phoneNo;
 		this.password = password;
 	}
-	
+	/**
+	 * Getters and setters
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}

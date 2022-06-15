@@ -76,7 +76,10 @@ public class AdminLoginController {
 			e.printStackTrace();
 		} 
 	}
-
+	/**
+	 * Method to check administrators login
+	 * @param event
+	 */
 	@FXML
 	void goForward(ActionEvent event) {
 		if(nameTextField.getText().isEmpty() && passwordTextField.getText().isEmpty()) {

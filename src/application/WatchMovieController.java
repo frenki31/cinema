@@ -15,7 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-
+/**
+ * Class for displaying the movie
+ * @author user
+ *
+ */
 public class WatchMovieController implements Initializable{
 	
 	private WebEngine engine;
@@ -34,7 +38,11 @@ public class WatchMovieController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		engine = watchMovieView.getEngine();
 	}
-    
+    /**
+     * Method to get the link where the movie can be watched
+     * @param movie
+     * @return
+     */
 	public String setLink(Movie movie) {
 //		engine.load(movie.getMovieLink());
 		return movie.getMovieLink();
