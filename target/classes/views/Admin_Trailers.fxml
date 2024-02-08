@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1015.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_TrailerController">
+    <children>
+        <Label prefHeight="38.0" prefWidth="988.0" text="Trailer" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="30.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="10.0" top="10.0" />
+            </VBox.margin>
+        </Label>
+        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="255.0" prefWidth="995.0">
+            <VBox.margin>
+                <Insets left="10.0" right="10.0" />
+            </VBox.margin>
+            <children>
+                <TableView fx:id="trailerTable" editable="true" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveTrailer" prefHeight="262.0" prefWidth="609.0" style="-fx-background-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="movieId" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="75.99998223781586" style="-fx-alignment: center;" text="MOVIE ID" />
+                        <TableColumn fx:id="title" editable="false" maxWidth="298.00007247924805" prefWidth="215.99999237060547" style="-fx-alignment: center;" text="TITLE" />
+                        <TableColumn fx:id="trailerId" editable="false" maxWidth="298.00007247924805" prefWidth="71.33334350585938" style="-fx-alignment: center;" text="TRAILER ID" />
+                        <TableColumn fx:id="trailer" editable="false" maxWidth="347.33335876464844" minWidth="0.0" prefWidth="243.33340454101562" style="-fx-alignment: center;" text="TRAILER LINK" />
+                    </columns>
+                    <HBox.margin>
+                        <Insets left="20.0" />
+                    </HBox.margin>
+                </TableView>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="171.0" prefWidth="1015.0">
+            <children>
+                <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="127.0" prefWidth="465.0">
+                    <children>
+                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="MOVIE:" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                    <children>
+                              <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: white;" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="TRAILER:" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                    <children>
+                                        <TextField fx:id="trailerTextField" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: transparent;" />
+                                    </children>
+                                </HBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="41.0" prefWidth="572.0">
+                            <children>
+                                <Button fx:id="addTrailerBtn" layoutX="105.0" layoutY="10.0" mnemonicParsing="false" onAction="#addTrailer" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="ADD" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets left="50.0" right="25.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="removeTrailerBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteTrailer" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REMOVE" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="MINUS" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets left="25.0" right="25.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="updateTrailerBtn" layoutX="296.0" layoutY="10.0" mnemonicParsing="false" onAction="#updateTrailer" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="UPDATE" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="PENCIL" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets left="25.0" right="35.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+                <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refreshTable" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REFRESH" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                    <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="REFRESH" text="" />
+                    </graphic>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</VBox>

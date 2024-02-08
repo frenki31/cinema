@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1015.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_CompanyController">
+    <children>
+        <Label prefHeight="38.0" prefWidth="988.0" text="Movie Companies" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="30.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="10.0" top="10.0" />
+            </VBox.margin>
+        </Label>
+        <HBox maxWidth="1.7976931348623157E308" prefHeight="269.0" prefWidth="1102.0">
+            <VBox.margin>
+                <Insets left="10.0" right="10.0" />
+            </VBox.margin>
+            <children>
+                <TableView fx:id="moviesCompanyTable" editable="true" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveMovieCompany" prefHeight="269.0" prefWidth="577.0" style="-fx-background-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="filmID" editable="false" maxWidth="96.00000286102295" prefWidth="66.66665649414062" style="-fx-alignment: center;" text="MOVIE ID" />
+                        <TableColumn fx:id="filmTitle" editable="false" maxWidth="269.33331298828125" prefWidth="237.33331298828125" style="-fx-alignment: center;" text="MOVIE TITLE" />
+                        <TableColumn fx:id="companyCode1" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="46.0" style="-fx-alignment: center;" text="CODE" />
+                        <TableColumn fx:id="companyName1" editable="false" maxWidth="216.66665649414062" prefWidth="172.66668701171875" style="-fx-alignment: center;" text="COMPANY" />
+                    </columns>
+                    <HBox.margin>
+                        <Insets left="20.0" />
+                    </HBox.margin>
+                </TableView>
+                <TableView fx:id="companyTable" editable="true" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveCompany" prefHeight="269.0" prefWidth="402.0" style="-fx-background-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="companyCode" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="41.999998688697815" style="-fx-alignment: center;" text="CODE" />
+                        <TableColumn fx:id="companyName" editable="false" maxWidth="298.00007247924805" prefWidth="194.66662979125977" style="-fx-alignment: center;" text="COMPANY NAME" />
+                  <TableColumn fx:id="revenue" editable="false" maxWidth="316.66669845581055" prefWidth="112.66667175292969" style="-fx-alignment: center;" text="REVENUE" />
+                    </columns>
+                    <HBox.margin>
+                        <Insets left="100.0" />
+                    </HBox.margin>
+                </TableView>
+            </children>
+        </HBox>
+        <HBox>
+            <children>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="546.0">
+                    <children>
+                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="MOVIE:" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                    <children>
+                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </HBox>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="27.0" prefWidth="548.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="COMPANY:" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                    <children>
+                                        <ChoiceBox fx:id="companyChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </HBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="30.0" />
+                            </VBox.margin>
+                        </HBox>
+                      <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="41.0" prefWidth="550.0">
+                          <children>
+                              <Button fx:id="addBtn" layoutX="105.0" layoutY="10.0" mnemonicParsing="false" onAction="#addMovieCompany" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="ADD" textFill="WHITE">
+                                  <font>
+                                      <Font name="System Bold" size="14.0" />
+                                  </font>
+                                  <graphic>
+                                      <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="25.0" right="25.0" />
+                                  </HBox.margin>
+                              </Button>
+                              <Button fx:id="removeBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteMovieCompany" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REMOVE" textFill="WHITE">
+                                  <font>
+                                      <Font name="System Bold" size="14.0" />
+                                  </font>
+                                  <graphic>
+                                      <FontAwesomeIcon fill="WHITE" glyphName="MINUS" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="25.0" right="25.0" />
+                                  </HBox.margin>
+                              </Button>
+                              <Button fx:id="refreshBtn" layoutX="296.0" layoutY="10.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REFRESH" textFill="WHITE">
+                                  <font>
+                                      <Font name="System Bold" size="14.0" />
+                                  </font>
+                                  <graphic>
+                                      <FontAwesomeIcon fill="WHITE" glyphName="REFRESH" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="25.0" right="25.0" />
+                                  </HBox.margin>
+                              </Button>
+                          </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                      </HBox>
+                    </children>
+                </VBox>
+                <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="147.0" prefWidth="473.0">
+                    <children>
+                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="COMPANY:" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                    <children>
+                                        <TextField fx:id="companyTextField" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: transparent;" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="REVENUE:" textFill="WHITE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <children>
+                              <TextField fx:id="revenueTextField" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: transparent;" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </HBox>
+                        <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="41.0" prefWidth="572.0">
+                            <children>
+                                <Button fx:id="addCompanyBtn" layoutX="105.0" layoutY="10.0" mnemonicParsing="false" onAction="#addCompany" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="ADD" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="25.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="removeCompanyBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteCompany" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REMOVE" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="MINUS" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets left="25.0" right="25.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="updateCompanyBtn" layoutX="296.0" layoutY="10.0" mnemonicParsing="false" onAction="#updateCompany" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="UPDATE" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="PENCIL" />
+                                    </graphic>
+                                    <HBox.margin>
+                                        <Insets left="25.0" right="25.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>
