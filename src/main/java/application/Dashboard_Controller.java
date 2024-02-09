@@ -15,13 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,9 +30,9 @@ import javafx.stage.StageStyle;
  * @author user
  *
  */
-public class Dashboard_Controller implements Initializable{
+public class Dashboard_Controller implements Initializable {
 
-    double x,y = 0;
+    double x, y = 0;
     DBQuery queries = new DBQuery();
     @FXML
     private ComboBox<String> genreComboBox, releaseComboBox;
@@ -53,8 +50,10 @@ public class Dashboard_Controller implements Initializable{
     private FontAwesomeIcon homeIcon, adminIcon;
     @FXML
     private TextField searchTextField;
+    @FXML
+    private Label genreLabel, releaseLabel;
     ObservableList<String> dates = FXCollections.observableArrayList("1990-2000",
-            "2001-2010","2011-2020","2021-2030");
+            "2001-2010", "2011-2020", "2021-2030");
 
 
     @Override
@@ -64,24 +63,15 @@ public class Dashboard_Controller implements Initializable{
         HBox hbox = new HBox();
         hbox.setSpacing(30);
         ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllCovers());
-        try {
-            for(Movie movie: movies) {
-                ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenres(movie.getTitle()));
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/views/Movie.fxml"));
-                VBox vbox = loader.load();
-                MovieController movieController = loader.getController();
-                movieController.setMovie(movie,genres);
-                hbox.getChildren().addAll(vbox);
-                horizontalBox.getChildren().setAll(hbox);
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        for (Movie movie:movies){
+            openPage(movie,hbox);
         }
+        horizontalBox.getChildren().setAll(hbox);
     }
+
     /**
      * Method to minimize the page
+     *
      * @param event
      */
     @FXML
@@ -89,20 +79,24 @@ public class Dashboard_Controller implements Initializable{
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+
     /**
      * Method to maximize the page
+     *
      * @param event
      */
     @FXML
     public void maximize(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        if(stage.isMaximized())
+        if (stage.isMaximized())
             stage.setMaximized(false);
         else
             stage.setMaximized(true);
     }
+
     /**
      * Method to close the page
+     *
      * @param event
      */
     @FXML
@@ -110,36 +104,12 @@ public class Dashboard_Controller implements Initializable{
         Alert message = new Alert(AlertType.CONFIRMATION);
         message.setTitle("Exit");
         message.setContentText("Do you want to exit?");
-        if(message.showAndWait().get() == ButtonType.OK) {
-            System.exit(0);;
+        if (message.showAndWait().get() == ButtonType.OK) {
+            System.exit(0);
+            ;
         }
     }
-    @FXML
-    public void displayYears(ActionEvent event){
-        HBox hBox = new HBox();
-        hBox.setSpacing(30);
-        horizontalBox.getChildren().clear();
-        String selectedItem = releaseComboBox.getSelectionModel().getSelectedItem().toString();
-        String[] selectedYears = selectedItem.split("-");
-        String firstYear = selectedYears[0];
-        String secondYear = selectedYears[1];
-        ObservableList<Movie> movies = FXCollections.observableArrayList(queries.clasifyMoviesByYear(Integer.parseInt(firstYear),Integer.parseInt(secondYear)));
-        for (Movie movie: movies) {
-            try {
-                ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenres(movie.getTitle()));
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/views/Movie.fxml"));
-                VBox vbox = loader.load();
-                MovieController mc = loader.getController();
-                mc.setMovie(movie, genres);
-                hBox.getChildren().addAll(vbox);
 
-            }catch(IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        horizontalBox.getChildren().setAll(hBox);
-    }
     @FXML
     void openMain(ActionEvent event) {
         homeBtn.setStyle("-fx-background-color: TRANSPARENT; -fx-border-width: 0 0 0 5;"
@@ -150,22 +120,13 @@ public class Dashboard_Controller implements Initializable{
 
         HBox hbox = new HBox();
         hbox.setSpacing(30);
+        resetData();
+        horizontalBox.getChildren().clear();
         ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllCovers());
-        try {
-            for(Movie movie: movies) {
-                ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenres(movie.getTitle()));
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/views/Movie.fxml"));
-                VBox vbox = loader.load();
-                MovieController movieController = loader.getController();
-                movieController.setMovie(movie,genres);
-                hbox.getChildren().addAll(vbox);
-                horizontalBox.getChildren().setAll(hbox);
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        for (Movie movie : movies) {
+            openPage(movie, hbox);
         }
+        horizontalBox.getChildren().setAll(hbox);
     }
 
     @FXML
@@ -189,13 +150,14 @@ public class Dashboard_Controller implements Initializable{
             e.printStackTrace();
         }
     }
+
     @FXML
     public void openComingSoon(ActionEvent event) {
         HBox hbox = new HBox();
         hbox.setSpacing(30);
-        horizontalBox.getChildren().clear();
+        resetData();
         ObservableList<Movie> movies = FXCollections.observableArrayList(queries.getAllComingSoon());
-        for (Movie movie: movies) {
+        for (Movie movie : movies) {
             try {
                 ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenresComingSoon(movie.getTitle()));
                 FXMLLoader loader = new FXMLLoader();
@@ -230,49 +192,86 @@ public class Dashboard_Controller implements Initializable{
         searchTextField.setOnKeyTyped(e -> {
             HBox hBox = new HBox();
             hBox.setSpacing(30);
-            horizontalBox.getChildren().clear();
+            genreLabel.setText("GENRE");
+            releaseLabel.setText("RELEASE YEAR");
+            genreComboBox.getSelectionModel().clearSelection();
+            releaseComboBox.getSelectionModel().clearSelection();
             ObservableList<Movie> movies;
             if (searchTextField.getText().isEmpty())
                 movies = FXCollections.observableArrayList(queries.getAllCovers());
-            else
+            else {
                 movies = FXCollections.observableArrayList(queries.searchMovies(searchTextField.getText()));
-            for (Movie movie: movies) {
-                try {
-                    ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenres(movie.getTitle()));
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("/views/Movie.fxml"));
-                    VBox vbox = loader.load();
-                    MovieController mc = loader.getController();
-                    mc.setMovie(movie,genres);
-                    hBox.getChildren().add(vbox);
-                    horizontalBox.getChildren().setAll(hBox);
-                }catch(IOException ex) {
-                    ex.printStackTrace();
-                }
             }
+            for (Movie movie : movies) {
+                openPage(movie, hBox);
+            }
+            horizontalBox.getChildren().setAll(hBox);
         });
     }
 
     @FXML
-    public void displayGenres(ActionEvent event) {
+    public void displayGenresAndYear(ActionEvent event) {
         HBox hBox = new HBox();
         hBox.setSpacing(30);
+        // Clear existing nodes in horizontalBox
         horizontalBox.getChildren().clear();
-        String selectedItem = genreComboBox.getSelectionModel().getSelectedItem().toString();
-        ObservableList<Movie> movies = FXCollections.observableArrayList(queries.clasifyMoviesByGenres(selectedItem));
-        for (Movie movie: movies) {
-            try {
-                ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenres(movie.getTitle()));
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/views/Movie.fxml"));
-                VBox vbox = loader.load();
-                MovieController mc = loader.getController();
-                mc.setMovie(movie, genres);
-                hBox.getChildren().addAll(vbox);
-            }catch(IOException ex) {
-                ex.printStackTrace();
-            }
+
+        String selectedYear = releaseComboBox.getSelectionModel().getSelectedItem();
+        String selectedGenre = genreComboBox.getSelectionModel().getSelectedItem();
+        ObservableList<Movie> movies = null;
+        searchTextField.setText("");
+
+        if (selectedYear != null && selectedGenre != null) {
+            // Both year and genre selected
+            genreLabel.setText(selectedGenre);
+            releaseLabel.setText(selectedYear);
+            String[] selectedYears = selectedYear.split("-");
+            int firstYear = Integer.parseInt(selectedYears[0]);
+            int secondYear = Integer.parseInt(selectedYears[1]);
+            movies = FXCollections.observableArrayList(
+                    queries.clasifyMoviesByGenreAndYear(selectedGenre, firstYear, secondYear));
+        } else if (selectedYear != null) {
+            // Only year selected
+            releaseLabel.setText(selectedYear);
+            String[] selectedYears = selectedYear.split("-");
+            int firstYear = Integer.parseInt(selectedYears[0]);
+            int secondYear = Integer.parseInt(selectedYears[1]);
+            movies = FXCollections.observableArrayList(
+                    queries.clasifyMoviesByYear(firstYear, secondYear));
+        } else if (selectedGenre != null) {
+            // Only genre selected
+            genreLabel.setText(selectedGenre);
+            movies = FXCollections.observableArrayList(
+                    queries.clasifyMoviesByGenres(selectedGenre));
+        }
+        if (movies == null) {
+            movies = FXCollections.observableArrayList();
+        }
+        for (Movie movie : movies) {
+            openPage(movie, hBox);
         }
         horizontalBox.getChildren().setAll(hBox);
+    }
+
+    public void resetData() {
+        genreLabel.setText("GENRE");
+        releaseLabel.setText("RELEASE YEAR");
+        genreComboBox.getSelectionModel().clearSelection();
+        releaseComboBox.getSelectionModel().clearSelection();
+        searchTextField.setText("");
+    }
+
+    public void openPage(Movie movie, HBox hBox) {
+        try {
+            ObservableList<String> genres = FXCollections.observableArrayList(queries.getAllGenres(movie.getTitle()));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Movie.fxml"));
+            VBox vbox = loader.load();
+            MovieController mc = loader.getController();
+            mc.setMovie(movie, genres);
+            hBox.getChildren().addAll(vbox);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

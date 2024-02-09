@@ -15,28 +15,12 @@ public class Movie {
     private double rating;
     private int nrOfRatings;
     private String status;
+    private int totalRating;
     private int adminId;
     private String username;
-
     public Movie(int filmID, String title, double budget, String description, double revenue,
                  LocalDate releaseDate, LocalTime duration, String status, double rating,
-                 int nrOfRatings, String cover, String user) {
-        setFilmID(filmID);
-        setTitle(title);
-        setBudget(budget);
-        setDescription(description);
-        setRevenue(revenue);
-        setReleaseDate(releaseDate);
-        setDuration(duration);
-        setStatus(status);
-        setRating(rating);
-        setNrOfRatings(nrOfRatings);
-        setCover(cover);
-        setUsername(user);
-    }
-    public Movie(int filmID, String title, double budget, String description, double revenue,
-                 LocalDate releaseDate, LocalTime duration, String status, double rating,
-                 int nrOfRatings, String cover, int adminId) {
+                 int nrOfRatings, String cover,int totalRating, int adminId) {
         setFilmID(filmID);
         setTitle(title);
         setBudget(budget);
@@ -49,6 +33,7 @@ public class Movie {
         setNrOfRatings(nrOfRatings);
         setCover(cover);
         setAdminId(adminId);
+        setTotalRating(totalRating);
     }
 
     public Movie(String title, LocalTime duration, LocalDate release, String overview, String cover, double rating) {
@@ -148,16 +133,19 @@ public class Movie {
     public int getAdminId() {
         return adminId;
     }
-
     public void setAdminId(int adminId) {
         this.adminId = adminId;
     }
-
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
+    }
+    public int getTotalRating(){
+        return totalRating;
+    }
+    public void setTotalRating(int totalRating){
+        this.totalRating = totalRating;
     }
 }

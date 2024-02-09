@@ -221,16 +221,18 @@
         <TableView fx:id="moviesTable" editable="false" onMouseClicked="#retrieveData" prefHeight="200.0" prefWidth="1015.0">
             <columns>
                 <TableColumn fx:id="filmID" editable="false" maxWidth="30.0" prefWidth="30.0" style="-fx-alignment: center;" text="ID" />
-                <TableColumn fx:id="filmTitle" editable="false" maxWidth="150.0" prefWidth="137.99999618530273" style="-fx-alignment: center;" text="TITLE" />
-                <TableColumn fx:id="runningTime" editable="false" maxWidth="80.00001525878906" prefWidth="70.0" style="-fx-alignment: center;" text="DURATION" />
-                <TableColumn fx:id="cover" editable="false" maxWidth="180.0" prefWidth="97.33332824707031" style="-fx-alignment: center;" text="COVER" />
-                <TableColumn fx:id="script" editable="false" maxWidth="301.9999694824219" prefWidth="189.33334350585938" style="-fx-alignment: center;" text="DESCRIPTION" />
-                <TableColumn fx:id="release" editable="false" maxWidth="165.3333740234375" prefWidth="96.0" style="-fx-alignment: center;" text="RELEASE DATE" />
-                <TableColumn fx:id="budget" editable="false" maxWidth="150.6666259765625" prefWidth="90.66668701171875" style="-fx-alignment: center;" text="BUDGET" />
-                <TableColumn fx:id="revenue" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="94.6666259765625" style="-fx-alignment: center;" text="REVENUE" />
-                <TableColumn fx:id="status" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="95.33331298828125" style="-fx-alignment: center;" text="STATUS" />
-                <TableColumn fx:id="rating" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="49.3333740234375" style="-fx-alignment: center;" text="RATING" />
-                <TableColumn fx:id="ratingNo" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="65.33331298828125" style="-fx-alignment: center;" text="NR" />
+                <TableColumn fx:id="filmTitle" editable="false" maxWidth="150.0" prefWidth="119.33333969116211" style="-fx-alignment: center;" text="TITLE" />
+                <TableColumn fx:id="runningTime" editable="false" maxWidth="88.66665649414062" prefWidth="68.66668701171875" style="-fx-alignment: center;" text="DURATION" />
+                <TableColumn fx:id="cover" editable="false" maxWidth="180.0" prefWidth="62.66670227050781" style="-fx-alignment: center;" text="COVER" />
+                <TableColumn fx:id="script" editable="false" maxWidth="301.9999694824219" prefWidth="160.6666259765625" style="-fx-alignment: center;" text="DESCRIPTION" />
+                <TableColumn fx:id="release" editable="false" maxWidth="165.3333740234375" prefWidth="93.99996948242188" style="-fx-alignment: center;" text="RELEASE DATE" />
+                <TableColumn fx:id="budget" editable="false" maxWidth="152.66668701171875" prefWidth="114.666748046875" style="-fx-alignment: center;" text="BUDGET" />
+                <TableColumn fx:id="revenue" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="104.66668701171875" style="-fx-alignment: center;" text="REVENUE" />
+                <TableColumn fx:id="status" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="87.33331298828125" style="-fx-alignment: center;" text="STATUS" />
+                <TableColumn fx:id="rating" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="55.3333740234375" style="-fx-alignment: center;" text="RATING" />
+                <TableColumn fx:id="ratingNo" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="56.0" style="-fx-alignment: center;" text="NR" />
+            <TableColumn fx:id="totalRating" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="56.66668701171875" style="-fx-alignment: center;" text="TOTAL" />
+            <TableColumn fx:id="ratingNo11" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="58.66668701171875" style="-fx-alignment: center;" text="NR" />
             </columns>
             <VBox.margin>
                 <Insets left="10.0" right="10.0" />

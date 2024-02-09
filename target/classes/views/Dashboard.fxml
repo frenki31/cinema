@@ -4,9 +4,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -66,7 +66,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="80.0" prefWidth="1015.0">
                     <children>
-                        <Button fx:id="allButton" mnemonicParsing="false" onAction="#openMain" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="ALL" textFill="WHITE">
+                        <Button fx:id="allButton" mnemonicParsing="false" onAction="#openMain" prefHeight="35.0" prefWidth="117.0" style="-fx-background-color: transparent;" text="ALL" textFill="WHITE">
                             <font>
                                 <Font name="Century Gothic Bold" size="15.0" />
                             </font>
@@ -74,15 +74,40 @@
                                 <FontAwesomeIcon fill="WHITE" glyphName="LIST_UL" />
                             </graphic>
                         </Button>
-                        <ComboBox fx:id="genreComboBox" onAction="#displayGenres" prefHeight="35.0" prefWidth="115.0" promptText="GENRE" style="-fx-background-color: transparent;">
-                            <effect>
-                                <ColorAdjust brightness="1.0" />
-                            </effect></ComboBox>
-                  <ComboBox fx:id="releaseComboBox" onAction="#displayYears" prefHeight="35.0" prefWidth="142.0" promptText="RELEASE YEAR" style="-fx-background-color: transparent;">
-                     <effect>
-                        <ColorAdjust brightness="1.0" />
-                     </effect>
-                  </ComboBox>
+                  <VBox alignment="CENTER" prefHeight="80.0" prefWidth="115.0">
+                     <children>
+                        <Label fx:id="genreLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="118.0" text="GENRE" textFill="WHITE">
+                           <font>
+                              <Font name="Century Gothic Bold" size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="-46.0" />
+                           </padding>
+                        </Label>
+                              <ComboBox fx:id="genreComboBox" onAction="#displayGenresAndYear" opacity="0.0" prefHeight="44.0" prefWidth="96.0" style="-fx-background-color: transparent;">
+                           <padding>
+                              <Insets top="-15.0" />
+                           </padding>
+                        </ComboBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="80.0" prefWidth="121.0">
+                     <children>
+                        <Label fx:id="releaseLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="0.0" prefWidth="127.0" text="RELEASE YEAR" textFill="WHITE">
+                           <font>
+                              <Font name="Century Gothic Bold" size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="-46.0" />
+                           </padding>
+                        </Label>
+                        <ComboBox fx:id="releaseComboBox" onAction="#displayGenresAndYear" opacity="0.0" prefHeight="44.0" prefWidth="142.0" promptText="RELEASE YEAR" style="-fx-background-color: transparent;">
+                           <padding>
+                              <Insets top="-15.0" />
+                           </padding>
+                        </ComboBox>
+                     </children>
+                  </VBox>
                         <Button fx:id="comingSoonBtn" alignment="CENTER" mnemonicParsing="false" onAction="#openComingSoon" prefHeight="35.0" prefWidth="175.0" style="-fx-background-color: TRANSPARENT;" text="COMING SOON..." textFill="WHITE">
                             <font>
                                 <Font name="Century Gothic Bold" size="14.0" />
@@ -135,7 +160,7 @@
                         <Insets bottom="20.0" />
                     </VBox.margin>
                 </HBox>
-                <ScrollPane fitToWidth="true" prefHeight="370.0" prefWidth="1015.0" style="-fx-background: transparent; -fx-background-color: #181818;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                <ScrollPane fitToWidth="true" prefHeight="370.0" prefWidth="1071.0" style="-fx-background: transparent; -fx-background-color: #181818;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>

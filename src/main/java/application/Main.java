@@ -18,6 +18,7 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
+            stage.setMaximized(true);
             stage.show();
         } catch(Exception e) {
             e.printStackTrace();

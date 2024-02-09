@@ -66,6 +66,7 @@ public class DBQuery {
                         resultSet.getDouble("MOVIE_RATING"),
                         resultSet.getInt("MOVIE_RATINGS_NR"),
                         resultSet.getString("MOVIE_COVER"),
+                        resultSet.getInt("MOVIE_TOTAL_RATING"),
                         resultSet.getInt("ADMIN_ID")));
             }
         } catch (SQLException e) {
@@ -251,6 +252,29 @@ public class DBQuery {
             searchList = FXCollections.observableArrayList();
 
             while(resultSet.next()){
+                searchList.add(new Movie(resultSet.getString("MOVIE_TITLE"),
+                        resultSet.getString("MOVIE_COVER"),
+                        resultSet.getDate("MOVIE_RELEASE").toLocalDate()));
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            close();
+        }
+        return searchList;
+    }
+    public ObservableList<Movie> clasifyMoviesByGenreAndYear(String genre, int first, int second) {
+        ObservableList<Movie> searchList = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TITLE, MOVIE_COVER, MOVIE_RELEASE FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID JOIN GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID WHERE GENRE_CATEGORY = ? AND YEAR(MOVIE_RELEASE) BETWEEN ? AND ?");
+            preparedStatement.setString(1, genre);
+            preparedStatement.setInt(2, first);
+            preparedStatement.setInt(3, second);
+            resultSet = preparedStatement.executeQuery();
+            searchList = FXCollections.observableArrayList();
+
+            while (resultSet.next()) {
                 searchList.add(new Movie(resultSet.getString("MOVIE_TITLE"),
                         resultSet.getString("MOVIE_COVER"),
                         resultSet.getDate("MOVIE_RELEASE").toLocalDate()));
@@ -1223,7 +1247,7 @@ public class DBQuery {
     }
     public int addTrailer(String title, String trailer){
         int result = 0;
-        String sql = "INSERT INTO MOVIE_TRAILER(MOVIE_ID, MOVIE_TITLE, TRAILER) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?), ?,?)";
+        String sql = "INSERT INTO MOVIE_TRAILER(MOVIE_ID, TRAILER) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),?)";
         try {
             preparedStatement = setConnection().prepareStatement(sql);
             preparedStatement.setString(1, title);

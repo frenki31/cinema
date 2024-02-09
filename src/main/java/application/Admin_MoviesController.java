@@ -33,7 +33,7 @@ public class Admin_MoviesController implements Initializable {
     @FXML
     private TableColumn<Movie, String> cover, filmTitle, runningTime, script, status;
     @FXML
-    private TableColumn<Movie, Integer> filmID, ratingNo;
+    private TableColumn<Movie, Integer> filmID, ratingNo, totalRating;
     @FXML
     private TableColumn<Movie, Double> budget, revenue, rating;
     @FXML
@@ -75,6 +75,7 @@ public class Admin_MoviesController implements Initializable {
         rating.setCellValueFactory(new PropertyValueFactory<>("rating"));
         ratingNo.setCellValueFactory(new PropertyValueFactory<>("nrOfRatings"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        totalRating.setCellValueFactory(new PropertyValueFactory<>("totalRating"));
     }
 
     @FXML
