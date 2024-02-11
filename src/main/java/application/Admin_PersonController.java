@@ -76,7 +76,7 @@ public class Admin_PersonController implements Initializable{
     @FXML
     void addPerson(ActionEvent event) {
         if (firstTextField.getText().isEmpty() || lastTextField.getText().isEmpty() ||
-        genderChoiceBox.getValue().equals("") || typeChoiceBox.getValue().equals("")) {
+        genderChoiceBox.getValue().isEmpty() || typeChoiceBox.getValue().isEmpty()) {
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please fill all the fields");

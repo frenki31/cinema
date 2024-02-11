@@ -1229,14 +1229,15 @@ public class DBQuery {
         ObservableList<MovieTrailer> trailers = FXCollections.observableArrayList();
         resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TRAILER.MOVIE_ID,MOVIE.MOVIE_TITLE,TRAILER_ID,TRAILER FROM MOVIE_TRAILER JOIN MOVIE ON MOVIE_TRAILER.MOVIE_ID = MOVIE.MOVIE_ID");
+            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TRAILER.MOVIE_ID,MOVIE.MOVIE_TITLE,TRAILER_ID,TRAILER,TRAILER_LINK FROM MOVIE_TRAILER JOIN MOVIE ON MOVIE_TRAILER.MOVIE_ID = MOVIE.MOVIE_ID");
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 trailers.add(new MovieTrailer(
                         resultSet.getInt("MOVIE_ID"),
                         resultSet.getString("MOVIE_TITLE"),
                         resultSet.getInt("TRAILER_ID"),
-                        resultSet.getString("TRAILER")));
+                        resultSet.getString("TRAILER"),
+                        resultSet.getString("TRAILER_LINK")));
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -1245,13 +1246,14 @@ public class DBQuery {
         }
         return trailers;
     }
-    public int addTrailer(String title, String trailer){
+    public int addTrailer(String title, String trailer, String link){
         int result = 0;
-        String sql = "INSERT INTO MOVIE_TRAILER(MOVIE_ID, TRAILER) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),?)";
+        String sql = "INSERT INTO MOVIE_TRAILER(MOVIE_ID, TRAILER, TRAILER_LINK) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),?,?)";
         try {
             preparedStatement = setConnection().prepareStatement(sql);
             preparedStatement.setString(1, title);
             preparedStatement.setString(2, trailer);
+            preparedStatement.setString(3, link);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -1273,11 +1275,11 @@ public class DBQuery {
         }
         return result;
     }
-    public int updateTrailer(int movieId, int trailerId, String trailer) {
+    public int updateTrailer(int movieId, int trailerId, String link) {
         int result = 0;
         try{
-            preparedStatement = setConnection().prepareStatement("UPDATE MOVIE_TRAILER SET TRAILER =? WHERE MOVIE_ID = ? AND TRAILER_ID = ?");
-            preparedStatement.setString(1, trailer);
+            preparedStatement = setConnection().prepareStatement("UPDATE MOVIE_TRAILER SET TRAILER_LINK=? WHERE MOVIE_ID = ? AND TRAILER_ID = ?");
+            preparedStatement.setString(1, link);
             preparedStatement.setInt(2, movieId);
             preparedStatement.setInt(3, trailerId);
             result = preparedStatement.executeUpdate();

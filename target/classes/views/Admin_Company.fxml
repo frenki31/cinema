@@ -14,14 +14,22 @@
 
 <VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1015.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_CompanyController">
     <children>
-        <Label prefHeight="38.0" prefWidth="988.0" text="Movie Companies" textFill="WHITE">
-            <font>
-                <Font name="Century Gothic Bold" size="30.0" />
-            </font>
-            <VBox.margin>
-                <Insets left="10.0" top="10.0" />
-            </VBox.margin>
-        </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1015.0">
+         <children>
+            <TextField fx:id="searchMovieCompTextField" prefHeight="33.0" prefWidth="525.0" promptText="Search Movie/Company" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" right="100.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="searchCompanyTextField" prefHeight="33.0" prefWidth="349.0" promptText="Search Company" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font></TextField>
+         </children>
+      </HBox>
         <HBox maxWidth="1.7976931348623157E308" prefHeight="269.0" prefWidth="1102.0">
             <VBox.margin>
                 <Insets left="10.0" right="10.0" />
@@ -54,9 +62,9 @@
             <children>
                 <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="546.0">
                     <children>
-                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                        <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
                             <children>
-                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="MOVIE:" textFill="WHITE">
+                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="137.0" text="MOVIE:" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -64,17 +72,25 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <children>
-                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="209.0" style="-fx-background-color: TRANSPARENT;" />
                                     </children>
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                 </HBox>
+                        <TextField fx:id="searchMovieTextField" prefHeight="27.0" prefWidth="200.0" promptText="Search Movies" style="-fx-background-radius: 15;">
+                           <font>
+                              <Font name="Century Gothic" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="27.0" prefWidth="548.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="548.0">
                             <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="COMPANY:" textFill="WHITE">
                                     <font>
@@ -84,13 +100,13 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
-                                    <children>
-                                        <ChoiceBox fx:id="companyChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
-                                    </children>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
+                           <children>
+                              <TextField fx:id="companyTextField1" editable="false" prefHeight="25.0" prefWidth="183.0" style="-fx-background-color: transparent;" />
+                           </children>
                                 </HBox>
                             </children>
                             <VBox.margin>

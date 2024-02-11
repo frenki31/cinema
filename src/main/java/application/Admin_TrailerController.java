@@ -23,16 +23,14 @@ public class Admin_TrailerController implements Initializable{
     @FXML
     private TableView<MovieTrailer> trailerTable;
     @FXML
-    private TextField trailerTextField, searchMovieTextField;
+    private TextField trailerTextField, searchMovieTextField, linkTextField;
     @FXML
-    private TableColumn<MovieTrailer, String> title,trailer;
+    private TableColumn<MovieTrailer, String> title,trailer,link;
     @FXML
     private TableColumn<MovieTrailer, Integer> movieId,trailerId;
     ObservableList<MovieTrailer> trailers = FXCollections.observableArrayList();
     ObservableList<String> movieTitles;
     ObservableList<Movie> movies = FXCollections.observableArrayList();
-
-
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         loadData();
@@ -49,19 +47,13 @@ public class Admin_TrailerController implements Initializable{
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         trailerId.setCellValueFactory(new PropertyValueFactory<>("trailerId"));
         trailer.setCellValueFactory(new PropertyValueFactory<>("trailer"));
+        link.setCellValueFactory(new PropertyValueFactory<>("trailerLink"));
 
         movieChoiceBox.getItems().addAll(movieTitles);
-        FilteredList<String> filteredMovie = new FilteredList<>(movieTitles, b->true);
-        searchMovieTextField.textProperty().addListener((obs, old, newValue) -> {
-            filteredMovie.setPredicate(searchMovieModel -> {
-                if (newValue.isEmpty())
-                    return true;
-                String movieKeyword = newValue.toLowerCase();
-                return searchMovieModel.toLowerCase().contains(movieKeyword);
-            });
+        movieChoiceBox.valueProperty().addListener((obs,old,newVal) ->{
+            trailerTextField.setText(newVal + " Trailer");
         });
-        SortedList<String> sortedMovie = new SortedList<>(filteredMovie);
-        movieChoiceBox.setItems(sortedMovie);
+        Admin_CrewController.Filtering(movieTitles,searchMovieTextField,movieChoiceBox);
         FilteredList<MovieTrailer> movieTrailerFilteredList = new FilteredList<>(trailers, b->true);
         searchMovieTextField.textProperty().addListener((obs,old,newVal) -> {
             movieTrailerFilteredList.setPredicate(searchMovieTrailerModel -> {
@@ -85,20 +77,22 @@ public class Admin_TrailerController implements Initializable{
     }
     @FXML
     void addTrailer(ActionEvent event) {
-        if (trailerTextField.getText().isEmpty() || movieChoiceBox.getValue().equals("")) {
+        if (trailerTextField.getText().isEmpty() || movieChoiceBox.getValue().isEmpty() ||
+        linkTextField.getText().isEmpty()) {
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please fill all the fields");
             message.show();
         }else {
-            int result = queries.addTrailer(movieChoiceBox.getValue(),trailerTextField.getText());
+            int result = queries.addTrailer(movieChoiceBox.getValue(),trailerTextField.getText(),linkTextField.getText());
             if(result == 1) {
                 Alert message = new Alert(AlertType.INFORMATION);
                 message.setTitle("Added");
-                message.setContentText("Person added successfully");
+                message.setContentText("Trailer added successfully");
                 message.show();
                 trailerTextField.setText("");
                 movieChoiceBox.setValue("");
+                linkTextField.setText("");
             }else {
                 Alert message = new Alert(AlertType.ERROR);
                 message.setTitle("ERROR");
@@ -127,16 +121,17 @@ public class Admin_TrailerController implements Initializable{
     void retrieveTrailer(MouseEvent event) {
         trailerTextField.setText(trailerTable.getSelectionModel().getSelectedItem().getTrailer());
         movieChoiceBox.setValue(trailerTable.getSelectionModel().getSelectedItem().getTitle());
+        linkTextField.setText(trailerTable.getSelectionModel().getSelectedItem().getTrailerLink());
     }
     @FXML
     void updateTrailer(ActionEvent event) {
-        if (trailerTextField.getText().isEmpty() || movieChoiceBox.getValue().equals("")) {
+        if (trailerTextField.getText().isEmpty() || movieChoiceBox.getValue().isEmpty()) {
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please fill all the fields");
             message.show();
         }else if (queries.updateTrailer(trailerTable.getSelectionModel().getSelectedItem().getFilmID(),
-                trailerTable.getSelectionModel().getSelectedItem().getTrailerId(), trailerTextField.getText()) == 1) {
+                trailerTable.getSelectionModel().getSelectedItem().getTrailerId(), linkTextField.getText()) == 1) {
             Alert message = new Alert(AlertType.INFORMATION);
             message.setTitle("Updated");
             message.setContentText("Trailer Updated Successfully");

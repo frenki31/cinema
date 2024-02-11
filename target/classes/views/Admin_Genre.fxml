@@ -12,16 +12,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1015.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_GenreController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1015.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_GenreController">
     <children>
-        <Label prefHeight="38.0" prefWidth="988.0" text="Movie Genres" textFill="WHITE">
-            <font>
-                <Font name="Century Gothic Bold" size="30.0" />
-            </font>
-            <VBox.margin>
-                <Insets left="10.0" top="10.0" />
-            </VBox.margin>
-        </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="searchMovieGenreTextField" layoutX="10.0" layoutY="29.0" prefHeight="33.0" prefWidth="540.0" promptText="Search Movie/Genre" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" right="70.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="searchGenreTextField" prefHeight="33.0" prefWidth="340.0" promptText="Search Genre" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
         <HBox maxWidth="1.7976931348623157E308" prefHeight="269.0" prefWidth="1102.0">
             <VBox.margin>
                 <Insets left="10.0" right="10.0" />
@@ -29,31 +38,31 @@
             <children>
                 <TableView fx:id="moviesGenreTable" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveMovieGenre" prefHeight="232.0" prefWidth="540.0" style="-fx-background-color: transparent;">
                     <columns>
-                        <TableColumn fx:id="filmID" editable="false" maxWidth="96.00000286102295" prefWidth="72.00000286102295" style="-fx-alignment: center;" text="MOVIE ID" />
-                        <TableColumn fx:id="filmTitle" editable="false" maxWidth="269.33331298828125" prefWidth="269.33331298828125" style="-fx-alignment: center;" text="MOVIE TITLE" />
-                        <TableColumn fx:id="genreId1" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="58.6666259765625" style="-fx-alignment: center;" text="GENRE ID" />
-                        <TableColumn fx:id="genreCategory1" editable="false" maxWidth="216.66665649414062" prefWidth="104.00006103515625" style="-fx-alignment: center;" text="GENRE" />
+                        <TableColumn fx:id="filmID" editable="false" maxWidth="96.00000286102295" prefWidth="59.33337211608887" style="-fx-alignment: center;" text="MOVIE ID" />
+                        <TableColumn fx:id="filmTitle" editable="false" maxWidth="301.99996185302734" prefWidth="301.99996185302734" style="-fx-alignment: center;" text="MOVIE TITLE" />
+                        <TableColumn fx:id="genreId1" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="62.66668701171875" style="-fx-alignment: center;" text="GENRE ID" />
+                        <TableColumn fx:id="genreCategory1" editable="false" maxWidth="216.66665649414062" prefWidth="116.66659545898438" style="-fx-alignment: center;" text="GENRE" />
                     </columns>
                     <HBox.margin>
                         <Insets left="20.0" />
                     </HBox.margin>
                 </TableView>
-                <TableView fx:id="genreTable" editable="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveGenre" prefHeight="269.0" prefWidth="355.0" style="-fx-background-color: transparent;">
+                <TableView fx:id="genreTable" editable="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveGenre" prefHeight="269.0" prefWidth="343.0" style="-fx-background-color: transparent;">
                     <columns>
                         <TableColumn fx:id="genreId" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="132.6666259765625" style="-fx-alignment: center;" text="GENRE ID" />
                         <TableColumn fx:id="genreCategory" editable="false" maxWidth="246.66664632161456" prefWidth="221.3333740234375" style="-fx-alignment: center;" text="GENRE CATEGORY" />
                     </columns>
                     <HBox.margin>
-                        <Insets left="150.0" />
+                        <Insets left="70.0" />
                     </HBox.margin>
                 </TableView>
             </children>
         </HBox>
         <HBox>
             <children>
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="546.0">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="588.0">
                     <children>
-                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                        <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
                             <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="MOVIE:" textFill="WHITE">
                                     <font>
@@ -63,17 +72,25 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <children>
-                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: TRANSPARENT;" />
                                     </children>
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                 </HBox>
+                        <TextField fx:id="searchMovieTextField" prefHeight="27.0" prefWidth="195.0" promptText="Search Movies" style="-fx-background-radius: 15;">
+                           <font>
+                              <Font name="Century Gothic" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="27.0" prefWidth="548.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="548.0">
                             <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="GENRE:" textFill="WHITE">
                                     <font>
@@ -83,13 +100,13 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
-                                    <children>
-                                        <ChoiceBox fx:id="genreChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
-                                    </children>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
+                           <children>
+                              <TextField fx:id="genreTextField1" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+                           </children>
                                 </HBox>
                             </children>
                             <VBox.margin>
@@ -98,7 +115,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="575.0">
+                <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="432.0">
                     <children>
                         <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
                             <children>
@@ -110,17 +127,17 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                     <children>
-                                        <TextField fx:id="genreTextField" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: transparent;" />
+                                        <TextField fx:id="genreTextField" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
                                     </children>
                                 </HBox>
                             </children>
                         </HBox>
-                        <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="41.0" prefWidth="572.0">
+                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="62.0" prefWidth="468.0">
                             <children>
                                 <Button fx:id="addGenreBtn" layoutX="105.0" layoutY="10.0" mnemonicParsing="false" onAction="#addGenre" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="ADD" textFill="WHITE">
                                     <font>
@@ -130,7 +147,7 @@
                                         <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />
                                     </graphic>
                                     <HBox.margin>
-                                        <Insets left="60.0" right="25.0" />
+                                        <Insets left="25.0" right="25.0" />
                                     </HBox.margin>
                                 </Button>
                                 <Button fx:id="removeGenreBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteGenre" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REMOVE" textFill="WHITE">
