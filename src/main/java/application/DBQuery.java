@@ -1320,7 +1320,6 @@ public class DBQuery {
         }
         return number;
     }
-
     public int rateMovie(int rating, String title) {
         int result = 0;
         try {
@@ -1348,5 +1347,3 @@ public class DBQuery {
         }
     }
 }
-
-

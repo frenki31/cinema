@@ -14,20 +14,29 @@
 
 <VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1015.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_LanguageController">
     <children>
-        <Label prefHeight="38.0" prefWidth="988.0" text="Movie Languages" textFill="WHITE">
-            <font>
-                <Font name="Century Gothic Bold" size="30.0" />
-            </font>
-            <VBox.margin>
-                <Insets left="10.0" top="10.0" />
-            </VBox.margin>
-        </Label>
-        <HBox maxWidth="1.7976931348623157E308" prefHeight="280.0" prefWidth="995.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="searchMovieLangTextField" layoutX="10.0" layoutY="29.0" prefHeight="33.0" prefWidth="625.0" promptText="Search Language" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" right="70.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="searchLanguageTextField" prefHeight="33.0" prefWidth="239.0" promptText="Search Language" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+        <HBox maxWidth="1.7976931348623157E308" prefHeight="262.0" prefWidth="995.0">
             <VBox.margin>
                 <Insets left="10.0" right="10.0" />
             </VBox.margin>
             <children>
-                <TableView fx:id="moviesLanguageTable" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveMovieLanguage" prefHeight="280.0" prefWidth="625.0" style="-fx-background-color: transparent;">
+                <TableView fx:id="moviesLanguageTable" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveMovieLanguage" prefHeight="296.0" prefWidth="625.0" style="-fx-background-color: transparent;">
                     <columns>
                         <TableColumn fx:id="filmID" editable="false" maxWidth="96.00000286102295" prefWidth="66.66665649414062" style="-fx-alignment: center;" text="MOVIE ID" />
                         <TableColumn fx:id="filmTitle" editable="false" maxWidth="269.33331298828125" prefWidth="237.33331298828125" style="-fx-alignment: center;" text="MOVIE TITLE" />
@@ -55,9 +64,9 @@
         </HBox>
         <HBox>
             <children>
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="92.0" prefWidth="546.0">
+                <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="127.0" prefWidth="557.0">
                     <children>
-                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
+                        <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
                             <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="MOVIE:" textFill="WHITE">
                                     <font>
@@ -67,17 +76,25 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <children>
-                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                        <ChoiceBox fx:id="movieChoiceBox" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: TRANSPARENT;" />
                                     </children>
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                 </HBox>
+                        <TextField fx:id="searchMovieTextField" prefHeight="33.0" prefWidth="200.0" promptText="Search Movies" style="-fx-background-radius: 15;">
+                           <font>
+                              <Font name="Century Gothic" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="27.0" prefWidth="548.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="548.0">
                             <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="LANGUAGE:" textFill="WHITE">
                                     <font>
@@ -87,20 +104,20 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
-                                    <children>
-                                        <ChoiceBox fx:id="LanguageChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
-                                    </children>
+                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
+                           <children>
+                              <TextField fx:id="LanguageTextField1" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+                           </children>
                                 </HBox>
                             </children>
                             <VBox.margin>
                                 <Insets top="20.0" />
                             </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="67.0" prefHeight="27.0" prefWidth="548.0">
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="67.0" prefHeight="27.0" prefWidth="548.0">
                             <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="TYPE:" textFill="WHITE">
                                     <font>
@@ -110,12 +127,12 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                     <children>
-                                        <ChoiceBox fx:id="typesChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                        <ChoiceBox fx:id="typesChoiceBox" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: TRANSPARENT;" />
                                     </children>
                                 </HBox>
                             </children>
@@ -125,7 +142,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="127.0" prefWidth="465.0">
+                <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="127.0" prefWidth="471.0">
                     <children>
                         <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
                             <children>
@@ -137,12 +154,12 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                     <children>
-                                        <TextField fx:id="LanguageTextField" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: transparent;" />
+                                        <TextField fx:id="LanguageTextField" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
                                     </children>
                                 </HBox>
                             </children>
@@ -157,12 +174,12 @@
                                         <Insets />
                                     </HBox.margin>
                                 </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                     <children>
-                                        <TextField fx:id="codeTextField" prefHeight="25.0" prefWidth="213.0" style="-fx-background-color: transparent;" />
+                                        <TextField fx:id="codeTextField" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
                                     </children>
                                 </HBox>
                             </children>

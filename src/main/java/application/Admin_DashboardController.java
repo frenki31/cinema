@@ -19,8 +19,6 @@ public class Admin_DashboardController implements Initializable {
     private Label numberLabel;
     @FXML
     private TextField userField, oldPassField, newPassField;
-    @FXML
-    private Button changeBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

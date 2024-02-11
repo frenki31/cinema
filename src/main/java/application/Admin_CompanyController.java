@@ -8,6 +8,8 @@ import entities.Movie;
 import entities.MovieCompany;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,9 +23,7 @@ public class Admin_CompanyController implements Initializable{
 
     DBQuery queries = new DBQuery();
     @FXML
-    private Button removeBtn, removeCompanyBtn, updateCompanyBtn, addCompanyBtn, addBtn;
-    @FXML
-    private ChoiceBox<String> companyChoiceBox, movieChoiceBox;
+    private ChoiceBox<String> movieChoiceBox;
     @FXML
     private TableColumn<Company, Integer> companyCode;
     @FXML
@@ -37,30 +37,26 @@ public class Admin_CompanyController implements Initializable{
     @FXML
     private TableColumn<MovieCompany, String> filmTitle;
     @FXML
-    private TextField companyTextField, revenueTextField;
+    private TextField companyTextField, revenueTextField, searchCompanyTextField, searchMovieTextField,
+            companyTextField1, searchMovieCompTextField;
     @FXML
     private TableView<MovieCompany> moviesCompanyTable;
     @FXML
     private TableView<Company> companyTable;
     ObservableList<Company> companies = FXCollections.observableArrayList();
     ObservableList<Movie> movies = FXCollections.observableArrayList();
-    ObservableList<String> companyNames, movieTitles;
+    ObservableList<String> movieTitles;
     ObservableList<MovieCompany> movieCompany = FXCollections.observableArrayList();
-
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         loadData();
     }
-
     public void loadData() {
         queries.setConnection();
         refreshTable();
         movieTitles = FXCollections.observableArrayList();
-        companyNames = FXCollections.observableArrayList();
         for(Movie movie: movies)
             movieTitles.add(movie.getTitle());
-        for(Company company: companies)
-            companyNames.add(company.getCompanyName());
         companyCode.setCellValueFactory(new PropertyValueFactory<>("companyCode"));
         companyName.setCellValueFactory(new PropertyValueFactory<>("companyName"));
         companyCode1.setCellValueFactory(new PropertyValueFactory<>("companyCode"));
@@ -69,10 +65,35 @@ public class Admin_CompanyController implements Initializable{
         filmID.setCellValueFactory(new PropertyValueFactory<>("filmID"));
         filmTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        companyChoiceBox.setItems(companyNames);
         movieChoiceBox.setItems(movieTitles);
-    }
 
+        Admin_CrewController.Filtering(movieTitles, searchMovieTextField, movieChoiceBox);
+        FilteredList<Company> filteredCompany = new FilteredList<>(companies, b -> true);
+        searchCompanyTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCompany.setPredicate(companySearchModel -> {
+                if(newValue.isEmpty() || newValue.isBlank())
+                    return true;
+                String searchCompanyKeyword = newValue.toLowerCase();
+                return companySearchModel.getCompanyName().toLowerCase().contains(searchCompanyKeyword);
+            });
+        });
+        SortedList<Company> sortedCompany = new SortedList<>(filteredCompany);
+        sortedCompany.comparatorProperty().bind(companyTable.comparatorProperty());
+        companyTable.setItems(sortedCompany);
+        FilteredList<MovieCompany> movieCompanyFilteredList = new FilteredList<>(movieCompany, b->true);
+        searchMovieCompTextField.textProperty().addListener((obs,old,newVal) -> {
+            movieCompanyFilteredList.setPredicate(searchMovieCompModel -> {
+                if (newVal.isEmpty())
+                    return true;
+                String movieCompKey = newVal.toLowerCase();
+                return searchMovieCompModel.getTitle().toLowerCase().contains(movieCompKey) ||
+                        searchMovieCompModel.getCompanyName().toLowerCase().contains(movieCompKey);
+            });
+        });
+        SortedList<MovieCompany> movieCompanySortedList = new SortedList<>(movieCompanyFilteredList);
+        movieCompanySortedList.comparatorProperty().bind(moviesCompanyTable.comparatorProperty());
+        moviesCompanyTable.setItems(movieCompanySortedList);
+    }
     @FXML
     public void refreshTable() {
         movies.clear();
@@ -83,7 +104,6 @@ public class Admin_CompanyController implements Initializable{
         companyTable.setItems(companies);
         moviesCompanyTable.setItems(movieCompany);
     }
-
     @FXML
     void addCompany(ActionEvent event) {
         if (companyTextField.getText().isEmpty() || revenueTextField.getText().isEmpty()) {
@@ -108,25 +128,23 @@ public class Admin_CompanyController implements Initializable{
             }
         }
     }
-
     @FXML
     void addMovieCompany(ActionEvent event) {
-        if (companyChoiceBox.getSelectionModel().getSelectedItem().equals("") ||
-                movieChoiceBox.getSelectionModel().getSelectedItem().equals("")) {
+        if(movieChoiceBox.getSelectionModel().getSelectedItem().isEmpty() || companyTextField1.getText().isEmpty()){
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please choose from the options");
             message.show();
         }else {
             int result = queries.addMovieCompany(movieChoiceBox.getSelectionModel().getSelectedItem().toString(),
-                    companyChoiceBox.getSelectionModel().getSelectedItem().toString());
+                    companyTextField1.getText());
             if(result == 1) {
                 Alert message = new Alert(AlertType.INFORMATION);
                 message.setTitle("Added");
                 message.setContentText("Company attached to movie");
                 message.show();
                 movieChoiceBox.setValue("");
-                companyChoiceBox.setValue("");
+                companyTextField1.setText("");
             }else {
                 Alert message = new Alert(AlertType.ERROR);
                 message.setTitle("ERROR");
@@ -135,7 +153,6 @@ public class Admin_CompanyController implements Initializable{
             }
         }
     }
-
     @FXML
     void deleteCompany(ActionEvent event) {
         if (queries.deleteCompany(companyTable.getSelectionModel().getSelectedItem().getCompanyCode()) == 1) {
@@ -151,7 +168,6 @@ public class Admin_CompanyController implements Initializable{
             message.show();
         }
     }
-
     @FXML
     void deleteMovieCompany(ActionEvent event) {
         if (queries.deleteMovieCompany(moviesCompanyTable.getSelectionModel().getSelectedItem().getFilmID(),
@@ -168,19 +184,17 @@ public class Admin_CompanyController implements Initializable{
             message.show();
         }
     }
-
     @FXML
     void retrieveCompany(MouseEvent event) {
         companyTextField.setText(companyTable.getSelectionModel().getSelectedItem().getCompanyName());
         revenueTextField.setText(String.valueOf(companyTable.getSelectionModel().getSelectedItem().getCompanyRevenue()));
+        companyTextField1.setText(companyTable.getSelectionModel().getSelectedItem().getCompanyName());
     }
-
     @FXML
     void retrieveMovieCompany(MouseEvent event) {
-        companyChoiceBox.setValue(moviesCompanyTable.getSelectionModel().getSelectedItem().getCompanyName());
         movieChoiceBox.setValue(moviesCompanyTable.getSelectionModel().getSelectedItem().getTitle());
+        companyTextField1.setText(moviesCompanyTable.getSelectionModel().getSelectedItem().getCompanyName());
     }
-
     @FXML
     void updateCompany(ActionEvent event) {
         if(companyTextField.getText().isEmpty() || revenueTextField.getText().isEmpty()) {

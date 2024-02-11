@@ -1,15 +1,13 @@
 package application;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import entities.Crew;
-import entities.Department;
-import entities.Movie;
 import entities.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 public class Admin_PersonController implements Initializable{
 
@@ -27,9 +24,7 @@ public class Admin_PersonController implements Initializable{
     @FXML
     private TableView<Person> personTable;
     @FXML
-    private Button addPersonBtn,removePersonBtn,updatePersonBtn, refreshBtn;
-    @FXML
-    private TextField lastTextField,firstTextField,middleTextField;
+    private TextField lastTextField,firstTextField,middleTextField, searchPersonTextField;
     @FXML
     private TableColumn<Person, String> firstName,lastName,middleName, gender, type;
     @FXML
@@ -56,6 +51,21 @@ public class Admin_PersonController implements Initializable{
 
         genderChoiceBox.getItems().addAll(genders);
         typeChoiceBox.getItems().addAll(types);
+        FilteredList<Person> filteredPerson = new FilteredList<>(people, b-> true);
+        searchPersonTextField.textProperty().addListener((obs, old, newValue) -> {
+            filteredPerson.setPredicate(searchPersonModel -> {
+                if (newValue.isEmpty())
+                    return true;
+                String personKeyword = newValue.toLowerCase();
+                return searchPersonModel.getFirstName().toLowerCase().contains(personKeyword) ||
+                        searchPersonModel.getLastName().toLowerCase().contains(personKeyword) ||
+                        searchPersonModel.getGender().toLowerCase().contains(personKeyword) ||
+                        searchPersonModel.getType().toLowerCase().contains(personKeyword);
+            });
+        });
+        SortedList<Person> sortedPerson = new SortedList<>(filteredPerson);
+        sortedPerson.comparatorProperty().bind(personTable.comparatorProperty());
+        personTable.setItems(sortedPerson);
     }
     @FXML
     public void refreshTable() {

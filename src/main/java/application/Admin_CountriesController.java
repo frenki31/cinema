@@ -8,6 +8,8 @@ import entities.Movie;
 import entities.MovieCountry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,40 +17,31 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 public class Admin_CountriesController implements Initializable{
-
     DBQuery queries = new DBQuery();
     @FXML
-    private Button removeBtn, removeCountryBtn, updateCountryBtn, addcountryBtn, addBtn;
-    @FXML
-    private ChoiceBox<String> countryChoiceBox, movieChoiceBox;
+    private ChoiceBox<String> movieChoiceBox;
     @FXML
     private TableColumn<Country, Integer> countryCode;
     @FXML
-    private TableColumn<Country, String> countryIso;
+    private TableColumn<Country, String> countryIso, countryName;
     @FXML
     private TableColumn<MovieCountry, Integer> countryCode1;
     @FXML
-    private TableColumn<Country, String> countryName;
-    @FXML
-    private TableColumn<MovieCountry, String> countryName1;
+    private TableColumn<MovieCountry, String> countryName1, filmTitle;
     @FXML
     private TableColumn<MovieCountry, Integer> filmID;
     @FXML
-    private TableColumn<MovieCountry, String>filmTitle;
-    @FXML
-    private TextField countryTextField, countryIsoTextField;
-    @FXML
-    private VBox moviesBox;
+    private TextField countryTextField, countryIsoTextField, searchCountryTextField, countryTextField1,
+            searchMovieTextField, searchMovieCountryTextField;
     @FXML
     private TableView<MovieCountry> moviesCountryTable;
     @FXML
     private TableView<Country> countryTable;
     ObservableList<Country> countries = FXCollections.observableArrayList();
     ObservableList<Movie> movies = FXCollections.observableArrayList();
-    ObservableList<String> countryNames, movieTitles;
+    ObservableList<String> movieTitles;
     ObservableList<MovieCountry> movieCountry = FXCollections.observableArrayList();
 
     @Override
@@ -60,11 +53,8 @@ public class Admin_CountriesController implements Initializable{
         queries.setConnection();
         refreshTable();
         movieTitles = FXCollections.observableArrayList();
-        countryNames = FXCollections.observableArrayList();
         for(Movie movie: movies)
             movieTitles.add(movie.getTitle());
-        for(Country country: countries)
-            countryNames.add(country.getCountryName());
         countryCode.setCellValueFactory(new PropertyValueFactory<>("countryCode"));
         countryIso.setCellValueFactory(new PropertyValueFactory<>("countryIso"));
         countryName.setCellValueFactory(new PropertyValueFactory<>("countryName"));
@@ -73,8 +63,44 @@ public class Admin_CountriesController implements Initializable{
         filmID.setCellValueFactory(new PropertyValueFactory<>("filmID"));
         filmTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        countryChoiceBox.getItems().addAll(countryNames);
         movieChoiceBox.getItems().addAll(movieTitles);
+        FilteredList<Country> filteredCountry = new FilteredList<>(countries, b-> true);
+        searchCountryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCountry.setPredicate(searchCountryModel -> {
+                if (newValue.isEmpty())
+                    return true;
+                String countryKeyword = newValue.toLowerCase();
+                return searchCountryModel.getCountryName().toLowerCase().contains(countryKeyword) ||
+                        searchCountryModel.getCountryIso().toLowerCase().contains(countryKeyword);
+            });
+        });
+        SortedList<Country> countrySorted = new SortedList<>(filteredCountry);
+        countrySorted.comparatorProperty().bind(countryTable.comparatorProperty());
+        countryTable.setItems(countrySorted);
+        FilteredList<String> filteredMovies = new FilteredList<>(movieTitles, b-> true);
+        searchMovieTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredMovies.setPredicate(searchMovieModel -> {
+                if(newValue.isEmpty())
+                    return true;
+                String movieKeyword = newValue.toLowerCase();
+                return searchMovieModel.toLowerCase().contains(movieKeyword);
+            });
+        });
+        SortedList<String> sortedMovies = new SortedList<>(filteredMovies);
+        movieChoiceBox.setItems(sortedMovies);
+        FilteredList<MovieCountry> movieCountryFilteredList = new FilteredList<>(movieCountry, b->true);
+        searchMovieCountryTextField.textProperty().addListener((obs,old,newVal) -> {
+            movieCountryFilteredList.setPredicate(searchMovieCountryModel -> {
+                if (newVal.isEmpty())
+                    return true;
+                String movieCountryKey = newVal.toLowerCase();
+                return searchMovieCountryModel.getCountryName().toLowerCase().contains(movieCountryKey) ||
+                        searchMovieCountryModel.getTitle().toLowerCase().contains(movieCountryKey);
+            });
+        });
+        SortedList<MovieCountry> movieCountrySortedList = new SortedList<>(movieCountryFilteredList);
+        movieCountrySortedList.comparatorProperty().bind(moviesCountryTable.comparatorProperty());
+        moviesCountryTable.setItems(movieCountrySortedList);
     }
 
     @FXML
@@ -115,21 +141,21 @@ public class Admin_CountriesController implements Initializable{
 
     @FXML
     void addMovieCountry(ActionEvent event) {
-        if (countryChoiceBox.getValue().equals("") || movieChoiceBox.getValue().equals("")) {
+        if (countryTextField1.getText().isEmpty() || movieChoiceBox.getValue().isEmpty()) {
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please choose from the options");
             message.show();
         }else {
             int result = queries.addMovieCountry(movieChoiceBox.getSelectionModel().getSelectedItem().toString(),
-                    countryChoiceBox.getSelectionModel().getSelectedItem().toString());
+                    countryTextField1.getText());
             if(result == 1) {
                 Alert message = new Alert(AlertType.INFORMATION);
                 message.setTitle("Added");
                 message.setContentText("Country attached to movie");
                 message.show();
                 movieChoiceBox.setValue("");
-                countryChoiceBox.setValue("");
+                countryTextField1.setText("");
             }else {
                 Alert message = new Alert(AlertType.ERROR);
                 message.setTitle("ERROR");
@@ -175,12 +201,13 @@ public class Admin_CountriesController implements Initializable{
     @FXML
     void retrieveCountry(MouseEvent event) {
         countryTextField.setText(countryTable.getSelectionModel().getSelectedItem().getCountryName());
+        countryTextField1.setText(countryTable.getSelectionModel().getSelectedItem().getCountryName());
         countryIsoTextField.setText(countryTable.getSelectionModel().getSelectedItem().getCountryIso());
     }
 
     @FXML
     void retrieveMovieCountry(MouseEvent event) {
-        countryChoiceBox.setValue(moviesCountryTable.getSelectionModel().getSelectedItem().getCountryName());
+        countryTextField1.setText(moviesCountryTable.getSelectionModel().getSelectedItem().getCountryName());
         movieChoiceBox.setValue(moviesCountryTable.getSelectionModel().getSelectedItem().getTitle());
     }
 

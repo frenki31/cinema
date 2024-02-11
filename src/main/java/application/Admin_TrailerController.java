@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import entities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,16 +17,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 
 public class Admin_TrailerController implements Initializable{
-
     DBQuery queries = new DBQuery();
     @FXML
     private ChoiceBox<String> movieChoiceBox;
     @FXML
     private TableView<MovieTrailer> trailerTable;
     @FXML
-    private Button addTrailerBtn,removeTrailerBtn,updateTrailerBtn, refreshBtn;
-    @FXML
-    private TextField trailerTextField;
+    private TextField trailerTextField, searchMovieTextField;
     @FXML
     private TableColumn<MovieTrailer, String> title,trailer;
     @FXML
@@ -52,6 +51,29 @@ public class Admin_TrailerController implements Initializable{
         trailer.setCellValueFactory(new PropertyValueFactory<>("trailer"));
 
         movieChoiceBox.getItems().addAll(movieTitles);
+        FilteredList<String> filteredMovie = new FilteredList<>(movieTitles, b->true);
+        searchMovieTextField.textProperty().addListener((obs, old, newValue) -> {
+            filteredMovie.setPredicate(searchMovieModel -> {
+                if (newValue.isEmpty())
+                    return true;
+                String movieKeyword = newValue.toLowerCase();
+                return searchMovieModel.toLowerCase().contains(movieKeyword);
+            });
+        });
+        SortedList<String> sortedMovie = new SortedList<>(filteredMovie);
+        movieChoiceBox.setItems(sortedMovie);
+        FilteredList<MovieTrailer> movieTrailerFilteredList = new FilteredList<>(trailers, b->true);
+        searchMovieTextField.textProperty().addListener((obs,old,newVal) -> {
+            movieTrailerFilteredList.setPredicate(searchMovieTrailerModel -> {
+                if (newVal.isEmpty())
+                    return true;
+                String movieTrailerKey = newVal.toLowerCase();
+                return searchMovieTrailerModel.getTitle().toLowerCase().contains(movieTrailerKey);
+            });
+        });
+        SortedList<MovieTrailer> movieTrailerSortedList = new SortedList<>(movieTrailerFilteredList);
+        movieTrailerSortedList.comparatorProperty().bind(trailerTable.comparatorProperty());
+        trailerTable.setItems(movieTrailerSortedList);
     }
     @FXML
     public void refreshTable() {

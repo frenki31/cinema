@@ -15,17 +15,17 @@
 
 <VBox fx:id="moviesBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" spacing="20.0" style="-fx-background-color: #181818;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Admin_MoviesController">
     <children>
-      <HBox>
+      <HBox alignment="CENTER" prefHeight="70.0">
          <VBox.margin>
             <Insets left="10.0" top="10.0" />
          </VBox.margin>
          <children>
-              <Label prefHeight="38.0" prefWidth="988.0" text="All movies" textFill="WHITE">
-                  <font>
-                      <Font name="Century Gothic Bold" size="30.0" />
-                  </font>
-              </Label>
             <Label fx:id="username" opacity="0.0" text="Label" />
+            <TextField fx:id="searchMovieTextField" prefHeight="33.0" prefWidth="832.0" promptText="Search Movies" style="-fx-background-radius: 15;">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+            </TextField>
          </children>
       </HBox>
         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="1036.0">
@@ -218,25 +218,24 @@
                 <Insets top="10.0" />
             </VBox.margin>
         </HBox>
-        <TableView fx:id="moviesTable" editable="false" onMouseClicked="#retrieveData" prefHeight="200.0" prefWidth="1015.0">
-            <columns>
-                <TableColumn fx:id="filmID" editable="false" maxWidth="30.0" prefWidth="30.0" style="-fx-alignment: center;" text="ID" />
-                <TableColumn fx:id="filmTitle" editable="false" maxWidth="150.0" prefWidth="119.33333969116211" style="-fx-alignment: center;" text="TITLE" />
-                <TableColumn fx:id="runningTime" editable="false" maxWidth="88.66665649414062" prefWidth="68.66668701171875" style="-fx-alignment: center;" text="DURATION" />
-                <TableColumn fx:id="cover" editable="false" maxWidth="180.0" prefWidth="62.66670227050781" style="-fx-alignment: center;" text="COVER" />
-                <TableColumn fx:id="script" editable="false" maxWidth="301.9999694824219" prefWidth="160.6666259765625" style="-fx-alignment: center;" text="DESCRIPTION" />
-                <TableColumn fx:id="release" editable="false" maxWidth="165.3333740234375" prefWidth="93.99996948242188" style="-fx-alignment: center;" text="RELEASE DATE" />
-                <TableColumn fx:id="budget" editable="false" maxWidth="152.66668701171875" prefWidth="114.666748046875" style="-fx-alignment: center;" text="BUDGET" />
-                <TableColumn fx:id="revenue" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="104.66668701171875" style="-fx-alignment: center;" text="REVENUE" />
-                <TableColumn fx:id="status" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="87.33331298828125" style="-fx-alignment: center;" text="STATUS" />
-                <TableColumn fx:id="rating" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="55.3333740234375" style="-fx-alignment: center;" text="RATING" />
-                <TableColumn fx:id="ratingNo" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="56.0" style="-fx-alignment: center;" text="NR" />
-            <TableColumn fx:id="totalRating" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="56.66668701171875" style="-fx-alignment: center;" text="TOTAL" />
-            <TableColumn fx:id="ratingNo11" editable="false" maxWidth="158.66668701171875" minWidth="2.66668701171875" prefWidth="58.66668701171875" style="-fx-alignment: center;" text="NR" />
-            </columns>
-            <VBox.margin>
-                <Insets left="10.0" right="10.0" />
-            </VBox.margin>
-        </TableView>
+      <TableView fx:id="moviesTable" editable="true" prefHeight="200.0" prefWidth="200.0" onMouseClicked="#retrieveData" style="-fx-background-color: transparent;">
+        <columns>
+          <TableColumn fx:id="filmID" prefWidth="25.33334255218506" text="ID" />
+          <TableColumn fx:id="filmTitle" prefWidth="125.99999618530273" text="TITLE" />
+            <TableColumn fx:id="runningTime" prefWidth="68.6666259765625" text="DURATION" />
+            <TableColumn fx:id="cover" prefWidth="56.00001525878906" text="COVER" />
+            <TableColumn fx:id="script" prefWidth="258.6666259765625" text="DESCRIPTION" />
+            <TableColumn fx:id="release" minWidth="3.3333740234375" prefWidth="91.33331298828125" text="RELEASE DATE" />
+            <TableColumn fx:id="budget" minWidth="9.3333740234375" prefWidth="73.33331298828125" text="BUDGET" />
+            <TableColumn fx:id="revenue" prefWidth="76.0" text="REVENUE" />
+            <TableColumn fx:id="status" prefWidth="76.66668701171875" text="STATUS" />
+            <TableColumn fx:id="rating" minWidth="0.0" prefWidth="55.3333740234375" text="RATING" />
+            <TableColumn fx:id="ratingNo" prefWidth="53.33331298828125" text="NR" />
+            <TableColumn fx:id="totalRating" prefWidth="54.6666259765625" text="TOTAL" />
+        </columns>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+      </TableView>
     </children>
 </VBox>

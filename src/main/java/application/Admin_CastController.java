@@ -8,6 +8,8 @@ import entities.Movie;
 import entities.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,15 +29,9 @@ public class Admin_CastController implements Initializable{
     @FXML
     private TableColumn<Cast, String> actorName, filmTitle, characterName;
     @FXML
-    private TableView<Person> actorTable;
-    @FXML
-    private Button addBtn, refreshBtn, removeBtn;
-    @FXML
     private TableView<Cast> castTable;
     @FXML
-    private TextField characterTextField, orderTextField;
-    @FXML
-    private VBox moviesBox;
+    private TextField characterTextField, orderTextField, searchMovieTextField, searchActorTextField, searchCastTextField;
     ObservableList<Person> actors = FXCollections.observableArrayList();
     ObservableList<Movie> movies = FXCollections.observableArrayList();
     ObservableList<String> movieTitles, actorNames;
@@ -62,8 +58,24 @@ public class Admin_CastController implements Initializable{
         characterName.setCellValueFactory(new PropertyValueFactory<>("character"));
         order.setCellValueFactory(new PropertyValueFactory<>("order"));
 
-        actorChoiceBox.getItems().addAll(actorNames);
-        movieChoiceBox.getItems().addAll(movieTitles);
+        actorChoiceBox.setItems(actorNames);
+        movieChoiceBox.setItems(movieTitles);
+        Admin_CrewController.Filtering(movieTitles, searchMovieTextField, movieChoiceBox);
+        Admin_CrewController.Filtering(actorNames, searchActorTextField, actorChoiceBox);
+        FilteredList<Cast> filteredCast = new FilteredList<>(cast,b->true);
+        searchCastTextField.textProperty().addListener((obs,old,newValue) -> {
+            filteredCast.setPredicate(searchCastModel -> {
+                if (newValue.isEmpty())
+                    return true;
+                String castKeyword = newValue.toLowerCase();
+                return searchCastModel.getActorName().toLowerCase().contains(castKeyword) ||
+                        searchCastModel.getTitle().toLowerCase().contains(castKeyword) ||
+                        searchCastModel.getCharacter().toLowerCase().contains(castKeyword);
+            });
+        });
+        SortedList<Cast> sortedCast = new SortedList<>(filteredCast);
+        sortedCast.comparatorProperty().bind(castTable.comparatorProperty());
+        castTable.setItems(sortedCast);
     }
     @FXML
     public void refreshTable() {
@@ -76,8 +88,8 @@ public class Admin_CastController implements Initializable{
     }
     @FXML
     void addCast(ActionEvent event) {
-        if (actorChoiceBox.getValue().equals("") || movieChoiceBox.getValue().equals("") || characterTextField.getText().equals("")
-                || orderTextField.getText().equals("")){
+        if (actorChoiceBox.getValue().isEmpty() || movieChoiceBox.getValue().isEmpty() || characterTextField.getText().isEmpty()
+                || orderTextField.getText().isEmpty()){
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please fill all the fields");

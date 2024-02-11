@@ -8,10 +8,11 @@ import java.util.ResourceBundle;
 import entities.Movie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,16 +21,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Admin_MoviesController implements Initializable {
-    ObservableList<Movie> movieList = FXCollections.observableArrayList();
     DBQuery queries = new DBQuery();
     @FXML
     private Stage stage;
     @FXML
-    private Parent parent;
-    @FXML
     private Label username;
-    @FXML
-    private Button addBtn, refreshBtn, removeBtn, updateBtn, uploadButton, clearButton;
     @FXML
     private TableColumn<Movie, String> cover, filmTitle, runningTime, script, status;
     @FXML
@@ -42,26 +38,29 @@ public class Admin_MoviesController implements Initializable {
     private TableView<Movie> moviesTable;
     @FXML
     private TextField coverTextField, descrtiptionTextField, durationTextField, budgetTextField,
-    titleTextField, revenueTextField;
+    titleTextField, revenueTextField, searchMovieTextField;
     @FXML
     private DatePicker calendar;
     @FXML
     private ChoiceBox<String> statusChoiceBox;
-    String statuses[] = {"Released", "Rumored", "In Production"};
+    String[] statuses = {"Released", "Rumored", "In Production"};
+    ObservableList<Movie> movieList = FXCollections.observableArrayList();
 
+    public void setAdminUser(String user){
+        username.setText(user);
+        movieList.clear();
+        movieList.addAll(queries.getAllMovies(username.getText()));
+    }
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         loadData();
-        statusChoiceBox.getItems().setAll(statuses);
-    }
-    public void setAdminUser(String user){
-        username.setText(user);
     }
     /**
      * Method to load all movies data into a table
      */
     public void loadData() {
         queries.setConnection();
+        movieList = FXCollections.observableArrayList(queries.getAllMovies(username.getText()));
         refreshTable();
 
         filmID.setCellValueFactory(new PropertyValueFactory<>("filmID"));
@@ -76,12 +75,26 @@ public class Admin_MoviesController implements Initializable {
         ratingNo.setCellValueFactory(new PropertyValueFactory<>("nrOfRatings"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         totalRating.setCellValueFactory(new PropertyValueFactory<>("totalRating"));
+        statusChoiceBox.getItems().setAll(statuses);
+        FilteredList<Movie> filteredMovies = new FilteredList<>(movieList, b->true);
+        searchMovieTextField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filteredMovies.setPredicate(searchMovieModel -> {
+                if(newValue.isEmpty())
+                    return true;
+                String movieKeyword = newValue.toLowerCase();
+                return searchMovieModel.getTitle().toLowerCase().contains(movieKeyword)
+                        || searchMovieModel.getStatus().toLowerCase().contains(movieKeyword);
+            });
+        });
+        SortedList<Movie> sortedMovie = new SortedList<>(filteredMovies);
+        sortedMovie.comparatorProperty().bind(moviesTable.comparatorProperty());
+        moviesTable.setItems(sortedMovie);
     }
 
     @FXML
     public void refreshTable() {
         movieList.clear();
-        movieList = FXCollections.observableArrayList(queries.getAllMovies(username.getText()));
+        movieList.addAll(queries.getAllMovies(username.getText()));
         moviesTable.setItems(movieList);
     }
     /**

@@ -8,6 +8,8 @@ import entities.Movie;
 import entities.MovieGenre;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,32 +23,22 @@ public class Admin_GenreController implements Initializable{
 
     DBQuery queries = new DBQuery();
     @FXML
-    private Button removeBtn, removeGenreBtn, updateGenreBtn, addGenreBtn, addBtn;
-    @FXML
-    private ChoiceBox<String> genreChoiceBox, movieChoiceBox;
+    private ChoiceBox<String> movieChoiceBox;
     @FXML
     private TableColumn<Genre, Integer> genreId;
     @FXML
-    private TableColumn<MovieGenre, String> genreId1;
+    private TableColumn<MovieGenre, String> genreId1, genreCategory, genreCategory1, filmTitle;
     @FXML
-    private TableColumn<Genre, String> genreCategory;
+    private TableColumn<MovieGenre, Integer> filmID;
     @FXML
-    private TableColumn<MovieGenre, String> genreCategory1;
-    @FXML
-    private TableColumn<MovieGenre, String> filmID;
-    @FXML
-    private TableColumn<MovieGenre, String> filmTitle;
-    @FXML
-    private TextField genreTextField;
-    @FXML
-    private VBox moviesBox;
+    private TextField genreTextField, searchGenreTextField, genreTextField1, searchMovieTextField, searchMovieGenreTextField;
     @FXML
     private TableView<MovieGenre> moviesGenreTable;
     @FXML
     private TableView<Genre> genreTable;
     ObservableList<Genre> genres = FXCollections.observableArrayList();
     ObservableList<Movie> movies = FXCollections.observableArrayList();
-    ObservableList<String> genreNames, movieTitles;
+    ObservableList<String> movieTitles;
     ObservableList<MovieGenre> movieGenre = FXCollections.observableArrayList();
 
     @Override
@@ -58,11 +50,8 @@ public class Admin_GenreController implements Initializable{
         queries.setConnection();
         refreshTable();
         movieTitles = FXCollections.observableArrayList();
-        genreNames = FXCollections.observableArrayList();
         for(Movie movie: movies)
             movieTitles.add(movie.getTitle());
-        for(Genre genre: genres)
-            genreNames.add(genre.getCategory());
         genreId.setCellValueFactory(new PropertyValueFactory<>("id"));
         genreCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         genreId1.setCellValueFactory(new PropertyValueFactory<>("genreID"));
@@ -70,8 +59,43 @@ public class Admin_GenreController implements Initializable{
         filmID.setCellValueFactory(new PropertyValueFactory<>("filmID"));
         filmTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        genreChoiceBox.getItems().addAll(genreNames);
         movieChoiceBox.getItems().addAll(movieTitles);
+        FilteredList<Genre> filteredGenre = new FilteredList<>(genres);
+        searchGenreTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredGenre.setPredicate(searchGenreModel -> {
+                if (newValue.isEmpty())
+                    return true;
+                String genreKeyword = newValue.toLowerCase();
+                return searchGenreModel.getCategory().toLowerCase().contains(genreKeyword);
+            });
+        });
+        SortedList<Genre> sortedGenre = new SortedList<>(filteredGenre);
+        sortedGenre.comparatorProperty().bind(genreTable.comparatorProperty());
+        genreTable.setItems(sortedGenre);
+        FilteredList<String> filteredMovies = new FilteredList<>(movieTitles, b-> true);
+        searchMovieTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredMovies.setPredicate(searchMovieModel -> {
+                if(newValue.isEmpty())
+                    return true;
+                String movieKeyword = newValue.toLowerCase();
+                return searchMovieModel.toLowerCase().contains(movieKeyword);
+            });
+        });
+        SortedList<String> sortedMovies = new SortedList<>(filteredMovies);
+        movieChoiceBox.setItems(sortedMovies);
+        FilteredList<MovieGenre> filteredMovie = new FilteredList<>(movieGenre, b-> true);
+        searchMovieGenreTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredMovie.setPredicate(searchMovieModel -> {
+                if(newValue.isEmpty())
+                    return true;
+                String movieKeyword = newValue.toLowerCase();
+                return searchMovieModel.getTitle().toLowerCase().contains(movieKeyword) ||
+                        searchMovieModel.getGenreCategory().toLowerCase().contains(movieKeyword);
+            });
+        });
+        SortedList<MovieGenre> sortedMovie = new SortedList<>(filteredMovie);
+        sortedMovie.comparatorProperty().bind(moviesGenreTable.comparatorProperty());
+        moviesGenreTable.setItems(sortedMovie);
     }
 
     @FXML
@@ -111,22 +135,21 @@ public class Admin_GenreController implements Initializable{
 
     @FXML
     void addMovieGenre(ActionEvent event) {
-        if (genreChoiceBox.getSelectionModel().getSelectedItem().equals("") ||
-                movieChoiceBox.getSelectionModel().getSelectedItem().equals("")) {
+        if (genreTextField1.getText().isEmpty() || movieChoiceBox.getSelectionModel().getSelectedItem().isEmpty()) {
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please choose from the options");
             message.show();
         }else {
-            int result = queries.addMovieGenre(movieChoiceBox.getSelectionModel().getSelectedItem().toString(),
-                    genreChoiceBox.getSelectionModel().getSelectedItem().toString());
+            int result = queries.addMovieGenre(movieChoiceBox.getSelectionModel().getSelectedItem(),
+                    genreTextField1.getText());
             if(result == 1) {
                 Alert message = new Alert(AlertType.INFORMATION);
                 message.setTitle("Added");
                 message.setContentText("Genre attached to movie");
                 message.show();
                 movieChoiceBox.setValue("");
-                genreChoiceBox.setValue("");
+                genreTextField1.setText("");
             }else {
                 Alert message = new Alert(AlertType.ERROR);
                 message.setTitle("ERROR");
@@ -172,11 +195,12 @@ public class Admin_GenreController implements Initializable{
     @FXML
     void retrieveGenre(MouseEvent event) {
         genreTextField.setText(genreTable.getSelectionModel().getSelectedItem().getCategory());
+        genreTextField1.setText(genreTable.getSelectionModel().getSelectedItem().getCategory());
     }
 
     @FXML
     void retrieveMovieGenre(MouseEvent event) {
-        genreChoiceBox.setValue(moviesGenreTable.getSelectionModel().getSelectedItem().getGenreCategory());
+        genreTextField1.setText(moviesGenreTable.getSelectionModel().getSelectedItem().getGenreCategory());
         movieChoiceBox.setValue(moviesGenreTable.getSelectionModel().getSelectedItem().getTitle());
     }
 

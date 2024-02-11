@@ -9,6 +9,8 @@ import entities.Movie;
 import entities.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 public class Admin_CrewController implements Initializable{
 
@@ -24,11 +25,9 @@ public class Admin_CrewController implements Initializable{
     @FXML
     private ChoiceBox<String> actorChoiceBox,depChoiceBox,movieChoiceBox;
     @FXML
-    private Button addBtn,refreshBtn,removeBtn;
-    @FXML
     private TableView<Crew> crewTable;
     @FXML
-    private TextField jobTextField;
+    private TextField jobTextField, searchMovieTextField, searchCrewTextField, searchMovieCrewTextField, searchDepartmentTextField;
     @FXML
     private TableColumn<Crew, Integer> depId,filmID,personId;
     @FXML
@@ -67,6 +66,37 @@ public class Admin_CrewController implements Initializable{
         actorChoiceBox.getItems().addAll(actorNames);
         movieChoiceBox.getItems().addAll(movieTitles);
         depChoiceBox.getItems().addAll(departmentNames);
+        Filtering(movieTitles, searchMovieTextField, movieChoiceBox);
+        Filtering(actorNames, searchCrewTextField, actorChoiceBox);
+        Filtering(departmentNames, searchDepartmentTextField, depChoiceBox);
+        FilteredList<Crew> filteredCrew = new FilteredList<>(crew, b->true);
+        searchCrewTextField.textProperty().addListener((obs, old, newVal)->{
+            filteredCrew.setPredicate(searchCrewModel -> {
+                if (newVal.isEmpty())
+                    return true;
+                String crewKeyword = newVal.toLowerCase();
+                return searchCrewModel.getDepName().toLowerCase().contains(crewKeyword) ||
+                        searchCrewModel.getTitle().toLowerCase().contains(crewKeyword) ||
+                        searchCrewModel.getPersonName().toLowerCase().contains(crewKeyword);
+            });
+        });
+        SortedList<Crew> sortedCrew = new SortedList<>(filteredCrew);
+        sortedCrew.comparatorProperty().bind(crewTable.comparatorProperty());
+        crewTable.setItems(sortedCrew);
+    }
+
+    public static void Filtering(ObservableList<String> Names, TextField searchTextField, ChoiceBox<String> ChoiceBox) {
+        FilteredList<String> filteredList = new FilteredList<>(Names, b -> true);
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(depSearchModel -> {
+                if(newValue.isEmpty() || newValue.isBlank())
+                    return true;
+                String searchKeyword = newValue.toLowerCase();
+                return depSearchModel.toLowerCase().contains(searchKeyword);
+            });
+        });
+        SortedList<String> sortedList = new SortedList<>(filteredList);
+        ChoiceBox.setItems(sortedList);
     }
 
     @FXML
