@@ -64,7 +64,7 @@
         </HBox>
         <HBox>
             <children>
-                <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="127.0" prefWidth="557.0">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="81.0" prefWidth="551.0">
                     <children>
                         <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="27.0" prefWidth="662.0">
                             <children>
@@ -117,29 +117,46 @@
                                 <Insets top="20.0" />
                             </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="67.0" prefHeight="27.0" prefWidth="548.0">
-                            <children>
-                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="TYPE:" textFill="WHITE">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                    <children>
-                                        <ChoiceBox fx:id="typesChoiceBox" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: TRANSPARENT;" />
-                                    </children>
-                                </HBox>
-                            </children>
-                            <VBox.margin>
-                                <Insets top="20.0" />
-                            </VBox.margin>
-                        </HBox>
+                  <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="41.0" prefWidth="548.0">
+                     <children>
+                        <Button fx:id="addBtn" layoutX="105.0" layoutY="10.0" mnemonicParsing="false" onAction="#addMovieLanguage" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="ADD" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="removeBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteMovieLanguage" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REMOVE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" glyphName="MINUS" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="refreshBtn" layoutX="296.0" layoutY="10.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REFRESH" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" glyphName="REFRESH" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="127.0" prefWidth="471.0">
@@ -231,49 +248,10 @@
                 </VBox>
             </children>
         </HBox>
-        <HBox>
+        <HBox prefWidth="1015.0">
             <VBox.margin>
                 <Insets top="10.0" />
             </VBox.margin>
-            <children>
-                <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="41.0" prefWidth="550.0">
-                    <children>
-                        <Button fx:id="addBtn" layoutX="105.0" layoutY="10.0" mnemonicParsing="false" onAction="#addMovieLanguage" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="ADD" textFill="WHITE">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                            <graphic>
-                                <FontAwesomeIcon fill="WHITE" glyphName="PLUS" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="25.0" right="25.0" />
-                            </HBox.margin>
-                        </Button>
-                        <Button fx:id="removeBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteMovieLanguage" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REMOVE" textFill="WHITE">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                            <graphic>
-                                <FontAwesomeIcon fill="WHITE" glyphName="MINUS" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="25.0" right="25.0" />
-                            </HBox.margin>
-                        </Button>
-                        <Button fx:id="refreshBtn" layoutX="296.0" layoutY="10.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="50.0" prefWidth="95.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 50;" text="REFRESH" textFill="WHITE">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                            <graphic>
-                                <FontAwesomeIcon fill="WHITE" glyphName="REFRESH" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="25.0" right="25.0" />
-                            </HBox.margin>
-                        </Button>
-                    </children>
-                </HBox>
-            </children>
         </HBox>
     </children>
 </VBox>

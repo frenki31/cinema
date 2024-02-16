@@ -44,7 +44,10 @@ public class Movie {
         setCover(cover);
         setRating(rating);
     }
-
+    public Movie(String title, double rating){
+        setTitle(title);
+        setRating(rating);
+    }
     public Movie(int id, String title) {
         setFilmID(id);
         setTitle(title);

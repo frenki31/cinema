@@ -107,9 +107,9 @@ public class DBQuery {
      */
     public List<String> getAllGenres(String title) {
         List<String> genres = null;
-        ResultSet resultSet = null;
+        resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT STRING_AGG(GENRE_CATEGORY, ', ') AS CATEGORY FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID JOIN GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID WHERE MOVIE_TITLE = ? GROUP BY MOVIE.MOVIE_TITLE");
+            preparedStatement = setConnection().prepareStatement("SELECT STRING_AGG(GENRE_CATEGORY, ', ') AS CATEGORY FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID WHERE MOVIE_TITLE = ? GROUP BY MOVIE.MOVIE_TITLE");
             preparedStatement.setString(1, title);
             resultSet = preparedStatement.executeQuery();
             genres = new ArrayList<String>();
@@ -180,7 +180,7 @@ public class DBQuery {
         List<String> genres = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT STRING_AGG(GENRE_CATEGORY, ', ') AS CATEGORY FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID JOIN GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID WHERE MOVIE_STATUS != 'Released'");
+            preparedStatement = setConnection().prepareStatement("SELECT STRING_AGG(GENRE_CATEGORY, ', ') AS CATEGORY FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID WHERE MOVIE_STATUS != 'Released'");
             preparedStatement.setString(1, title);
             resultSet = preparedStatement.executeQuery();
             genres = new ArrayList<String>();
@@ -246,7 +246,7 @@ public class DBQuery {
         ObservableList<Movie> searchList = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TITLE, MOVIE_COVER, MOVIE_RELEASE FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID JOIN GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID WHERE GENRE_CATEGORY = ?");
+            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TITLE, MOVIE_COVER, MOVIE_RELEASE FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID WHERE GENRE_CATEGORY = ?");
             preparedStatement.setString(1, genre);
             resultSet = preparedStatement.executeQuery();
             searchList = FXCollections.observableArrayList();
@@ -267,7 +267,7 @@ public class DBQuery {
         ObservableList<Movie> searchList = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TITLE, MOVIE_COVER, MOVIE_RELEASE FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID JOIN GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID WHERE GENRE_CATEGORY = ? AND YEAR(MOVIE_RELEASE) BETWEEN ? AND ?");
+            preparedStatement = setConnection().prepareStatement("SELECT MOVIE_TITLE, MOVIE_COVER, MOVIE_RELEASE FROM MOVIE JOIN MOVIE_GENRE ON MOVIE.MOVIE_ID = MOVIE_GENRE.MOVIE_ID WHERE GENRE_CATEGORY = ? AND YEAR(MOVIE_RELEASE) BETWEEN ? AND ?");
             preparedStatement.setString(1, genre);
             preparedStatement.setInt(2, first);
             preparedStatement.setInt(3, second);
@@ -343,7 +343,7 @@ public class DBQuery {
         resultSet = null;
         ObservableList<String> genres = FXCollections.observableArrayList();
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT DISTINCT GENRE_CATEGORY FROM MOVIE_GENRE JOIN GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID");
+            preparedStatement = setConnection().prepareStatement("SELECT DISTINCT GENRE_CATEGORY FROM MOVIE_GENRE");
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
                 genres.add(new String(resultSet.getString("GENRE_CATEGORY")));
@@ -376,6 +376,23 @@ public class DBQuery {
             close();
         }
         return countries;
+    }
+    public ObservableList<Movie> getTopRatedMovies(){
+        ObservableList<Movie> movies = FXCollections.observableArrayList();
+        resultSet = null;
+        try {
+            preparedStatement = setConnection().prepareStatement("IF EXISTS (SELECT 1 FROM MOVIE WHERE MOVIE_RATING > 7) SELECT MOVIE_TITLE, MOVIE_RATING FROM MOVIE WHERE MOVIE_RATING > 7 GROUP BY MOVIE_TITLE, MOVIE_RATING");
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                movies.add(new Movie(resultSet.getString("MOVIE_TITLE"),
+                        resultSet.getDouble("MOVIE_RATING")));
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            close();
+        }
+        return movies;
     }
     /**
      * Method which deletes a movie
@@ -540,14 +557,13 @@ public class DBQuery {
         }
         return result;
     }
-
     public int deleteMovieCountry(int id, int code) {
         int result = 0;
         try {
             preparedStatement = setConnection().prepareStatement("DELETE FROM MOVIE_COUNTRY WHERE MOVIE_ID = ? AND COUNTRY_CODE = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, code);
-            result= preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -555,51 +571,16 @@ public class DBQuery {
         }
         return result;
     }
-
-    public ObservableList<Genre> getGenre() {
-        ObservableList<Genre> all = FXCollections.observableArrayList();
-        resultSet = null;
-        try {
-            preparedStatement = setConnection().prepareStatement("SELECT * FROM GENRE");
-            resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                all.add(new Genre(
-                        resultSet.getInt("GENRE_ID"),
-                        resultSet.getString("GENRE_CATEGORY")));
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            close();
-        }
-        return all;
-    }
-
-    public int deleteGenre(int id) {
-        int result = 0;
-        try {
-            preparedStatement = setConnection().prepareStatement("DELETE FROM GENRE WHERE GENRE_ID = ?");
-            preparedStatement.setInt(1, id);
-            result= preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            close();
-        }
-        return result;
-    }
-
     public ObservableList<MovieGenre> getMovieGenres() {
         ObservableList<MovieGenre> movies = FXCollections.observableArrayList();
         resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT MOVIE.MOVIE_ID,MOVIE.MOVIE_TITLE,GENRE.GENRE_ID, GENRE.GENRE_CATEGORY FROM GENRE JOIN MOVIE_GENRE ON MOVIE_GENRE.GENRE_ID = GENRE.GENRE_ID JOIN MOVIE ON MOVIE_GENRE.MOVIE_ID = MOVIE.MOVIE_ID");
+            preparedStatement = setConnection().prepareStatement("SELECT MOVIE.MOVIE_ID,MOVIE_TITLE,GENRE_CATEGORY FROM MOVIE_GENRE JOIN MOVIE ON MOVIE_GENRE.MOVIE_ID = MOVIE.MOVIE_ID");
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 movies.add(new MovieGenre(
                         resultSet.getInt("MOVIE_ID"),
                         resultSet.getString("MOVIE_TITLE"),
-                        resultSet.getInt("GENRE_ID"),
                         resultSet.getString("GENRE_CATEGORY")));
             }
         } catch (SQLException e) {
@@ -609,40 +590,9 @@ public class DBQuery {
         }
         return movies;
     }
-
-    public int addGenre(String genre) {
-        int result = 0;
-        String sql = "INSERT INTO GENRE(GENRE_CATEGORY) VALUES (?)";
-        try {
-            preparedStatement = setConnection().prepareStatement(sql);
-            preparedStatement.setString(1, genre);
-            result = preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            close();
-        }
-        return result;
-    }
-
-    public int updateGenre(int id,String genre) {
-        int result = 0;
-        try {
-            preparedStatement = setConnection().prepareStatement("UPDATE GENRE SET GENRE_CATEGORY = ? WHERE GENRE_ID = ?");
-            preparedStatement.setString(1, genre);
-            preparedStatement.setInt(2, id);
-            result = preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            close();
-        }
-        return result;
-    }
-
     public int addMovieGenre(String movieTitle, String genre) {
         int result = 0;
-        String sql = "INSERT INTO MOVIE_GENRE(MOVIE_ID, GENRE_ID) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),(SELECT GENRE_ID FROM GENRE WHERE GENRE_CATEGORY = ?))";
+        String sql = "INSERT INTO MOVIE_GENRE(MOVIE_ID, GENRE_CATEGORY) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),?)";
         try {
             preparedStatement = setConnection().prepareStatement(sql);
             preparedStatement.setString(1, movieTitle);
@@ -655,13 +605,12 @@ public class DBQuery {
         }
         return result;
     }
-
-    public int deleteMovieGenre(int id, int genreId) {
+    public int deleteMovieGenre(int id, String genre) {
         int result = 0;
         try {
-            preparedStatement = setConnection().prepareStatement("DELETE FROM MOVIE_GENRE WHERE MOVIE_ID = ? AND GENRE_ID = ?");
+            preparedStatement = setConnection().prepareStatement("DELETE FROM MOVIE_GENRE WHERE MOVIE_ID = ? AND GENRE_CATEGORY = ?");
             preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, genreId);
+            preparedStatement.setString(2, genre);
             result= preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -670,7 +619,6 @@ public class DBQuery {
         }
         return result;
     }
-
     public int deleteMovieCompany(int id, int companyCode) {
         int result = 0;
         try {
@@ -788,15 +736,12 @@ public class DBQuery {
         }
         return result;
     }
-
-
-    public int deleteMovieLanguage(int movId, int langId, int typeId) {
+    public int deleteMovieLanguage(int movId, int langId) {
         int result = 0;
         try {
-            preparedStatement = setConnection().prepareStatement("DELETE FROM MOVIE_LANGUAGE WHERE MOVIE_ID = ? AND LANGUAGE_ID = ? AND TYPE_ID = ?");
+            preparedStatement = setConnection().prepareStatement("DELETE FROM MOVIE_LANGUAGE WHERE MOVIE_ID = ? AND LANGUAGE_ID = ?");
             preparedStatement.setInt(1, movId);
             preparedStatement.setInt(2, langId);
-            preparedStatement.setInt(3, typeId);
             result= preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -805,7 +750,6 @@ public class DBQuery {
         }
         return result;
     }
-
     public ObservableList<Language> getLanguage() {
         ObservableList<Language> all = FXCollections.observableArrayList();
         resultSet = null;
@@ -825,7 +769,6 @@ public class DBQuery {
         }
         return all;
     }
-
     public int deleteLanguage(int id) {
         int result = 0;
         try {
@@ -839,12 +782,11 @@ public class DBQuery {
         }
         return result;
     }
-
     public ObservableList<MovieLanguage> getMovieLanguage() {
         ObservableList<MovieLanguage> movies = FXCollections.observableArrayList();
         resultSet = null;
         try {
-            preparedStatement = setConnection().prepareStatement("SELECT MOVIE.MOVIE_ID,MOVIE.MOVIE_TITLE,LANGUAGE.LANGUAGE_ID,LANGUAGE.LANGUAGE_NAME,LANGUAGE.LANGUAGE_CODE,TYPE.TYPE_ID,TYPE.TYPE_LANGUAGE FROM MOVIE_LANGUAGE, MOVIE, LANGUAGE, TYPE WHERE TYPE.TYPE_ID = MOVIE_LANGUAGE.TYPE_ID AND LANGUAGE.LANGUAGE_ID = MOVIE_LANGUAGE.LANGUAGE_ID AND MOVIE.MOVIE_ID = MOVIE_LANGUAGE.MOVIE_ID");
+            preparedStatement = setConnection().prepareStatement("SELECT MOVIE.MOVIE_ID,MOVIE.MOVIE_TITLE,LANGUAGE.LANGUAGE_ID,LANGUAGE.LANGUAGE_NAME,LANGUAGE.LANGUAGE_CODE FROM MOVIE JOIN MOVIE_LANGUAGE ON MOVIE.MOVIE_ID = MOVIE_LANGUAGE.MOVIE_ID JOIN LANGUAGE ON LANGUAGE.LANGUAGE_ID = MOVIE_LANGUAGE.LANGUAGE_ID");
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 movies.add(new MovieLanguage(
@@ -852,9 +794,7 @@ public class DBQuery {
                         resultSet.getString("MOVIE_TITLE"),
                         resultSet.getInt("LANGUAGE_ID"),
                         resultSet.getString("LANGUAGE_NAME"),
-                        resultSet.getString("LANGUAGE_CODE"),
-                        resultSet.getInt("TYPE_ID"),
-                        resultSet.getString("TYPE_LANGUAGE")));
+                        resultSet.getString("LANGUAGE_CODE")));
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -939,15 +879,13 @@ public class DBQuery {
         }
         return result;
     }
-
-    public int addMovieLanguage(String movieTitle, String language, String type) {
+    public int addMovieLanguage(String movieTitle, String language) {
         int result = 0;
-        String sql = "INSERT INTO MOVIE_LANGUAGE(MOVIE_ID, LANGUAGE_ID, TYPE_ID) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),(SELECT LANGUAGE_ID FROM LANGUAGE WHERE LANGUAGE_NAME = ?),(SELECT TYPE_ID FROM TYPE WHERE TYPE_LANGUAGE = ?))";
+        String sql = "INSERT INTO MOVIE_LANGUAGE(MOVIE_ID, LANGUAGE_ID) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),(SELECT LANGUAGE_ID FROM LANGUAGE WHERE LANGUAGE_NAME = ?))";
         try {
             preparedStatement = setConnection().prepareStatement(sql);
             preparedStatement.setString(1, movieTitle);
             preparedStatement.setString(2, language);
-            preparedStatement.setString(3, type);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -972,13 +910,12 @@ public class DBQuery {
         return result;
     }
 
-    public int deleteCrew(int movId, int personId, int depId) {
+    public int deleteCrew(int movId, int personId) {
         int result = 0;
         try {
-            preparedStatement = setConnection().prepareStatement("DELETE FROM CREW WHERE MOVIE_ID = ? AND PERSON_ID = ? AND DEP_CODE = ?");
+            preparedStatement = setConnection().prepareStatement("DELETE FROM CREW WHERE MOVIE_ID = ? AND PERSON_ID = ?");
             preparedStatement.setInt(1, movId);
             preparedStatement.setInt(2, personId);
-            preparedStatement.setInt(3, depId);
             result= preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -1147,15 +1084,14 @@ public class DBQuery {
         return result;
     }
 
-    public int addCrew(String movieTitle, String person, String dep, String job) {
+    public int addCrew(String movieTitle, String person, String job) {
         int result = 0;
-        String sql = "INSERT INTO CREW(MOVIE_ID, PERSON_ID, DEP_CODE, CREW_JOBTITLE) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),(SELECT PERSON_ID FROM PERSON WHERE CONCAT(PERSON_FNAME,' ',PERSON_MNAME,' ',PERSON_LNAME) = ?),(SELECT DEP_CODE FROM DEPARTMENT WHERE DEP_NAME = ?),?)";
+        String sql = "INSERT INTO CREW(MOVIE_ID, PERSON_ID, CREW_JOBTITLE) VALUES ((SELECT MOVIE_ID FROM MOVIE WHERE MOVIE_TITLE = ?),(SELECT PERSON_ID FROM PERSON WHERE CONCAT(PERSON_FNAME,' ',PERSON_MNAME,' ',PERSON_LNAME) = ?),?)";
         try {
             preparedStatement = setConnection().prepareStatement(sql);
             preparedStatement.setString(1, movieTitle);
             preparedStatement.setString(2, person);
-            preparedStatement.setString(3, dep);
-            preparedStatement.setString(4, job);
+            preparedStatement.setString(3, job);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -1164,44 +1100,6 @@ public class DBQuery {
         }
         return result;
     }
-    public ObservableList<Type> getType() {
-        ObservableList<Type> all = FXCollections.observableArrayList();
-        resultSet = null;
-        try {
-            preparedStatement = setConnection().prepareStatement("SELECT * FROM TYPE");
-            resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                all.add(new Type(
-                        resultSet.getInt("TYPE_ID"),
-                        resultSet.getString("TYPE_LANGUAGE")));
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            close();
-        }
-        return all;
-    }
-
-    public ObservableList<Department> getDepartment() {
-        ObservableList<Department> all = FXCollections.observableArrayList();
-        resultSet = null;
-        try {
-            preparedStatement = setConnection().prepareStatement("SELECT * FROM DEPARTMENT");
-            resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                all.add(new Department(
-                        resultSet.getInt("DEP_CODE"),
-                        resultSet.getString("DEP_NAME")));
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            close();
-        }
-        return all;
-    }
-
     public ObservableList<Crew> getCrew() {
         ObservableList<Crew> crew = FXCollections.observableArrayList();
         resultSet = null;
@@ -1214,8 +1112,6 @@ public class DBQuery {
                         resultSet.getString("MOVIE_TITLE"),
                         resultSet.getInt("PERSON_ID"),
                         resultSet.getString("NAME"),
-                        resultSet.getInt("DEP_CODE"),
-                        resultSet.getString("DEP_NAME"),
                         resultSet.getString("CREW_JOBTITLE")));
             }
         } catch (SQLException e) {
@@ -1299,6 +1195,23 @@ public class DBQuery {
             while(resultSet.next()){
                 trailer.add(new String(
                         resultSet.getString("TRAILER")));
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            close();
+        }
+        return trailer;
+    }
+    public String getTrailerLinkForMovie(String title) {
+        String trailer = "";
+        resultSet = null;
+        try {
+            preparedStatement = setConnection().prepareStatement("SELECT TRAILER_LINK FROM MOVIE_TRAILER WHERE TRAILER = ?");
+            preparedStatement.setString(1, title);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                trailer = resultSet.getString("TRAILER_LINK");
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block

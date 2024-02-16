@@ -16,7 +16,7 @@
     <children>
       <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0">
          <children>
-            <TextField fx:id="searchMovieCrewTextField" prefHeight="33.0" prefWidth="850.0" promptText="Search for Crew" style="-fx-background-radius: 15;">
+            <TextField fx:id="searchMovieCrewTextField" prefHeight="33.0" prefWidth="764.0" promptText="Search for Crew" style="-fx-background-radius: 15;">
                <font>
                   <Font name="Century Gothic" size="14.0" />
                </font>
@@ -28,15 +28,13 @@
                 <Insets left="10.0" right="10.0" />
             </VBox.margin>
             <children>
-                <TableView fx:id="crewTable" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveCrew" prefHeight="280.0" prefWidth="850.0" style="-fx-background-color: transparent;">
+                <TableView fx:id="crewTable" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMouseClicked="#retrieveCrew" prefHeight="215.0" prefWidth="761.0" style="-fx-background-color: transparent;">
                     <columns>
                         <TableColumn fx:id="filmID" editable="false" maxWidth="96.00000286102295" prefWidth="66.66665649414062" style="-fx-alignment: center;" text="MOVIE ID" />
-                        <TableColumn fx:id="filmTitle" editable="false" maxWidth="269.33331298828125" prefWidth="201.3332748413086" style="-fx-alignment: center;" text="MOVIE TITLE" />
-                        <TableColumn fx:id="personId" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="31.99993896484375" style="-fx-alignment: center;" text="ID" />
-                        <TableColumn fx:id="personName" editable="false" maxWidth="216.66665649414062" prefWidth="187.33328247070312" style="-fx-alignment: center;" text="PERSON" />
-                        <TableColumn fx:id="depId" editable="false" maxWidth="216.66665649414062" prefWidth="40.666595458984375" style="-fx-alignment: center;" text="ID" />
-                        <TableColumn fx:id="depName" editable="false" maxWidth="216.66665649414062" prefWidth="138.66668701171875" style="-fx-alignment: center;" text="DEPARTMENT" />
-                        <TableColumn fx:id="job" editable="false" maxWidth="240.00006103515625" prefWidth="182.66668701171875" style="-fx-alignment: center;" text="JOB TITLE" />
+                        <TableColumn fx:id="filmTitle" editable="false" maxWidth="269.33331298828125" prefWidth="254.66667938232422" style="-fx-alignment: center;" text="MOVIE TITLE" />
+                        <TableColumn fx:id="personId" editable="false" maxWidth="174.6667022705078" minWidth="3.333343505859375" prefWidth="68.66665649414062" style="-fx-alignment: center;" text="PERSON ID" />
+                        <TableColumn fx:id="personName" editable="false" maxWidth="299.33331298828125" prefWidth="241.33331298828125" style="-fx-alignment: center;" text="PERSON" />
+                        <TableColumn fx:id="job" editable="false" maxWidth="269.3332824707031" prefWidth="126.6666259765625" style="-fx-alignment: center;" text="JOB TITLE" />
                     </columns>
                     <HBox.margin>
                         <Insets />
@@ -109,37 +107,6 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="67.0" prefHeight="27.0" prefWidth="548.0">
                             <children>
-                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="DEPARTMENT:" textFill="WHITE">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </Label>
-                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
-                                    <children>
-                                        <ChoiceBox fx:id="depChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
-                                    </children>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </HBox>
-                        <TextField fx:id="searchDepartmentTextField" prefHeight="33.0" prefWidth="200.0" promptText="Search Department" style="-fx-background-radius: 15;">
-                           <font>
-                              <Font name="Century Gothic" size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </TextField>
-                            </children>
-                            <VBox.margin>
-                                <Insets top="15.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="105.0" prefHeight="27.0" prefWidth="548.0">
-                            <children>
                                 <Label alignment="CENTER" prefHeight="27.0" prefWidth="131.0" text="JOB TITLE:" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
@@ -149,13 +116,21 @@
                                     </HBox.margin>
                                 </Label>
                                 <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #fff; -fx-background-radius: 100;">
+                                    <children>
+                                        <ChoiceBox fx:id="jobChoiceBox" prefHeight="25.0" prefWidth="210.0" style="-fx-background-color: TRANSPARENT;" />
+                                    </children>
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
-                                    <children>
-                                        <TextField fx:id="jobTextField" prefHeight="25.0" prefWidth="214.0" style="-fx-background-color: TRANSPARENT;" />
-                                    </children>
                                 </HBox>
+                        <TextField fx:id="searchDepartmentTextField" prefHeight="33.0" prefWidth="200.0" promptText="Search Job Title" style="-fx-background-radius: 15;">
+                           <font>
+                              <Font name="Century Gothic" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
                             </children>
                             <VBox.margin>
                                 <Insets top="15.0" />

@@ -29,12 +29,6 @@ public class WatchTrailer_Controller implements Initializable{
     private Parent parent;
     @FXML
     private WebView watchTrailerView;
-    @FXML
-    private Button closeButton;
-    @FXML
-    private Button minimizeButton;
-    @FXML
-    private Button maximizeButton;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {

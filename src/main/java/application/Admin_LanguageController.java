@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import entities.Language;
 import entities.Movie;
 import entities.MovieLanguage;
-import entities.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -18,13 +17,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 public class Admin_LanguageController implements Initializable {
 
     DBQuery queries = new DBQuery();
     @FXML
-    private ChoiceBox<String> movieChoiceBox, typesChoiceBox;
+    private ChoiceBox<String> movieChoiceBox;
     @FXML
     private TableColumn<Language, String> LanguageCode, LanguageName;
     @FXML
@@ -42,10 +40,8 @@ public class Admin_LanguageController implements Initializable {
     private TableView<Language> LanguageTable;
     ObservableList<Language> languages = FXCollections.observableArrayList();
     ObservableList<Movie> movies = FXCollections.observableArrayList();
-    ObservableList<String> movieTitles, typeLanguages;
+    ObservableList<String> movieTitles;
     ObservableList<MovieLanguage> movieLanguage = FXCollections.observableArrayList();
-    ObservableList<Type> types = FXCollections.observableArrayList();
-
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         loadData();
@@ -55,9 +51,6 @@ public class Admin_LanguageController implements Initializable {
         queries.setConnection();
         refreshTable();
         movieTitles = FXCollections.observableArrayList();
-        typeLanguages = FXCollections.observableArrayList();
-        for (Type type1 : types)
-            typeLanguages.add(type1.getTypeLanguage());
         for (Movie movie : movies)
             movieTitles.add(movie.getTitle());
         filmID.setCellValueFactory(new PropertyValueFactory<>("filmID"));
@@ -72,7 +65,6 @@ public class Admin_LanguageController implements Initializable {
         LanguageName1.setCellValueFactory(new PropertyValueFactory<>("languageName"));
 
         movieChoiceBox.setItems(movieTitles);
-        typesChoiceBox.setItems(typeLanguages);
         Admin_CrewController.Filtering(movieTitles, searchMovieTextField, movieChoiceBox);
         FilteredList<Language> filteredLanguage = new FilteredList<>(languages, b -> true);
         searchLanguageTextField.textProperty().addListener((obs, old, newValue) -> {
@@ -102,20 +94,16 @@ public class Admin_LanguageController implements Initializable {
         sortedMovieLanguage.comparatorProperty().bind(moviesLanguageTable.comparatorProperty());
         moviesLanguageTable.setItems(sortedMovieLanguage);
     }
-
     @FXML
     public void refreshTable() {
         movies.clear();
         languages.clear();
-        types.clear();
-        types = FXCollections.observableArrayList(queries.getType());
         movies = FXCollections.observableArrayList(queries.getMovieTitles());
         languages = FXCollections.observableArrayList(queries.getLanguage());
         movieLanguage = FXCollections.observableArrayList(queries.getMovieLanguage());
         LanguageTable.setItems(languages);
         moviesLanguageTable.setItems(movieLanguage);
     }
-
     @FXML
     void addLanguage(ActionEvent event) {
         if (LanguageTextField.getText().isEmpty() || codeTextField.getText().isEmpty()) {
@@ -139,18 +127,15 @@ public class Admin_LanguageController implements Initializable {
             }
         }
     }
-
     @FXML
     void addMovieLanguage(ActionEvent event) {
-        if (LanguageTextField1.getText().isEmpty() || movieChoiceBox.getValue().isEmpty() ||
-                typesChoiceBox.getValue().isEmpty()) {
+        if (LanguageTextField1.getText().isEmpty() || movieChoiceBox.getValue().isEmpty()) {
             Alert message = new Alert(AlertType.ERROR);
             message.setTitle("Empty");
             message.setContentText("Please choose from the options");
             message.show();
         } else {
-            int result = queries.addMovieLanguage(movieChoiceBox.getValue(), LanguageTextField1.getText(),
-                    typesChoiceBox.getValue());
+            int result = queries.addMovieLanguage(movieChoiceBox.getValue(), LanguageTextField1.getText());
             if (result == 1) {
                 Alert message = new Alert(AlertType.INFORMATION);
                 message.setTitle("Added");
@@ -158,7 +143,6 @@ public class Admin_LanguageController implements Initializable {
                 message.show();
                 movieChoiceBox.setValue("");
                 LanguageTextField1.setText("");
-                typesChoiceBox.setValue("");
             } else {
                 Alert message = new Alert(AlertType.ERROR);
                 message.setTitle("ERROR");
@@ -167,7 +151,6 @@ public class Admin_LanguageController implements Initializable {
             }
         }
     }
-
     @FXML
     void deleteLanguage(ActionEvent event) {
         if (queries.deleteLanguage(LanguageTable.getSelectionModel().getSelectedItem().getLanguageId()) == 1) {
@@ -183,12 +166,10 @@ public class Admin_LanguageController implements Initializable {
             message.show();
         }
     }
-
     @FXML
     void deleteMovieLanguage(ActionEvent event) {
         if (queries.deleteMovieLanguage(moviesLanguageTable.getSelectionModel().getSelectedItem().getFilmID(),
-                moviesLanguageTable.getSelectionModel().getSelectedItem().getLanguageId(),
-                moviesLanguageTable.getSelectionModel().getSelectedItem().getTypeId()) == 1) {
+                moviesLanguageTable.getSelectionModel().getSelectedItem().getLanguageId()) == 1) {
             moviesLanguageTable.getItems().removeAll(moviesLanguageTable.getSelectionModel().getSelectedItem());
             Alert message = new Alert(AlertType.INFORMATION);
             message.setTitle("Deleted");
@@ -201,21 +182,17 @@ public class Admin_LanguageController implements Initializable {
             message.show();
         }
     }
-
     @FXML
     void retrieveLanguage(MouseEvent event) {
         LanguageTextField.setText(LanguageTable.getSelectionModel().getSelectedItem().getLanguageName());
         LanguageTextField1.setText(LanguageTable.getSelectionModel().getSelectedItem().getLanguageName());
         codeTextField.setText(LanguageTable.getSelectionModel().getSelectedItem().getLanguageCode());
     }
-
     @FXML
     void retrieveMovieLanguage(MouseEvent event) {
         LanguageTextField1.setText(moviesLanguageTable.getSelectionModel().getSelectedItem().getLanguageName());
         movieChoiceBox.setValue(moviesLanguageTable.getSelectionModel().getSelectedItem().getTitle());
-        typesChoiceBox.setValue(moviesLanguageTable.getSelectionModel().getSelectedItem().getTypeLanguage());
     }
-
     @FXML
     void updateLanguage(ActionEvent event) {
         if (LanguageTextField.getText().isEmpty() || codeTextField.getText().isEmpty()) {

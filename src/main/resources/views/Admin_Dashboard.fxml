@@ -4,6 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -46,11 +48,21 @@
                   <Insets right="100.0" />
                </HBox.margin>
             </VBox>
-            <ImageView fitHeight="394.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/cinema.jpeg" />
-               </image>
-            </ImageView>
+            <VBox alignment="TOP_CENTER" prefHeight="215.0" prefWidth="371.0">
+               <children>
+                  <Label text="TOP RATED MOVIES" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="40.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="topRatedTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="title" prefWidth="266.66668701171875" text="MOVIE TITLE" />
+                      <TableColumn fx:id="rating" prefWidth="104.0" text="RATING" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
          </children>
         </HBox>
         <HBox alignment="CENTER">

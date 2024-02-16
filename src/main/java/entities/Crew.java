@@ -5,19 +5,14 @@ public class Crew {
     private String title;
     private int personId;
     private String personName;
-    private int depCode;
-    private String depName;
     private String jobTitle;
 
-    public Crew(int filmID, String title, int personId, String personName, int depCode, String depName,
-                String jobTitle) {
+    public Crew(int filmID, String title, int personId, String personName, String jobTitle) {
         super();
         this.filmID = filmID;
         this.title = title;
         this.personId = personId;
         this.personName = personName;
-        this.depCode = depCode;
-        this.depName = depName;
         this.jobTitle = jobTitle;
     }
     public int getFilmID() {
@@ -44,23 +39,10 @@ public class Crew {
     public void setPersonName(String personName) {
         this.personName = personName;
     }
-    public int getDepCode() {
-        return depCode;
-    }
-    public void setDepCode(int depCode) {
-        this.depCode = depCode;
-    }
-    public String getDepName() {
-        return depName;
-    }
-    public void setDepName(String depName) {
-        this.depName = depName;
-    }
     public String getJobTitle() {
         return jobTitle;
     }
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
-
 }

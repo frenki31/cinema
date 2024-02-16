@@ -113,15 +113,16 @@ public class Movie_DisplayController {
     @FXML
     public void openTrailer(ActionEvent event) {
         HBox hbox = new HBox();
-        String selectedTrailer = trailerComboBox.getSelectionModel().getSelectedItem().toString();
+        String selectedTrailer = trailerComboBox.getSelectionModel().getSelectedItem();
         for (String t: trailerComboBox.getItems()){
             if(t.equals(selectedTrailer)){
                 try {
+                    String link = queries.getTrailerLinkForMovie(selectedTrailer);
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/views/WatchTrailer.fxml"));
                     VBox vbox = loader.load();
                     WatchTrailer_Controller wmc = loader.getController();
-                    wmc.setLink(selectedTrailer);
+                    wmc.setLink(link);
                     hbox.getChildren().add(vbox);
                     Stage stage = new Stage();
                     stage.initStyle(StageStyle.TRANSPARENT);

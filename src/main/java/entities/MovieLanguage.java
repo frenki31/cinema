@@ -6,18 +6,13 @@ public class MovieLanguage {
     private int languageId;
     private String languageName;
     private String languageCode;
-    private int typeId;
-    private String typeLanguage;
 
-    public MovieLanguage(int filmID, String title, int languageId, String languageName, String languageCode, int typeId,
-                         String type) {
+    public MovieLanguage(int filmID, String title, int languageId, String languageName, String languageCode) {
         this.filmID = filmID;
         this.title = title;
         this.languageId = languageId;
         this.languageName = languageName;
         this.languageCode = languageCode;
-        this.typeId = typeId;
-        this.typeLanguage = type;
     }
     public int getFilmID() {
         return filmID;
@@ -48,17 +43,5 @@ public class MovieLanguage {
     }
     public void setLanguageCode(String languageCode) {
         this.languageCode = languageCode;
-    }
-    public int getTypeId() {
-        return typeId;
-    }
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
-    }
-    public String getTypeLanguage() {
-        return typeLanguage;
-    }
-    public void setTypeLanguage(String type) {
-        this.typeLanguage = type;
     }
 }
